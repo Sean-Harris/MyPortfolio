@@ -31,9 +31,13 @@ const controls = new OrbitControls(camera, renderer.domElement);
 /*
  * LIGHTS
  */
-const pointLight = new THREE.PointLight(0xbf40BF, 7);
-scene.add(pointLight);
-pointLight.position.set(0, 10, 0);
+const pointLight = new THREE.PointLight(0xbf40BF, .1);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1,{
+  position: (1,1,1)
+
+});
+scene.add(pointLight, directionalLight);
+pointLight.position.set(0, 13, -10);
 
 
 /*
@@ -77,16 +81,17 @@ const toonMesh = new THREE.Mesh(toonBoxTest, toonSphereMat);
 scene.add(toonMesh);
 
 
+/*
+ * MAIN SHIP
+ */
 // const shipNormalMap = textureLoader.load('/assets/ship/Textures/StarSparrowRedUnified_001_normal.png');
 // const shipColorMap = textureLoader.load('/assets/ship/Textures/StarSparrowRedUnified_001_baseColor.png');
 // const shipEmissiveMap = textureLoader.load('/assets/ship/Textures/StarSparrowRedUnified_001_emissive.png');
 // const shipMetallicMap = textureLoader.load('/assets/ship/Textures/StarSparrowRedUnified_001_emissive.png');
-
 const gltfLoader = new GLTFLoader();
-gltfLoader.load('/assets/ship/scene.gltf', (gltfScene) => {
+gltfLoader.load('/assets/ship/supership.gltf', (gltfScene) => {
   gltfScene.scene.position.set(0,8,0);
-  gltfScene.scene.scale.set(3,3,3);
-
+  //gltfScene.scene.scale.set(2,2,2);
   // const shipModel = gltfScene.scene;
   // var shipToonMat = new THREE.MeshToonMaterial({
   //   transparent: true,
@@ -98,12 +103,27 @@ gltfLoader.load('/assets/ship/scene.gltf', (gltfScene) => {
   // shipModel.traverse((o) => {
   //   if (o.isMesh) o.material = shipToonMat;
   // })
-
-
   scene.add(gltfScene.scene);
 });
 
 
+//STARS
+function addStar() {
+  const geometry = new THREE.OctahedronGeometry(0.25);
+  const material = new THREE.MeshStandardMaterial({color: 0x000000});
+  const starMesh = new THREE.Mesh(geometry, material);
+  starMesh.scale.setY(2.4)
+
+  const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(240));
+  starMesh.position.set(x, y, z);
+  scene.add(starMesh)
+}
+Array(240).fill().forEach(addStar);
+
+
+/*
+ * VIEWPORT SCALING
+ */
 const viewportSize = {
   width: window.innerWidth,
   height: window.innerHeight
@@ -128,6 +148,17 @@ const lightHelper = new THREE.PointLightHelper(pointLight);
 const gridHelper = new THREE.GridHelper(200, 50);
 scene.add(lightHelper, gridHelper);
 
+//CAM MOVEMENT
+function moveCamera() {
+  const distanceToTopOfPage = document.body.getBoundingClientRect().top;
+
+  //Distance to top is always negative, which is why multiply with negatives as well
+  camera.position.z = distanceToTopOfPage * -0.01;
+  camera.position.x = distanceToTopOfPage * -0.0002;
+  camera.position.y = distanceToTopOfPage * -0.0002;
+}
+document.body.onscroll = moveCamera();
+
 
 const clock = new THREE.Clock();
 
@@ -137,6 +168,7 @@ function tick(){
 
 
   requestAnimationFrame( tick );
+  //moveCamera();
 
 
   renderer.render(scene, camera);
