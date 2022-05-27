@@ -16,7 +16,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x000000); //FFE8DC
 
-const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 20000);
+const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 10000);
 //scene.add(camera);
 camera.position.set(-19, 21, 37);
 
@@ -122,7 +122,7 @@ gltfLoader.load('/assets/ship/supership.gltf', (gltfScene) => {
 });
 
 const gltfLoader2 = new GLTFLoader();
-gltfLoader2.load('/assets/asteroid/flatAsteroidTangled.gltf', (gltfScene) => {
+gltfLoader2.load('/assets/asteroid/tangledAsteroid.gltf', (gltfScene) => {
   gltfScene.scene.position.set(-12,3,17);
   gltfScene.scene.scale.set(.2,.2,.2);
   gltfScene.scene.rotateY(-100);
@@ -158,6 +158,20 @@ gltfLoader3.load('/assets/planet/saturn.gltf', (gltfScene) => {
   scene.add(gltfScene.scene);
 });
 
+const gltfLoader4 = new GLTFLoader();
+gltfLoader4.load('/assets/billboard/scene.gltf', (gltfScene) => {
+  gltfScene.scene.position.set(-18,12,-60);
+  gltfScene.scene.scale.set(2,2,0);
+
+  // gltfScene.scene.traverse((o) => {
+  //   if (o.isMesh) {
+  //     o.castShadow = true;
+  //   };
+  // });
+
+  scene.add(gltfScene.scene);
+});
+
 
 //STARS
 // function addStar() {
@@ -185,21 +199,21 @@ sunLight.target = originTarget;
 scene.add(sunLight);
 
 const sunLight2 = new THREE.SpotLight(0xffeba1);
-sunLight2.distance = 3200;
-sunLight2.castShadow = true;
-sunLight2.angle = .5;
-sunLight2.position.set(1337, 1337, -2337);
-sunLight2.shadow.camera.far = 400;
+sunLight2.distance = 3000;
+sunLight2.angle = .6;
+sunLight2.position.set(1420, 1337, -2337);
 sunLight2.target = originTarget;
 
 scene.add(sunLight2);
 
 
 const sunGeometry = new THREE.SphereGeometry(4,24);
-var toonSphereMat = new THREE.MeshBasicMaterial(0xffa600);
+var toonSphereMat = new THREE.MeshBasicMaterial({
+  color: 0xffce73
+});
 const toonMesh = new THREE.Mesh(sunGeometry, toonSphereMat);
-toonMesh.scale.set(4,4,4);
-toonMesh.position.set(1338, 1170, -2420);
+toonMesh.scale.set(3,3,3);
+toonMesh.position.set(1420, 1170, -2360);
 scene.add(toonMesh);
 
 
@@ -230,8 +244,8 @@ window.addEventListener('resize', () => {
 const spotLightHelper = new THREE.SpotLightHelper(sunLight2);
 const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight);
 //scene.add(spotLightHelper);
-const helper = new THREE.CameraHelper( sunLight2.shadow.camera );
-//scene.add( helper );
+// const helper = new THREE.CameraHelper( sunLight2.shadow.camera );
+// scene.add( helper );
 // const gridHelper = new THREE.GridHelper(200, 50);
 // scene.add(lightHelper);
 
