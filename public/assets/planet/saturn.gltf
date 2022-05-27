@@ -1,0 +1,396 @@
+{
+    "asset" : {
+        "generator" : "Khronos glTF Blender I/O v1.8.19",
+        "version" : "2.0"
+    },
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                8
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "mesh" : 0,
+            "name" : "Object_26"
+        },
+        {
+            "children" : [
+                0
+            ],
+            "name" : "saturn atmos_18",
+            "scale" : [
+                1.0915144681930542,
+                1.0915144681930542,
+                1.0915144681930542
+            ]
+        },
+        {
+            "mesh" : 1,
+            "name" : "Object_24"
+        },
+        {
+            "children" : [
+                2
+            ],
+            "name" : "saturn ring_17",
+            "rotation" : [
+                0.155096173286438,
+                0.020418794825673103,
+                0.12891919910907745,
+                0.9792385101318359
+            ],
+            "scale" : [
+                0.11045441776514053,
+                0.7939010262489319,
+                1.4192676544189453
+            ],
+            "translation" : [
+                0.00013747702178079635,
+                0,
+                0.014124393463134766
+            ]
+        },
+        {
+            "mesh" : 2,
+            "name" : "Object_14"
+        },
+        {
+            "children" : [
+                4
+            ],
+            "name" : "saturn_12",
+            "rotation" : [
+                0.1550961434841156,
+                0.020418794825673103,
+                0.12891919910907745,
+                0.9792385101318359
+            ],
+            "scale" : [
+                1.0874601602554321,
+                1.0874601602554321,
+                1.0874602794647217
+            ]
+        },
+        {
+            "children" : [
+                1,
+                3,
+                5
+            ],
+            "name" : "GLTF_SceneRootNode",
+            "rotation" : [
+                0.7071068286895752,
+                0,
+                0,
+                0.7071068286895752
+            ]
+        },
+        {
+            "children" : [
+                6
+            ],
+            "name" : "root"
+        },
+        {
+            "children" : [
+                7
+            ],
+            "name" : "Sketchfab_model",
+            "rotation" : [
+                -0.7071068286895752,
+                0,
+                0,
+                0.7071068286895752
+            ],
+            "scale" : [
+                0.4014696180820465,
+                0.4014696180820465,
+                0.4014696180820465
+            ]
+        }
+    ],
+    "materials" : [
+        {
+            "alphaMode" : "BLEND",
+            "name" : "atmos1",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0.47230732440948486,
+                    0.8972210884094238,
+                    1,
+                    0.40224689245224
+                ]
+            }
+        },
+        {
+            "alphaMode" : "BLEND",
+            "doubleSided" : true,
+            "name" : "ring",
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 0
+                },
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.5
+            }
+        },
+        {
+            "name" : "saturn",
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 1
+                },
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.7057149410247803
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Object_11",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 0,
+                        "NORMAL" : 1,
+                        "TEXCOORD_0" : 2
+                    },
+                    "indices" : 3,
+                    "material" : 0
+                }
+            ]
+        },
+        {
+            "name" : "Object_10",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 4,
+                        "NORMAL" : 5,
+                        "TEXCOORD_0" : 6
+                    },
+                    "indices" : 7,
+                    "material" : 1
+                }
+            ]
+        },
+        {
+            "name" : "Object_5",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 8,
+                        "NORMAL" : 9,
+                        "TEXCOORD_0" : 10
+                    },
+                    "indices" : 11,
+                    "material" : 2
+                }
+            ]
+        }
+    ],
+    "textures" : [
+        {
+            "sampler" : 0,
+            "source" : 0
+        },
+        {
+            "sampler" : 0,
+            "source" : 1
+        }
+    ],
+    "images" : [
+        {
+            "mimeType" : "image/png",
+            "name" : "ring_baseColor",
+            "uri" : "textures/ring_baseColor.png"
+        },
+        {
+            "mimeType" : "image/jpeg",
+            "name" : "saturn_baseColor",
+            "uri" : "textures/saturn_baseColor.jpg"
+        }
+    ],
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5126,
+            "count" : 31642,
+            "max" : [
+                1.9727067947387695,
+                1.9948774576187134,
+                1.9727169275283813
+            ],
+            "min" : [
+                -1.9727073907852173,
+                -1.9948774576187134,
+                -1.9727163314819336
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 31642,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 31642,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5123,
+            "count" : 178560,
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 4,
+            "componentType" : 5126,
+            "count" : 15135,
+            "max" : [
+                53.409915924072266,
+                0.0027935835532844067,
+                4.146697998046875
+            ],
+            "min" : [
+                -53.42726135253906,
+                -1.5186249413545738e-07,
+                -4.167147159576416
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 5,
+            "componentType" : 5126,
+            "count" : 15135,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 6,
+            "componentType" : 5126,
+            "count" : 15135,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 7,
+            "componentType" : 5123,
+            "count" : 15264,
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 8,
+            "componentType" : 5126,
+            "count" : 31721,
+            "max" : [
+                1.9727067947387695,
+                1.9948774576187134,
+                1.9727169275283813
+            ],
+            "min" : [
+                -1.9727073907852173,
+                -1.9948774576187134,
+                -1.9727163314819336
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 9,
+            "componentType" : 5126,
+            "count" : 31721,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 10,
+            "componentType" : 5126,
+            "count" : 31721,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 11,
+            "componentType" : 5123,
+            "count" : 178560,
+            "type" : "SCALAR"
+        }
+    ],
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 379704,
+            "byteOffset" : 0
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 379704,
+            "byteOffset" : 379704
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 253136,
+            "byteOffset" : 759408
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 357120,
+            "byteOffset" : 1012544
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 181620,
+            "byteOffset" : 1369664
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 181620,
+            "byteOffset" : 1551284
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 121080,
+            "byteOffset" : 1732904
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 30528,
+            "byteOffset" : 1853984
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 380652,
+            "byteOffset" : 1884512
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 380652,
+            "byteOffset" : 2265164
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 253768,
+            "byteOffset" : 2645816
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 357120,
+            "byteOffset" : 2899584
+        }
+    ],
+    "samplers" : [
+        {
+            "magFilter" : 9729,
+            "minFilter" : 9987
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 3256704,
+            "uri" : "saturn.bin"
+        }
+    ]
+}
