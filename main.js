@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 //import * as dat from 'dat.gui';
+import { CSS3DRenderer } from 'three/examples/jsm/renderers/CSS3DRenderer.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 
@@ -263,8 +264,64 @@ const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight
 // document.body.onscroll = moveCamera();
 
 
-const clock = new THREE.Clock();
 
+
+// // create the plane mesh
+// var planeMat = new THREE.MeshBasicMaterial({ wireframe: true });
+// var planeGeometry = new THREE.PlaneGeometry();
+// var planeMesh= new THREE.Mesh( planeGeometry, planeMat );
+// // add it to the WebGL scene
+// scene.add(planeMesh);
+
+
+// // create the dom Element
+// var element = document.createElement( 'img' );
+// element.src = 'PHseanPic.jpg';
+// // create the object3d for this element
+// var cssObject = new THREE.CSS3DObject( element );
+// // we reference the same position and rotation 
+// cssObject.position = planeMesh.position;
+// cssObject.rotation = planeMesh.rotation;
+// // add it to the css scene
+// cssScene.add(cssObject);
+
+
+// var cssRenderer = new CSS3DRenderer();
+// cssRenderer.setSize( window.innerWidth, window.innerHeight );
+// cssRenderer.domElement.style.position = 'fixed';
+// cssRenderer.domElement.style.top = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const clock = new THREE.Clock();
 function tick(){
   //update with elapsed time to mimic delta second action
   const elapsedTime = clock.getElapsedTime()
@@ -275,5 +332,6 @@ function tick(){
 
 
   renderer.render(scene, camera);
+  cssRenderer.render(cssScene, camera);
 }
 tick();
