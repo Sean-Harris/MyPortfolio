@@ -336,29 +336,29 @@ const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight
 //       '<textarea> And this is a textarea</textarea>' +
 //     '</div>';
 
-var content = document.getElementById("css").innerHTML;
+var content = document.getElementById("player").innerHTML;
 
 
 var element = document.createElement( 'div' );
-        element.style.width = '100px';
-        element.style.height = '100px';
-        element.style.opacity = 0.999;
-        element.style.background = new THREE.Color(
-          Math.random() * 0.21568627451 + 0.462745098039,
-          Math.random() * 0.21568627451 + 0.462745098039,
-          Math.random() * 0.21568627451 + 0.462745098039,
-        ).getStyle();
-        element.textContent = "I am editable text!"
-        element.setAttribute('contenteditable', '')
+        // element.style.width = '100px';
+        // element.style.height = '100px';
+        // element.style.opacity = 0.999;
+        // element.style.background = new THREE.Color(
+        //   Math.random() * 0.21568627451 + 0.462745098039,
+        //   Math.random() * 0.21568627451 + 0.462745098039,
+        //   Math.random() * 0.21568627451 + 0.462745098039,
+        // ).getStyle();
+        // element.textContent = "I am editable text!"
+        // element.setAttribute('contenteditable', '')
         element.innerHTML = content;
 
         var domObject = new CSS3DObject( element );
-        domObject.position.x = Math.random() * 600 - 300;
-        domObject.position.y = Math.random() * 600 - 300;
-        domObject.position.z = Math.random() * 800 - 600;
-        domObject.rotation.x = Math.random();
-        domObject.rotation.y = Math.random();
-        domObject.rotation.z = Math.random();
+        domObject.position.set(0,3,-69)
+        // domObject.position.y = Math.random() * 600 - 300;
+        // domObject.position.z = Math.random() * 800 - 600;
+        // domObject.rotation.x = Math.random();
+        // domObject.rotation.y = Math.random();
+        // domObject.rotation.z = Math.random();
         //domObject.scale.x = Math.random() + 0.5;
         //domObject.scale.y = Math.random() + 0.5;
         scene2.add( domObject );

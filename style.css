@@ -16,12 +16,13 @@
   position: fixed;
   top: 0; left: 0;
 }
-/* 
+
 .videocontainer{
   overflow: hidden;
-  position: fixed;
+  position: absolute;
   min-height: 100%;
-  min-width: 3840px; 
+  /*min-width: 3840px; */
+  min-width: 100%;
   left: 50%;
   top: 50%;
     transform: translate(-50%, -50%);
@@ -33,11 +34,11 @@
 
 iframe {
   resize: none;
-  position: static;
+  position: absolute;
   overflow: hidden;
   /* Make video to at least 100% wide and tall 
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%); */
 
-} */
+}
