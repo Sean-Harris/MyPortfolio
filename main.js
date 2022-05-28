@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 //import * as dat from 'dat.gui';
-import { CSS3DRenderer } from 'three/examples/jsm/renderers/CSS3DRenderer.js'
+import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 
@@ -17,9 +17,25 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x000000); //FFE8DC
 
+const scene2 = new THREE.Scene();
+
 const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 10000);
 //scene.add(camera);
 camera.position.set(-19, 21, 37);
+
+
+
+
+
+const renderer2 = new CSS3DRenderer();
+    renderer2.setSize( window.innerWidth, window.innerHeight );
+    renderer2.domElement.style.position = 'absolute';
+    renderer2.domElement.style.top = 0;
+    document.querySelector('#css').appendChild( renderer2.domElement );
+
+
+
+
 
 const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector('#main-content'),
@@ -291,12 +307,77 @@ const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight
 // cssRenderer.domElement.style.position = 'fixed';
 // cssRenderer.domElement.style.top = 0;
 
+// var canvas1 = document.createElement('canvas'),
+// ctx = canvas1.getContext('2d');
+ 
+// canvas.width = 8;
+// canvas.height = 8;
+ 
+// ctx.fillStyle = '#000000';
+// ctx.fillRect(0, 0, canvas1.width, canvas1.height);
+// ctx.strokeStyle = '#ff00ff';
+// ctx.strokeRect(0, 0, canvas1.width, canvas1.height);
+
+// let diagetic = document.getElementById('player');
+// const canvasTexture = new THREE.CanvasTexture(diagetic);
+
+// const planeGeometry = new THREE.BoxGeometry(100,100,100);
+// const testTexture = new THREE.MeshBasicMaterial({map: canvasTexture})
 
 
+// //const planeGeometry = new THREE.BoxGeometry(100,100,100);
+// const planeMesh = new THREE.Mesh(planeGeometry, testTexture);
+
+// scene.add(planeMesh);
+
+// var content = '<div>' +
+//       '<h1>This is an H1 Element.</h1>' +
+//       '<span class="large">Hello Three.js cookbook</span>' +
+//       '<textarea> And this is a textarea</textarea>' +
+//     '</div>';
+
+var content = document.getElementById("css").innerHTML;
 
 
+var element = document.createElement( 'div' );
+        element.style.width = '100px';
+        element.style.height = '100px';
+        element.style.opacity = 0.999;
+        element.style.background = new THREE.Color(
+          Math.random() * 0.21568627451 + 0.462745098039,
+          Math.random() * 0.21568627451 + 0.462745098039,
+          Math.random() * 0.21568627451 + 0.462745098039,
+        ).getStyle();
+        element.textContent = "I am editable text!"
+        element.setAttribute('contenteditable', '')
+        element.innerHTML = content;
+
+        var domObject = new CSS3DObject( element );
+        domObject.position.x = Math.random() * 600 - 300;
+        domObject.position.y = Math.random() * 600 - 300;
+        domObject.position.z = Math.random() * 800 - 600;
+        domObject.rotation.x = Math.random();
+        domObject.rotation.y = Math.random();
+        domObject.rotation.z = Math.random();
+        //domObject.scale.x = Math.random() + 0.5;
+        //domObject.scale.y = Math.random() + 0.5;
+        scene2.add( domObject );
 
 
+          var material = new THREE.MeshPhongMaterial({
+              opacity	: 0.2,
+              color	: new THREE.Color('black'),
+              blending: THREE.NoBlending,
+              side	: THREE.DoubleSide,
+          });
+          var geometry = new THREE.PlaneGeometry( 100, 100 );
+          var mesh = new THREE.Mesh( geometry, material );
+          mesh.position.copy( domObject.position );
+          mesh.rotation.copy( domObject.rotation );
+          //mesh.scale.copy( domObject.scale );
+          mesh.castShadow = false;
+          mesh.receiveShadow = true;
+          scene.add( mesh );
 
 
 
@@ -327,11 +408,13 @@ function tick(){
   const elapsedTime = clock.getElapsedTime()
 
 
-  requestAnimationFrame( tick );
+  
   //moveCamera();
 
 
   renderer.render(scene, camera);
-  cssRenderer.render(cssScene, camera);
+  renderer2.render(scene2, camera);
+  //cssRenderer.render(cssScene, camera);
+  requestAnimationFrame( tick );
 }
 tick();
