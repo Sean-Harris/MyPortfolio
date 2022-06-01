@@ -15,6 +15,30 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
  * SETUP
  */
 const scene = new THREE.Scene();
+
+//SKYBOX
+const skyMatArray = [];
+const sb_ft = new THREE.TextureLoader().load('/assets/skybox/front.png');
+const sb_bk = new THREE.TextureLoader().load('/assets/skybox/back.png');
+const sb_up = new THREE.TextureLoader().load('/assets/skybox/top.png');
+const sb_dn = new THREE.TextureLoader().load('/assets/skybox/bottom.png');
+const sb_rt = new THREE.TextureLoader().load('/assets/skybox/right.png');
+const sb_lf = new THREE.TextureLoader().load('/assets/skybox/left.png');
+
+skyMatArray.push(new THREE.MeshBasicMaterial({map: sb_ft}));
+skyMatArray.push(new THREE.MeshBasicMaterial({map: sb_bk}));
+skyMatArray.push(new THREE.MeshBasicMaterial({map: sb_up}));
+skyMatArray.push(new THREE.MeshBasicMaterial({map: sb_dn}));
+skyMatArray.push(new THREE.MeshBasicMaterial({map: sb_rt}));
+skyMatArray.push(new THREE.MeshBasicMaterial({map: sb_lf}));
+
+for(let i=0;i<6;i++)
+  skyMatArray[i].side = THREE.BackSide;
+
+const skyboxInterstellar = new THREE.BoxGeometry(10000, 10000, 10000);
+const skybox = new THREE.Mesh(skyboxInterstellar, skyMatArray);
+scene.add(skybox);
+
 scene.background = new THREE.Color(0x000000); //FFE8DC
 
 const scene2 = new THREE.Scene();
@@ -175,10 +199,13 @@ gltfLoader3.load('/assets/planet/saturn.gltf', (gltfScene) => {
   scene.add(gltfScene.scene);
 });
 
+var billboardMesh; // = new THREE.Object3D();
+
 const gltfLoader4 = new GLTFLoader();
 gltfLoader4.load('/assets/billboard/scene.gltf', (gltfScene) => {
-  gltfScene.scene.position.set(-18,12,-60);
-  gltfScene.scene.scale.set(2,2,0);
+  gltfScene.scene.position.set(-38,12,-170);
+  gltfScene.scene.scale.set(5,5,5);
+  billboardMesh = gltfScene;
 
   // gltfScene.scene.traverse((o) => {
   //   if (o.isMesh) {
@@ -188,6 +215,9 @@ gltfLoader4.load('/assets/billboard/scene.gltf', (gltfScene) => {
 
   scene.add(gltfScene.scene);
 });
+
+//billboardMesh = scene.getObjectByName(billboardMesh.name)
+//billboardMesh.scene.position.set(-38,12,-170);
 
 
 //STARS
@@ -330,13 +360,11 @@ const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight
 
 // scene.add(planeMesh);
 
-// var content = '<div>' +
-//       '<h1>This is an H1 Element.</h1>' +
-//       '<span class="large">Hello Three.js cookbook</span>' +
-//       '<textarea> And this is a textarea</textarea>' +
-//     '</div>';
+function load_home() {
+  document.getElementById("content").innerHTML='<object type="text/html" data="home.html" ></object>';
+}
 
-var content = document.getElementById("player").innerHTML;
+var content = document.getElementById("css").innerHTML;
 
 
 var element = document.createElement( 'div' );
@@ -350,7 +378,10 @@ var element = document.createElement( 'div' );
         // ).getStyle();
         // element.textContent = "I am editable text!"
         // element.setAttribute('contenteditable', '')
-        element.innerHTML = content;
+        
+        
+        
+        element.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>';
 
         var domObject = new CSS3DObject( element );
         domObject.position.set(0,3,-69)
@@ -377,7 +408,7 @@ var element = document.createElement( 'div' );
           //mesh.scale.copy( domObject.scale );
           mesh.castShadow = false;
           mesh.receiveShadow = true;
-          scene.add( mesh );
+          //scene.add( mesh );
 
 
 
