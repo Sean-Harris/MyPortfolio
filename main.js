@@ -1,14 +1,16 @@
 import './style.css'
 import * as THREE from 'three';
+//import gsap from 'gsap';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
-//import * as dat from 'dat.gui';
+import { GUI } from 'dat.gui';
 import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { SplineCurve } from 'three';
 
 
 //debug controls!
-//const gui = new dat.GUI()
+const gui = new GUI();
 
 
 /*
@@ -39,21 +41,33 @@ const skyboxInterstellar = new THREE.BoxGeometry(10000, 10000, 10000);
 const skybox = new THREE.Mesh(skyboxInterstellar, skyMatArray);
 scene.add(skybox);
 
-scene.background = new THREE.Color(0x000000); //FFE8DC
+//scene.background = new THREE.Color(0x000000); //FFE8DC
 
 const scene2 = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 10000);
 //scene.add(camera);
-camera.position.set(-19, 21, 37);
+//camera.lookAt(66,40,35);
+//camera.position.set(-13, 22, 34);
+camera.position.set(-13, 22, 34);
 
 
+const camGui = gui.addFolder('Camera');
+const camPos = camGui.addFolder('Position');
+// const camRot = camGui.addFolder('Rotation');
+
+camPos.add(camera.position, 'x').listen();
+camPos.add(camera.position, 'y').listen();
+camPos.add(camera.position, 'z').listen();
+// camRot.add(camera.rotation, 'x').listen();
+// camRot.add(camera.rotation, 'y').listen();
+// camRot.add(camera.rotation, 'z').listen();
 
 
 
 const renderer2 = new CSS3DRenderer();
     renderer2.setSize( window.innerWidth, window.innerHeight );
-    renderer2.domElement.style.position = 'absolute';
+    renderer2.domElement.style.position = 'fixed';
     renderer2.domElement.style.top = 0;
     document.querySelector('#css').appendChild( renderer2.domElement );
 
@@ -75,7 +89,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
-
+camera.lookAt(0,20,0);
 /*
  * LIGHTS
  */
@@ -91,6 +105,26 @@ directionalLight.castShadow = true;
 directionalLight.target = targetObject;
 //scene.add(directionalLight);
 //pointLight.position.set(0, 13, -10);
+const ambientLight = new THREE.AmbientLight(0xffffff,.1);
+scene.add(ambientLight);
+
+
+const cockpitLight = new THREE.PointLight(0x2986ab, 0,5);
+const cockpitHelper = new THREE.PointLightHelper(cockpitLight);
+scene.add(cockpitLight, cockpitHelper);
+cockpitLight.position.set(0,9,-3);
+
+camera.position.set(0,9,-3);
+
+
+var spline = new THREE.CatmullRomCurve3([
+  new THREE.Vector3(-13, 22, 34),
+  new THREE.Vector3(0,9,-3)
+]);
+
+const points = spline.getPoints(13);
+
+
 
 
 /*
@@ -204,7 +238,7 @@ var billboardMesh; // = new THREE.Object3D();
 const gltfLoader4 = new GLTFLoader();
 gltfLoader4.load('/assets/billboard/scene.gltf', (gltfScene) => {
   gltfScene.scene.position.set(-38,12,-170);
-  gltfScene.scene.scale.set(5,5,5);
+  gltfScene.scene.scale.set(4,4,4);
   billboardMesh = gltfScene;
 
   // gltfScene.scene.traverse((o) => {
@@ -360,14 +394,15 @@ const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight
 
 // scene.add(planeMesh);
 
-function load_home() {
-  document.getElementById("content").innerHTML='<object type="text/html" data="home.html" ></object>';
-}
+// function load_home() {
+//   document.getElementById("content").innerHTML='<object type="text/html" data="home.html" ></object>';
+// }
 
-var content = document.getElementById("css").innerHTML;
+//var content = document.getElementById("css").innerHTML;
 
 
 var element = document.createElement( 'div' );
+element.id = 'screenDiv';
         // element.style.width = '100px';
         // element.style.height = '100px';
         // element.style.opacity = 0.999;
@@ -413,7 +448,32 @@ var element = document.createElement( 'div' );
 
 
 
-
+          gsap.registerPlugin(ScrollTrigger);
+          //set camera position
+          camera.position.y = 20;
+          camera.position.z = 22;
+          camera.position.x = -30;
+          gsap.to(camera.position, {
+            scrollTrigger:
+            {
+              //trigger: renderer.domElement,
+              trigger: document.getElementById("main"),
+              start: 'top top',
+              end: 'bottom center',
+              //pin: true,
+              scrub: 1,
+              markers: true
+            },
+            x: 0,
+            y: 9,
+            z: -3,
+            ease: "none",
+            
+            //onUpdate: function () {
+            //  camera.updateProjectionMatrix();
+            //}
+          })
+          
 
 
 
