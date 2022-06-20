@@ -49,7 +49,7 @@ const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerH
 //scene.add(camera);
 //camera.lookAt(66,40,35);
 //camera.position.set(-13, 22, 34);
-camera.position.set(-13, 22, 34);
+camera.position.set(-20, 12, 34);
 
 
 const camGui = gui.addFolder('Camera');
@@ -109,12 +109,12 @@ const ambientLight = new THREE.AmbientLight(0xffffff,.1);
 scene.add(ambientLight);
 
 
-const cockpitLight = new THREE.PointLight(0x2986ab, 0,5);
+const cockpitLight = new THREE.PointLight(0x2986ab, 1, 5);
 const cockpitHelper = new THREE.PointLightHelper(cockpitLight);
 scene.add(cockpitLight, cockpitHelper);
 cockpitLight.position.set(0,9,-3);
 
-camera.position.set(0,9,-3);
+//camera.position.set(0,9,-3);
 
 
 var spline = new THREE.CatmullRomCurve3([
@@ -450,9 +450,10 @@ element.id = 'screenDiv';
 
           gsap.registerPlugin(ScrollTrigger);
           //set camera position
-          camera.position.y = 20;
-          camera.position.z = 22;
-          camera.position.x = -30;
+          camera.position.y = 18;
+          camera.position.z = 34;
+          camera.position.x = -7;
+          camera.lookAt(-10,12,-170);
           gsap.to(camera.position, {
             scrollTrigger:
             {
@@ -461,7 +462,7 @@ element.id = 'screenDiv';
               start: 'top top',
               end: 'bottom center',
               //pin: true,
-              scrub: 1,
+              scrub: .42,
               markers: true
             },
             x: 0,
