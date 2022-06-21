@@ -1,0 +1,11 @@
+Model Information:
+* title:	Medieval Gold Key
+* source:	https://sketchfab.com/3d-models/medieval-gold-key-64b9661b76e84a769a5e7dd432f535bc
+* author:	KneeKnow (https://sketchfab.com/KneeKnow)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Medieval Gold Key" (https://sketchfab.com/3d-models/medieval-gold-key-64b9661b76e84a769a5e7dd432f535bc) by KneeKnow (https://sketchfab.com/KneeKnow) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

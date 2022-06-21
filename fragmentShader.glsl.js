@@ -51,7 +51,8 @@ vec4 matrix( vec2 st ) {
 void main() {
     
 	vec2 st = vUv * resolution;
-	gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0) + matrix( st );
+	//gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0) + matrix( st );
+    gl_FragColor = backgroundColor + matrix( st );
 	
 }
 `

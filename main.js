@@ -6,10 +6,11 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 import { GUI } from 'dat.gui';
 import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { SplineCurve, Vector3 } from 'three';
-//import { LayerMaterial, Color } from 'lamina/vanilla'
+import { SplineCurve, Vector3, Vector4 } from 'three';
 import fShader from './fragmentShader.glsl.js'
 import vShader from './vertexShader.glsl.js'
+import fShader2 from './fragmentShader2.glsl.js'
+import vShader2 from './vertexShader2.glsl.js'
 
 // const _VS = `
 // uniform float time;
@@ -170,9 +171,9 @@ for(let i=0;i<6;i++)
 
 const skyboxInterstellar = new THREE.BoxGeometry(10000, 10000, 10000);
 const skybox = new THREE.Mesh(skyboxInterstellar, skyMatArray);
-//scene.add(skybox);
+scene.add(skybox);
 
-scene.background = new THREE.Color(0xFFE8DC); //FFE8DC
+scene.background = new THREE.Color(0x000000); //FFE8DC
 
 //const scene2 = new THREE.Scene();
 
@@ -376,38 +377,32 @@ window.addEventListener('resize', () => {
 // const meshTest = new THREE.Mesh(geometryTest, materialTest)
 // scene.add(meshTest);
 
-
-
-
-const gltfLoader = new GLTFLoader();
-gltfLoader.load('/assets/skeleton/skeletonArm_R.gltf', (gltfScene) => {
-  gltfScene.scene.scale.set(2,2,2);
-
-  const skellyMat = new THREE.MeshToonMaterial({
-    //gradientMap: threeTone,
-    color: 0x34ebab
-  });
-
-
-  gltfScene.scene.traverse((o) => {
-    if (o.isMesh) {
-      o.material = skellyMat;
-      //o.castShadow = true;
-      o.receiveShadow= true;
-    };
-  });
-
-  scene.add(gltfScene.scene);
+const skellyMat = new THREE.MeshToonMaterial({
+  //gradientMap: threeTone,
+  color: 0xffffff,
 });
+
+
+
 
 const uniforms = {
   time: {value: 0.0},
   speed: {value: 18.0},
   charSize: {value: {x:2.0, y:1.5}},
-  charResolution: {value: 6.0},
+  charResolution: {value: 7.0},
+  color: {value: new THREE.Color(0xFF0075)},
+  backgroundColor: {value: new Vector4(0,0,0.1,1)},
+  resolution: {value: {x:4.0, y:4.0}}
+};
+
+const uniforms2 = {
+  cameraPosition: {value: {x: 0, y:0, z:0}},
+  time: {value: 0.0},
   color: {value: new THREE.Color(0xf0075c)},
-  //backgroundColor: {value: {x:240.0, y:7.0, z:92.0, w:0.0}},
-  resolution: {value: {x:1.0, y:1.0}}
+  lightPosition: {value: {x: 0, y:0, z:0}},
+  borderWidth: {value: 0.45},
+  toonNoise1: {value: new THREE.TextureLoader().load('/assets/skybox/top.png')},
+  toonNoise2: {value: new THREE.TextureLoader().load('/assets/skybox/top.png')},
 };
 
 const skellyMat2 = new THREE.ShaderMaterial({
@@ -416,10 +411,15 @@ const skellyMat2 = new THREE.ShaderMaterial({
   fragmentShader: fShader
 });
 
-const gltfLoader2 = new GLTFLoader();
-gltfLoader2.load('/assets/skeleton/switch/skellyArmUV.gltf', (gltfScene) => {
-  gltfScene.scene.scale.set(5,5,5);
-  gltfScene.scene.position.setZ(10);
+const skellyMat3 = new THREE.ShaderMaterial({
+  uniforms: uniforms2,
+  vertexShader: vShader2,
+  fragmentShader: fShader2
+});
+
+const gltfLoader = new GLTFLoader();
+gltfLoader.load('/assets/key/scene.gltf', (gltfScene) => {
+  gltfScene.scene.scale.set(4,4,4);
 
   
 
@@ -428,6 +428,25 @@ gltfLoader2.load('/assets/skeleton/switch/skellyArmUV.gltf', (gltfScene) => {
     if (o.isMesh) {
       o.material = skellyMat2;
       //o.castShadow = true;
+      o.receiveShadow= true;
+    };
+  });
+
+  scene.add(gltfScene.scene);
+});
+
+const gltfLoader2 = new GLTFLoader();
+gltfLoader2.load('/assets/skeleton/switch/skellyArmUV.gltf', (gltfScene) => {
+  gltfScene.scene.scale.set(5,5,5);
+  gltfScene.scene.position.set(0, -27, -4);
+
+  
+
+
+  gltfScene.scene.traverse((o) => {
+    if (o.isMesh) {
+      o.material = skellyMat;
+      o.castShadow = true;
       o.receiveShadow= true;
     };
   });
@@ -530,7 +549,7 @@ ytplayerDivElement.id = 'screenDiv';
         const contentCubeGeometry = new THREE.BoxGeometry(1, 1, 1);
         const contentCube = new THREE.Mesh(contentCubeGeometry, contentCubeMatArray);
         //scene.add(contentCube);
-        scene.add( mesh, mesh2 );
+        //scene.add( mesh, mesh2 );
         //scene.add(group);
 
 
@@ -561,9 +580,7 @@ ytplayerDivElement.id = 'screenDiv';
             //onUpdate: function () {
             //  camera.updateProjectionMatrix();
             //}
-          })
-        
-
+          });
 
 const clock = new THREE.Clock();
 function tick(){
