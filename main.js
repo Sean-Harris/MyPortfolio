@@ -6,8 +6,138 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 import { GUI } from 'dat.gui';
 import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { SplineCurve } from 'three';
+import { SplineCurve, Vector3 } from 'three';
 //import { LayerMaterial, Color } from 'lamina/vanilla'
+import fShader from './fragmentShader.glsl.js'
+import vShader from './vertexShader.glsl.js'
+
+// const _VS = `
+// uniform float time;
+// varying vec2 vUv;
+// varying vec3 vPosition;
+// uniform vec2 pixels;
+// float PI = 3.141592653589793238;
+// void main(){
+//   vUv = uv;
+//   gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0);
+// }
+// `;
+// const _VS = `
+// precision highp float;
+// precision highp int;
+
+// varying vec2 vUv;
+// varying vec3 vPosition;
+// varying vec3 vNormal;
+
+// void main() {
+//   vUv = uv;
+//   vPosition = position;
+//   vNormal = normal;
+//   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+// }
+// `;
+
+// const uniforms = {
+//   color: {value: {x:1,y:1,z:1}},
+//   time: {value: 0.0},
+//   twinkleSpeed: {value: 200.0},
+//   speed: {value: 0.0001},
+//   brightness: {value: 0.0018},
+//   distfading: {value: 0.7},
+// };
+
+// const _FS = `
+// // http://casual-effects.blogspot.com/2013/08/starfield-shader.html
+// #extension GL_OES_standard_derivatives : enable
+
+// #define iterations 17
+// #define volsteps 3
+// #define sparsity 0.5
+// #define stepsize 0.2
+//  #define frequencyVariation   1.3
+
+// precision highp float;
+// precision highp int;
+
+// varying vec2 vUv;
+// varying vec3 vPosition;
+// varying vec3 vNormal;
+
+// uniform vec3 color;
+// uniform float time;
+// uniform float twinkleSpeed;
+// uniform float speed;
+ 
+// uniform float brightness;
+// uniform float distfading;
+ 
+
+// #define PI 3.141592653589793238462643383279
+
+// void main( void ) {
+
+//     vec2 uv = vUv.xy + 0.5;
+//     uv.x += time * speed * 0.1;
+ 
+//     vec3 dir = vec3(uv * 2.0, 1.0);
+ 
+//     float s = 0.1, fade = 0.01;
+//     vec3 starColor = vec3(0.0);
+     
+//     for (int r = 0; r < volsteps; ++r) {
+//         vec3 p =  (time * speed * twinkleSpeed) + dir * (s * 0.5);
+//         p = abs(vec3(frequencyVariation) - mod(p, vec3(frequencyVariation * 2.0)));
+ 
+//         float prevlen = 0.0, a = 0.0;
+//         for (int i = 0; i < iterations; ++i) {
+//             p = abs(p);
+//             p = p * (1.0 / dot(p, p)) + (-sparsity); // the magic formula            
+//             float len = length(p);
+//             a += abs(len - prevlen); // absolute sum of average change
+//             prevlen = len;
+//         }
+         
+//         a *= a * a; // add contrast
+         
+//         // coloring based on distance        
+//         starColor += (vec3(s, s*s, s*s*s) * a * brightness + 1.0) * fade;
+//         fade *= distfading; // distance fading
+//         s += stepsize;
+//     }
+     
+//     starColor = min(starColor, vec3(1.2));
+ 
+//     // Detect and suppress flickering single pixels (ignoring the huge gradients that we encounter inside bright areas)
+//     float intensity = min(starColor.r + starColor.g + starColor.b, 0.7);
+ 
+//     vec2 sgn = (vec2(vUv.xy)) * 2.0 - 1.0;
+//     vec2 gradient = vec2(dFdx(intensity) * sgn.x, dFdy(intensity) * sgn.y);
+//     float cutoff = max(max(gradient.x, gradient.y) - 0.1, 0.0);
+//     starColor *= max(1.0 - cutoff * 6.0, 0.3);
+ 
+//     // Motion blur; increases temporal coherence of undersampled flickering stars
+//     // and provides temporal filtering under true motion.  
+//     gl_FragColor = vec4( starColor * color, 1.0 );
+// }
+// `;
+
+
+
+
+// const _FS = `
+// uniform flaot time;
+// uniform float progress;
+// uniform sampler2D texture1;
+// uniform vec4 resolution;
+// varying vec2 vUv;
+// varying vec3 vPosition;
+// float PI = 3.141592653589793238;
+// void main(){
+//   gl_FragColor = vec4(vUv,0.0,1)
+// }
+// `;
+
 
 
 //debug controls!
@@ -40,11 +170,11 @@ for(let i=0;i<6;i++)
 
 const skyboxInterstellar = new THREE.BoxGeometry(10000, 10000, 10000);
 const skybox = new THREE.Mesh(skyboxInterstellar, skyMatArray);
-scene.add(skybox);
+//scene.add(skybox);
 
-scene.background = new THREE.Color(0x000000); //FFE8DC
+scene.background = new THREE.Color(0xFFE8DC); //FFE8DC
 
-const scene2 = new THREE.Scene();
+//const scene2 = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 10000);
 //camera.lookAt(66,40,35);
@@ -58,11 +188,11 @@ camPos.add(camera.position, 'y').listen();
 camPos.add(camera.position, 'z').listen();
 
 
-const renderer2 = new CSS3DRenderer();
-    renderer2.setSize( window.innerWidth, window.innerHeight );
-    renderer2.domElement.style.position = 'fixed';
-    renderer2.domElement.style.top = 0;
-    document.querySelector('#css').appendChild( renderer2.domElement );
+// const renderer2 = new CSS3DRenderer();
+//     renderer2.setSize( window.innerWidth, window.innerHeight );
+//     renderer2.domElement.style.position = 'fixed';
+//     renderer2.domElement.style.top = 0;
+//     document.querySelector('#css').appendChild( renderer2.domElement );
 
 
 
@@ -249,8 +379,8 @@ window.addEventListener('resize', () => {
 
 
 
-const gltfLoader2 = new GLTFLoader();
-gltfLoader2.load('/assets/skeleton/skeletonArm_R.gltf', (gltfScene) => {
+const gltfLoader = new GLTFLoader();
+gltfLoader.load('/assets/skeleton/skeletonArm_R.gltf', (gltfScene) => {
   gltfScene.scene.scale.set(2,2,2);
 
   const skellyMat = new THREE.MeshToonMaterial({
@@ -262,6 +392,41 @@ gltfLoader2.load('/assets/skeleton/skeletonArm_R.gltf', (gltfScene) => {
   gltfScene.scene.traverse((o) => {
     if (o.isMesh) {
       o.material = skellyMat;
+      //o.castShadow = true;
+      o.receiveShadow= true;
+    };
+  });
+
+  scene.add(gltfScene.scene);
+});
+
+const uniforms = {
+  time: {value: 0.0},
+  speed: {value: 18.0},
+  charSize: {value: {x:2.0, y:1.5}},
+  charResolution: {value: 6.0},
+  color: {value: new THREE.Color(0xf0075c)},
+  //backgroundColor: {value: {x:240.0, y:7.0, z:92.0, w:0.0}},
+  resolution: {value: {x:1.0, y:1.0}}
+};
+
+const skellyMat2 = new THREE.ShaderMaterial({
+  uniforms: uniforms,
+  vertexShader: vShader,
+  fragmentShader: fShader
+});
+
+const gltfLoader2 = new GLTFLoader();
+gltfLoader2.load('/assets/skeleton/switch/skellyArmUV.gltf', (gltfScene) => {
+  gltfScene.scene.scale.set(5,5,5);
+  gltfScene.scene.position.setZ(10);
+
+  
+
+
+  gltfScene.scene.traverse((o) => {
+    if (o.isMesh) {
+      o.material = skellyMat2;
       //o.castShadow = true;
       o.receiveShadow= true;
     };
@@ -288,7 +453,7 @@ ytplayerDivElement.id = 'screenDiv';
         // domObject.rotation.z = Math.random();
         //domObject.scale.x = Math.random() + 0.5;
         //domObject.scale.y = Math.random() + 0.5;
-        scene2.add( domObject );
+        //scene2.add( domObject );
         //group.add(domObject);
 
 
@@ -321,7 +486,7 @@ ytplayerDivElement.id = 'screenDiv';
                   // domObject.rotation.z = Math.random();
                   //domObject.scale.x = Math.random() + 0.5;
                   //domObject.scale.y = Math.random() + 0.5;
-                  scene2.add( domObject2 );
+                  //scene2.add( domObject2 );
                   //group.add(domObject2);
           
           
@@ -411,8 +576,9 @@ function tick(){
 
 
   renderer.render(scene, camera);
-  renderer2.render(scene2, camera);
+  //renderer2.render(scene2, camera);
   //cssRenderer.render(cssScene, camera);
   requestAnimationFrame( tick );
+  uniforms.time.value = clock.getElapsedTime();
 }
 tick();
