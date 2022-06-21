@@ -6,7 +6,139 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 import { GUI } from 'dat.gui';
 import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { SplineCurve } from 'three';
+import { SplineCurve, Vector3, Vector4 } from 'three';
+import fShader from './fragmentShader.glsl.js'
+import vShader from './vertexShader.glsl.js'
+import fShader2 from './fragmentShader2.glsl.js'
+import vShader2 from './vertexShader2.glsl.js'
+
+// const _VS = `
+// uniform float time;
+// varying vec2 vUv;
+// varying vec3 vPosition;
+// uniform vec2 pixels;
+// float PI = 3.141592653589793238;
+// void main(){
+//   vUv = uv;
+//   gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0);
+// }
+// `;
+// const _VS = `
+// precision highp float;
+// precision highp int;
+
+// varying vec2 vUv;
+// varying vec3 vPosition;
+// varying vec3 vNormal;
+
+// void main() {
+//   vUv = uv;
+//   vPosition = position;
+//   vNormal = normal;
+//   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+// }
+// `;
+
+// const uniforms = {
+//   color: {value: {x:1,y:1,z:1}},
+//   time: {value: 0.0},
+//   twinkleSpeed: {value: 200.0},
+//   speed: {value: 0.0001},
+//   brightness: {value: 0.0018},
+//   distfading: {value: 0.7},
+// };
+
+// const _FS = `
+// // http://casual-effects.blogspot.com/2013/08/starfield-shader.html
+// #extension GL_OES_standard_derivatives : enable
+
+// #define iterations 17
+// #define volsteps 3
+// #define sparsity 0.5
+// #define stepsize 0.2
+//  #define frequencyVariation   1.3
+
+// precision highp float;
+// precision highp int;
+
+// varying vec2 vUv;
+// varying vec3 vPosition;
+// varying vec3 vNormal;
+
+// uniform vec3 color;
+// uniform float time;
+// uniform float twinkleSpeed;
+// uniform float speed;
+ 
+// uniform float brightness;
+// uniform float distfading;
+ 
+
+// #define PI 3.141592653589793238462643383279
+
+// void main( void ) {
+
+//     vec2 uv = vUv.xy + 0.5;
+//     uv.x += time * speed * 0.1;
+ 
+//     vec3 dir = vec3(uv * 2.0, 1.0);
+ 
+//     float s = 0.1, fade = 0.01;
+//     vec3 starColor = vec3(0.0);
+     
+//     for (int r = 0; r < volsteps; ++r) {
+//         vec3 p =  (time * speed * twinkleSpeed) + dir * (s * 0.5);
+//         p = abs(vec3(frequencyVariation) - mod(p, vec3(frequencyVariation * 2.0)));
+ 
+//         float prevlen = 0.0, a = 0.0;
+//         for (int i = 0; i < iterations; ++i) {
+//             p = abs(p);
+//             p = p * (1.0 / dot(p, p)) + (-sparsity); // the magic formula            
+//             float len = length(p);
+//             a += abs(len - prevlen); // absolute sum of average change
+//             prevlen = len;
+//         }
+         
+//         a *= a * a; // add contrast
+         
+//         // coloring based on distance        
+//         starColor += (vec3(s, s*s, s*s*s) * a * brightness + 1.0) * fade;
+//         fade *= distfading; // distance fading
+//         s += stepsize;
+//     }
+     
+//     starColor = min(starColor, vec3(1.2));
+ 
+//     // Detect and suppress flickering single pixels (ignoring the huge gradients that we encounter inside bright areas)
+//     float intensity = min(starColor.r + starColor.g + starColor.b, 0.7);
+ 
+//     vec2 sgn = (vec2(vUv.xy)) * 2.0 - 1.0;
+//     vec2 gradient = vec2(dFdx(intensity) * sgn.x, dFdy(intensity) * sgn.y);
+//     float cutoff = max(max(gradient.x, gradient.y) - 0.1, 0.0);
+//     starColor *= max(1.0 - cutoff * 6.0, 0.3);
+ 
+//     // Motion blur; increases temporal coherence of undersampled flickering stars
+//     // and provides temporal filtering under true motion.  
+//     gl_FragColor = vec4( starColor * color, 1.0 );
+// }
+// `;
+
+
+
+
+// const _FS = `
+// uniform flaot time;
+// uniform float progress;
+// uniform sampler2D texture1;
+// uniform vec4 resolution;
+// varying vec2 vUv;
+// varying vec3 vPosition;
+// float PI = 3.141592653589793238;
+// void main(){
+//   gl_FragColor = vec4(vUv,0.0,1)
+// }
+// `;
+
 
 
 //debug controls!
@@ -41,35 +173,27 @@ const skyboxInterstellar = new THREE.BoxGeometry(10000, 10000, 10000);
 const skybox = new THREE.Mesh(skyboxInterstellar, skyMatArray);
 scene.add(skybox);
 
-//scene.background = new THREE.Color(0x000000); //FFE8DC
+scene.background = new THREE.Color(0x000000); //FFE8DC
 
-const scene2 = new THREE.Scene();
+//const scene2 = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 10000);
-//scene.add(camera);
 //camera.lookAt(66,40,35);
-//camera.position.set(-13, 22, 34);
-camera.position.set(-13, 22, 34);
-
+camera.position.set(-20, 12, 34);
 
 const camGui = gui.addFolder('Camera');
 const camPos = camGui.addFolder('Position');
-// const camRot = camGui.addFolder('Rotation');
 
 camPos.add(camera.position, 'x').listen();
 camPos.add(camera.position, 'y').listen();
 camPos.add(camera.position, 'z').listen();
-// camRot.add(camera.rotation, 'x').listen();
-// camRot.add(camera.rotation, 'y').listen();
-// camRot.add(camera.rotation, 'z').listen();
 
 
-
-const renderer2 = new CSS3DRenderer();
-    renderer2.setSize( window.innerWidth, window.innerHeight );
-    renderer2.domElement.style.position = 'fixed';
-    renderer2.domElement.style.top = 0;
-    document.querySelector('#css').appendChild( renderer2.domElement );
+// const renderer2 = new CSS3DRenderer();
+//     renderer2.setSize( window.innerWidth, window.innerHeight );
+//     renderer2.domElement.style.position = 'fixed';
+//     renderer2.domElement.style.top = 0;
+//     document.querySelector('#css').appendChild( renderer2.domElement );
 
 
 
@@ -98,34 +222,18 @@ const originTarget = new THREE.Object3D();
 targetObject.position.set(-420,-500,400);
 scene.add(targetObject, originTarget);
 
-//const pointLight = new THREE.PointLight(0xbf40BF, .1);
+const pointLight = new THREE.PointLight(0xfffffff, 1);
+pointLight.position.set(10,15,0);
+const pointLight2 = new THREE.PointLight(0xe60944, 1);
+pointLight2.position.set(-10,-15,0);
 const directionalLight = new THREE.DirectionalLight(0xffeba1, 1);
 //directionalLight.target = targetObject;
-directionalLight.castShadow = true;
+pointLight.castShadow = true;
 directionalLight.target = targetObject;
 //scene.add(directionalLight);
 //pointLight.position.set(0, 13, -10);
 const ambientLight = new THREE.AmbientLight(0xffffff,.1);
-scene.add(ambientLight);
-
-
-const cockpitLight = new THREE.PointLight(0x2986ab, 0,5);
-const cockpitHelper = new THREE.PointLightHelper(cockpitLight);
-scene.add(cockpitLight, cockpitHelper);
-cockpitLight.position.set(0,9,-3);
-
-camera.position.set(0,9,-3);
-
-
-var spline = new THREE.CatmullRomCurve3([
-  new THREE.Vector3(-13, 22, 34),
-  new THREE.Vector3(0,9,-3)
-]);
-
-const points = spline.getPoints(13);
-
-
-
+scene.add(pointLight, pointLight2);
 
 /*
  * PRACTICE ACTORS
@@ -168,92 +276,6 @@ const textureLoader = new THREE.TextureLoader();
 // scene.add(toonMesh);
 
 
-/*
- * MAIN SHIP
- */
-// const shipNormalMap = textureLoader.load('/assets/ship/Textures/StarSparrowRedUnified_001_normal.png');
-// const shipColorMap = textureLoader.load('/assets/ship/Textures/StarSparrowRedUnified_001_baseColor.png');
-// const shipEmissiveMap = textureLoader.load('/assets/ship/Textures/StarSparrowRedUnified_001_emissive.png');
-// const shipMetallicMap = textureLoader.load('/assets/ship/Textures/StarSparrowRedUnified_001_emissive.png');
-const gltfLoader = new GLTFLoader();
-gltfLoader.load('/assets/ship/supership.gltf', (gltfScene) => {
-  gltfScene.scene.position.set(0,8,0);
-  //gltfScene.scene.scale.set(2,2,2);
-  // const shipModel = gltfScene.scene;
-  // var shipToonMat = new THREE.MeshToonMaterial({
-  //   transparent: true,
-  //   opacity: 0.3,
-  //   map: shipColorMap,
-  //   normalMap: shipNormalMap,
-  //   emissiveMap: shipEmissiveMap,
-  // });
-  gltfScene.scene.traverse((o) => {
-    if (o.isMesh) {
-      o.castShadow = true;
-      o.receiveShadow= true;
-    };
-  });
-  scene.add(gltfScene.scene);
-});
-
-const gltfLoader2 = new GLTFLoader();
-gltfLoader2.load('/assets/asteroid/tangledAsteroid.gltf', (gltfScene) => {
-  gltfScene.scene.position.set(-12,3,17);
-  gltfScene.scene.scale.set(.2,.2,.2);
-  gltfScene.scene.rotateY(-100);
-
-
-  gltfScene.scene.traverse((o) => {
-    if (o.isMesh) {
-      o.castShadow = true;
-      o.receiveShadow= true;
-    };
-  });
-
-  scene.add(gltfScene.scene);
-});
-
-// const gltfLoader3 = new GLTFLoader();
-// gltfLoader3.load('/assets/saturn/scene.gltf', (gltfScene) => {
-//   gltfScene.scene.position.set(-420,50,-1000);
-
-//   scene.add(gltfScene.scene);
-// });
-const gltfLoader3 = new GLTFLoader();
-gltfLoader3.load('/assets/planet/saturn.gltf', (gltfScene) => {
-  gltfScene.scene.position.set(-420,50,-666);
-  gltfScene.scene.scale.set(420,420,420);
-
-  gltfScene.scene.traverse((o) => {
-    if (o.isMesh) {
-      o.castShadow = true;
-    };
-  });
-
-  scene.add(gltfScene.scene);
-});
-
-var billboardMesh; // = new THREE.Object3D();
-
-const gltfLoader4 = new GLTFLoader();
-gltfLoader4.load('/assets/billboard/scene.gltf', (gltfScene) => {
-  gltfScene.scene.position.set(-38,12,-170);
-  gltfScene.scene.scale.set(4,4,4);
-  billboardMesh = gltfScene;
-
-  // gltfScene.scene.traverse((o) => {
-  //   if (o.isMesh) {
-  //     o.castShadow = true;
-  //   };
-  // });
-
-  scene.add(gltfScene.scene);
-});
-
-//billboardMesh = scene.getObjectByName(billboardMesh.name)
-//billboardMesh.scene.position.set(-38,12,-170);
-
-
 //STARS
 // function addStar() {
 //   const geometry = new THREE.OctahedronGeometry(0.25);
@@ -266,36 +288,6 @@ gltfLoader4.load('/assets/billboard/scene.gltf', (gltfScene) => {
 //   scene.add(starMesh)
 // }
 // Array(240).fill().forEach(addStar);
-
-
-//SHENANIGANS WITH LIGHTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const sunLight = new THREE.SpotLight(0xffeba1);
-sunLight.castShadow = true;
-sunLight.angle = .2;
-//sunLight.position.set(1337, 1337, -2337)
-sunLight.position.set(102, 242, -320);
-sunLight.shadow.camera.far = 1000;
-sunLight.target = originTarget;
-
-scene.add(sunLight);
-
-const sunLight2 = new THREE.SpotLight(0xffeba1);
-sunLight2.distance = 3000;
-sunLight2.angle = .6;
-sunLight2.position.set(1420, 1337, -2337);
-sunLight2.target = originTarget;
-
-scene.add(sunLight2);
-
-
-const sunGeometry = new THREE.SphereGeometry(4,24);
-var toonSphereMat = new THREE.MeshBasicMaterial({
-  color: 0xffce73
-});
-const toonMesh = new THREE.Mesh(sunGeometry, toonSphereMat);
-toonMesh.scale.set(3,3,3);
-toonMesh.position.set(1420, 1170, -2360);
-scene.add(toonMesh);
 
 
 /*
@@ -316,43 +308,6 @@ window.addEventListener('resize', () => {
   renderer.setSize(viewportSize.width, viewportSize.height);
   renderer.setPixelRatio(Map.min(window.devicePixelRatio, 2));
 });
-
-
-/*
- * HELPERS
- */
-// const pointLightHelper = new THREE.PointLightHelper(pointLight);
-const spotLightHelper = new THREE.SpotLightHelper(sunLight2);
-const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight);
-//scene.add(spotLightHelper);
-// const helper = new THREE.CameraHelper( sunLight2.shadow.camera );
-// scene.add( helper );
-// const gridHelper = new THREE.GridHelper(200, 50);
-// scene.add(lightHelper);
-
-
-
-//CAM MOVEMENT
-// function moveCamera() {
-//   const distanceToTopOfPage = document.body.getBoundingClientRect().top;
-
-//   //Distance to top is always negative, which is why multiply with negatives as well
-//   camera.position.z = distanceToTopOfPage * -0.01;
-//   camera.position.x = distanceToTopOfPage * -0.0002;
-//   camera.position.y = distanceToTopOfPage * -0.0002;
-// }
-// document.body.onscroll = moveCamera();
-
-
-
-
-// // create the plane mesh
-// var planeMat = new THREE.MeshBasicMaterial({ wireframe: true });
-// var planeGeometry = new THREE.PlaneGeometry();
-// var planeMesh= new THREE.Mesh( planeGeometry, planeMat );
-// // add it to the WebGL scene
-// scene.add(planeMesh);
-
 
 // // create the dom Element
 // var element = document.createElement( 'img' );
@@ -398,28 +353,118 @@ const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight
 //   document.getElementById("content").innerHTML='<object type="text/html" data="home.html" ></object>';
 // }
 
+
+
+
+// const geometryTest = new THREE.SphereGeometry(1, 128, 64)
+// const materialTest = new LayerMaterial({
+//   color: '#d9d9d9',
+//   shading: 'physical',
+//   transmission: 1,
+//   layers: [
+//     new Depth({
+//       colorA: '#002f4b',
+//       colorB: '#f2fdff',
+//       alpha: 0.5,
+//       mode: 'multiply',
+//       near: 0,
+//       far: 2,
+//       origin: new THREE.Vector3(1, 1, 1),
+//     }),
+//   ],
+// })
+
+// const meshTest = new THREE.Mesh(geometryTest, materialTest)
+// scene.add(meshTest);
+
+const skellyMat = new THREE.MeshToonMaterial({
+  //gradientMap: threeTone,
+  color: 0xffffff,
+});
+
+
+
+
+const uniforms = {
+  time: {value: 0.0},
+  speed: {value: 18.0},
+  charSize: {value: {x:2.0, y:1.5}},
+  charResolution: {value: 7.0},
+  color: {value: new THREE.Color(0xFF0075)},
+  backgroundColor: {value: new Vector4(0,0,0.1,1)},
+  resolution: {value: {x:4.0, y:4.0}}
+};
+
+const uniforms2 = {
+  cameraPosition: {value: {x: 0, y:0, z:0}},
+  time: {value: 0.0},
+  color: {value: new THREE.Color(0xf0075c)},
+  lightPosition: {value: {x: 0, y:0, z:0}},
+  borderWidth: {value: 0.45},
+  toonNoise1: {value: new THREE.TextureLoader().load('/assets/skybox/top.png')},
+  toonNoise2: {value: new THREE.TextureLoader().load('/assets/skybox/top.png')},
+};
+
+const skellyMat2 = new THREE.ShaderMaterial({
+  uniforms: uniforms,
+  vertexShader: vShader,
+  fragmentShader: fShader
+});
+
+const skellyMat3 = new THREE.ShaderMaterial({
+  uniforms: uniforms2,
+  vertexShader: vShader2,
+  fragmentShader: fShader2
+});
+
+const gltfLoader = new GLTFLoader();
+gltfLoader.load('/assets/key/scene.gltf', (gltfScene) => {
+  gltfScene.scene.scale.set(4,4,4);
+
+  
+
+
+  gltfScene.scene.traverse((o) => {
+    if (o.isMesh) {
+      o.material = skellyMat2;
+      //o.castShadow = true;
+      o.receiveShadow= true;
+    };
+  });
+
+  scene.add(gltfScene.scene);
+});
+
+const gltfLoader2 = new GLTFLoader();
+gltfLoader2.load('/assets/skeleton/switch/skellyArmUV.gltf', (gltfScene) => {
+  gltfScene.scene.scale.set(5,5,5);
+  gltfScene.scene.position.set(0, -27, -4);
+
+  
+
+
+  gltfScene.scene.traverse((o) => {
+    if (o.isMesh) {
+      o.material = skellyMat;
+      o.castShadow = true;
+      o.receiveShadow= true;
+    };
+  });
+
+  scene.add(gltfScene.scene);
+});
+
 //var content = document.getElementById("css").innerHTML;
 
+const group = new THREE.Group();
 
-var element = document.createElement( 'div' );
-element.id = 'screenDiv';
-        // element.style.width = '100px';
-        // element.style.height = '100px';
-        // element.style.opacity = 0.999;
-        // element.style.background = new THREE.Color(
-        //   Math.random() * 0.21568627451 + 0.462745098039,
-        //   Math.random() * 0.21568627451 + 0.462745098039,
-        //   Math.random() * 0.21568627451 + 0.462745098039,
-        // ).getStyle();
-        // element.textContent = "I am editable text!"
-        // element.setAttribute('contenteditable', '')
+var ytplayerDivElement = document.createElement( 'div' );
+ytplayerDivElement.id = 'screenDiv';
         
-        
-        
-        element.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>';
+        ytplayerDivElement.innerHTML = '<object type="text/html" data="PHPageContent.html" ></object>';
 
-        var domObject = new CSS3DObject( element );
-        domObject.position.set(0,3,-69)
+        var domObject = new CSS3DObject( ytplayerDivElement );
+        domObject.position.set(0,-30,-69)
         // domObject.position.y = Math.random() * 600 - 300;
         // domObject.position.z = Math.random() * 800 - 600;
         // domObject.rotation.x = Math.random();
@@ -427,7 +472,8 @@ element.id = 'screenDiv';
         // domObject.rotation.z = Math.random();
         //domObject.scale.x = Math.random() + 0.5;
         //domObject.scale.y = Math.random() + 0.5;
-        scene2.add( domObject );
+        //scene2.add( domObject );
+        //group.add(domObject);
 
 
           var material = new THREE.MeshPhongMaterial({
@@ -443,16 +489,78 @@ element.id = 'screenDiv';
           //mesh.scale.copy( domObject.scale );
           mesh.castShadow = false;
           mesh.receiveShadow = true;
-          //scene.add( mesh );
+
+
+          var ytplayerDivElement2 = document.createElement( 'div' );
+          ytplayerDivElement2.id = 'screenDiv2';
+                  
+                  ytplayerDivElement2.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>';
+          
+                  var domObject2 = new CSS3DObject( ytplayerDivElement2 );
+                  domObject2.position.set(10,-3,69)
+                  // domObject.position.y = Math.random() * 600 - 300;
+                  // domObject.position.z = Math.random() * 800 - 600;
+                  // domObject.rotation.x = Math.random();
+                  // domObject.rotation.y = Math.random();
+                  // domObject.rotation.z = Math.random();
+                  //domObject.scale.x = Math.random() + 0.5;
+                  //domObject.scale.y = Math.random() + 0.5;
+                  //scene2.add( domObject2 );
+                  //group.add(domObject2);
+          
+          
+                    var material2 = new THREE.MeshPhongMaterial({
+                        opacity	: 0.2,
+                        color	: new THREE.Color('black'),
+                        blending: THREE.NoBlending,
+                        side	: THREE.DoubleSide,
+                    });
+                    var geometry2 = new THREE.PlaneGeometry( 100, 100 );
+                    var mesh2 = new THREE.Mesh( geometry2, material2 );
+                    mesh2.position.copy( domObject2.position );
+                    mesh2.rotation.copy( domObject2.rotation );
+                    //mesh.scale.copy( domObject.scale );
+                    mesh2.castShadow = false;
+                    mesh2.receiveShadow = true;
+
+
+
+
+
+
+        const contentCubeMatArray = [];
+        const cc_ft = material;
+        const cc_bk = new THREE.TextureLoader().load('/assets/skybox/back.png');
+        const cc_up = new THREE.TextureLoader().load('/assets/skybox/top.png');
+        const cc_dn = new THREE.TextureLoader().load('/assets/skybox/bottom.png');
+        const cc_rt = new THREE.TextureLoader().load('/assets/skybox/right.png');
+        const cc_lf = new THREE.TextureLoader().load('/assets/skybox/left.png');
+
+        contentCubeMatArray.push(new THREE.MeshPhongMaterial({map: cc_ft}));
+        contentCubeMatArray.push(new THREE.MeshBasicMaterial({map: cc_bk}));
+        // contentCubeMatArray.push(new THREE.MeshBasicMaterial({map: cc_up}));
+        // contentCubeMatArray.push(new THREE.MeshBasicMaterial({map: cc_dn}));
+        // contentCubeMatArray.push(new THREE.MeshBasicMaterial({map: cc_rt}));
+        // contentCubeMatArray.push(new THREE.MeshBasicMaterial({map: cc_lf}));
+
+        // for(let i=0;i<6;i++)
+        // contentCubeMatArray[i].side = THREE.BackSide;
+
+        const contentCubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+        const contentCube = new THREE.Mesh(contentCubeGeometry, contentCubeMatArray);
+        //scene.add(contentCube);
+        //scene.add( mesh, mesh2 );
+        //scene.add(group);
 
 
 
 
           gsap.registerPlugin(ScrollTrigger);
           //set camera position
-          camera.position.y = 20;
-          camera.position.z = 22;
-          camera.position.x = -30;
+          camera.position.y = 18;
+          camera.position.z = 34;
+          camera.position.x = -7;
+          camera.lookAt(-10,12,-170);
           gsap.to(camera.position, {
             scrollTrigger:
             {
@@ -461,7 +569,7 @@ element.id = 'screenDiv';
               start: 'top top',
               end: 'bottom center',
               //pin: true,
-              scrub: 1,
+              scrub: .42,
               markers: true
             },
             x: 0,
@@ -472,26 +580,7 @@ element.id = 'screenDiv';
             //onUpdate: function () {
             //  camera.updateProjectionMatrix();
             //}
-          })
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+          });
 
 const clock = new THREE.Clock();
 function tick(){
@@ -504,8 +593,9 @@ function tick(){
 
 
   renderer.render(scene, camera);
-  renderer2.render(scene2, camera);
+  //renderer2.render(scene2, camera);
   //cssRenderer.render(cssScene, camera);
   requestAnimationFrame( tick );
+  uniforms.time.value = clock.getElapsedTime();
 }
 tick();
