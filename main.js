@@ -12,133 +12,7 @@ import vShader from './vertexShader.glsl.js'
 import fShader2 from './fragmentShader2.glsl.js'
 import vShader2 from './vertexShader2.glsl.js'
 
-// const _VS = `
-// uniform float time;
-// varying vec2 vUv;
-// varying vec3 vPosition;
-// uniform vec2 pixels;
-// float PI = 3.141592653589793238;
-// void main(){
-//   vUv = uv;
-//   gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0);
-// }
-// `;
-// const _VS = `
-// precision highp float;
-// precision highp int;
-
-// varying vec2 vUv;
-// varying vec3 vPosition;
-// varying vec3 vNormal;
-
-// void main() {
-//   vUv = uv;
-//   vPosition = position;
-//   vNormal = normal;
-//   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-// }
-// `;
-
-// const uniforms = {
-//   color: {value: {x:1,y:1,z:1}},
-//   time: {value: 0.0},
-//   twinkleSpeed: {value: 200.0},
-//   speed: {value: 0.0001},
-//   brightness: {value: 0.0018},
-//   distfading: {value: 0.7},
-// };
-
-// const _FS = `
-// // http://casual-effects.blogspot.com/2013/08/starfield-shader.html
-// #extension GL_OES_standard_derivatives : enable
-
-// #define iterations 17
-// #define volsteps 3
-// #define sparsity 0.5
-// #define stepsize 0.2
-//  #define frequencyVariation   1.3
-
-// precision highp float;
-// precision highp int;
-
-// varying vec2 vUv;
-// varying vec3 vPosition;
-// varying vec3 vNormal;
-
-// uniform vec3 color;
-// uniform float time;
-// uniform float twinkleSpeed;
-// uniform float speed;
- 
-// uniform float brightness;
-// uniform float distfading;
- 
-
-// #define PI 3.141592653589793238462643383279
-
-// void main( void ) {
-
-//     vec2 uv = vUv.xy + 0.5;
-//     uv.x += time * speed * 0.1;
- 
-//     vec3 dir = vec3(uv * 2.0, 1.0);
- 
-//     float s = 0.1, fade = 0.01;
-//     vec3 starColor = vec3(0.0);
-     
-//     for (int r = 0; r < volsteps; ++r) {
-//         vec3 p =  (time * speed * twinkleSpeed) + dir * (s * 0.5);
-//         p = abs(vec3(frequencyVariation) - mod(p, vec3(frequencyVariation * 2.0)));
- 
-//         float prevlen = 0.0, a = 0.0;
-//         for (int i = 0; i < iterations; ++i) {
-//             p = abs(p);
-//             p = p * (1.0 / dot(p, p)) + (-sparsity); // the magic formula            
-//             float len = length(p);
-//             a += abs(len - prevlen); // absolute sum of average change
-//             prevlen = len;
-//         }
-         
-//         a *= a * a; // add contrast
-         
-//         // coloring based on distance        
-//         starColor += (vec3(s, s*s, s*s*s) * a * brightness + 1.0) * fade;
-//         fade *= distfading; // distance fading
-//         s += stepsize;
-//     }
-     
-//     starColor = min(starColor, vec3(1.2));
- 
-//     // Detect and suppress flickering single pixels (ignoring the huge gradients that we encounter inside bright areas)
-//     float intensity = min(starColor.r + starColor.g + starColor.b, 0.7);
- 
-//     vec2 sgn = (vec2(vUv.xy)) * 2.0 - 1.0;
-//     vec2 gradient = vec2(dFdx(intensity) * sgn.x, dFdy(intensity) * sgn.y);
-//     float cutoff = max(max(gradient.x, gradient.y) - 0.1, 0.0);
-//     starColor *= max(1.0 - cutoff * 6.0, 0.3);
- 
-//     // Motion blur; increases temporal coherence of undersampled flickering stars
-//     // and provides temporal filtering under true motion.  
-//     gl_FragColor = vec4( starColor * color, 1.0 );
-// }
-// `;
-
-
-
-
-// const _FS = `
-// uniform flaot time;
-// uniform float progress;
-// uniform sampler2D texture1;
-// uniform vec4 resolution;
-// varying vec2 vUv;
-// varying vec3 vPosition;
-// float PI = 3.141592653589793238;
-// void main(){
-//   gl_FragColor = vec4(vUv,0.0,1)
-// }
-// `;
-
+//import flashModel from './assets/flash/scene.gltf';
 
 
 //debug controls!
@@ -179,7 +53,7 @@ scene.background = new THREE.Color(0x000000); //FFE8DC
 
 const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 10000);
 //camera.lookAt(66,40,35);
-camera.position.set(-20, 12, 34);
+camera.position.set(0, 0, 6);
 
 const camGui = gui.addFolder('Camera');
 const camPos = camGui.addFolder('Position');
@@ -194,11 +68,6 @@ camPos.add(camera.position, 'z').listen();
 //     renderer2.domElement.style.position = 'fixed';
 //     renderer2.domElement.style.top = 0;
 //     document.querySelector('#css').appendChild( renderer2.domElement );
-
-
-
-
-
 const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector('#main-content'),
   alpha: true
@@ -213,7 +82,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
-camera.lookAt(0,20,0);
+//camera.lookAt(0,20,0);
 /*
  * LIGHTS
  */
@@ -223,7 +92,7 @@ targetObject.position.set(-420,-500,400);
 scene.add(targetObject, originTarget);
 
 const pointLight = new THREE.PointLight(0xfffffff, 1);
-pointLight.position.set(10,15,0);
+pointLight.position.set(10,-15,0);
 const pointLight2 = new THREE.PointLight(0xe60944, 1);
 pointLight2.position.set(-10,-15,0);
 const directionalLight = new THREE.DirectionalLight(0xffeba1, 1);
@@ -382,7 +251,8 @@ const skellyMat = new THREE.MeshToonMaterial({
   color: 0xffffff,
 });
 
-
+// const dubShitTestCube = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshBasicMaterial);
+// scene.add(dubShitTestCube);
 
 
 const uniforms = {
@@ -395,15 +265,15 @@ const uniforms = {
   resolution: {value: {x:4.0, y:4.0}}
 };
 
-const uniforms2 = {
-  cameraPosition: {value: {x: 0, y:0, z:0}},
-  time: {value: 0.0},
-  color: {value: new THREE.Color(0xf0075c)},
-  lightPosition: {value: {x: 0, y:0, z:0}},
-  borderWidth: {value: 0.45},
-  toonNoise1: {value: new THREE.TextureLoader().load('/assets/skybox/top.png')},
-  toonNoise2: {value: new THREE.TextureLoader().load('/assets/skybox/top.png')},
-};
+// const uniforms2 = {
+//   cameraPosition: {value: {x: 0, y:0, z:0}},
+//   time: {value: 0.0},
+//   color: {value: new THREE.Color(0xf0075c)},
+//   lightPosition: {value: {x: 0, y:0, z:0}},
+//   borderWidth: {value: 0.45},
+//   toonNoise1: {value: new THREE.TextureLoader().load('/assets/skybox/top.png')},
+//   toonNoise2: {value: new THREE.TextureLoader().load('/assets/skybox/top.png')},
+// };
 
 const skellyMat2 = new THREE.ShaderMaterial({
   uniforms: uniforms,
@@ -411,18 +281,15 @@ const skellyMat2 = new THREE.ShaderMaterial({
   fragmentShader: fShader
 });
 
-const skellyMat3 = new THREE.ShaderMaterial({
-  uniforms: uniforms2,
-  vertexShader: vShader2,
-  fragmentShader: fShader2
-});
+// const skellyMat3 = new THREE.ShaderMaterial({
+//   uniforms: uniforms2,
+//   vertexShader: vShader2,
+//   fragmentShader: fShader2
+// });
 
 const gltfLoader = new GLTFLoader();
 gltfLoader.load('/assets/key/scene.gltf', (gltfScene) => {
   gltfScene.scene.scale.set(4,4,4);
-
-  
-
 
   gltfScene.scene.traverse((o) => {
     if (o.isMesh) {
@@ -438,10 +305,8 @@ gltfLoader.load('/assets/key/scene.gltf', (gltfScene) => {
 const gltfLoader2 = new GLTFLoader();
 gltfLoader2.load('/assets/skeleton/switch/skellyArmUV.gltf', (gltfScene) => {
   gltfScene.scene.scale.set(5,5,5);
-  gltfScene.scene.position.set(0, -27, -4);
-
-  
-
+  gltfScene.scene.position.set(0.13, -27, -4);
+  //gltfScene.scene.rotateOnWorldAxis
 
   gltfScene.scene.traverse((o) => {
     if (o.isMesh) {
@@ -453,6 +318,42 @@ gltfLoader2.load('/assets/skeleton/switch/skellyArmUV.gltf', (gltfScene) => {
 
   scene.add(gltfScene.scene);
 });
+
+var mixer;
+var flashModel;
+
+const gltfLoader3 = new GLTFLoader();
+gltfLoader3.load('./assets/flash/scene.gltf', function(gltfScene) {
+  console.log('stroke my shaft ' + gltfScene);
+  gltfScene.scene.scale.set(10,10,10);
+  gltfScene.scene.position.set(0, -17, -5);
+  flashModel = gltfScene.scene;
+
+  //gltfScene.scene.parent = dubShitTestCube;
+  //
+
+  gltfScene.scene.traverse(function(o) {
+    if (o.isMesh) {
+      // flashModel = o;
+      o.material = new THREE.MeshBasicMaterial({
+        color: 0xfcd303
+      });
+    };
+  });
+  mixer = new THREE.AnimationMixer( gltfScene.scene );
+        gltfScene.animations.forEach( ( clip ) => {
+            mixer.clipAction( clip ).play();
+        });
+        scene.add(gltfScene.scene);
+        sugma();
+});
+
+function sugma(){
+  console.log('suck my balls ' + flashModel);
+}
+
+
+//flashModel.position.set(0,80,0);
 
 //var content = document.getElementById("css").innerHTML;
 
@@ -556,11 +457,6 @@ ytplayerDivElement.id = 'screenDiv';
 
 
           gsap.registerPlugin(ScrollTrigger);
-          //set camera position
-          camera.position.y = 18;
-          camera.position.z = 34;
-          camera.position.x = -7;
-          camera.lookAt(-10,12,-170);
           gsap.to(camera.position, {
             scrollTrigger:
             {
@@ -569,18 +465,25 @@ ytplayerDivElement.id = 'screenDiv';
               start: 'top top',
               end: 'bottom center',
               //pin: true,
-              scrub: .42,
+              scrub: 0.19,
               markers: true
             },
             x: 0,
-            y: 9,
-            z: -3,
-            ease: "none",
+            y: -42,
+            z: 13,
+            ease: "sine",
             
             //onUpdate: function () {
             //  camera.updateProjectionMatrix();
             //}
           });
+
+          //gsap.to
+
+
+// function rotatedub(){
+//   dubShitTestCube.rotation.y += 0.001;
+// }
 
 const clock = new THREE.Clock();
 function tick(){
@@ -590,12 +493,22 @@ function tick(){
 
   
   //moveCamera();
+  
+  
+
 
 
   renderer.render(scene, camera);
   //renderer2.render(scene2, camera);
   //cssRenderer.render(cssScene, camera);
   requestAnimationFrame( tick );
+
+  var delta = clock.getDelta();
+
+	if ( mixer ) mixer.update( delta );
+
+  //rotatedub();
+
   uniforms.time.value = clock.getElapsedTime();
 }
 tick();
