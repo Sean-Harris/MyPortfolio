@@ -51,6 +51,7 @@ iframe {
 }
 
 ::-webkit-scrollbar{
+  display: none;
   width: 0;
 }
 #scrollpath{
@@ -96,15 +97,6 @@ iframe {
   height: 100%;
   background: linear-gradient(to top, #fcb045, #fd1d1d, #833ab4);
   filter: blur(24px);
-}
-
-#scroll-progress {
-  position: fixed;
-  top: 0;
-  width: 0%;
-  height: 4px;
-  background: #7983ff;
-  z-index: 10000;
 }
 
 
