@@ -1,6 +1,5 @@
 import './style.css'
 import * as THREE from 'three';
-//import gsap from 'gsap';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 import { GUI } from 'dat.gui';
@@ -9,11 +8,22 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { SplineCurve, Vector3, Vector4 } from 'three';
 import fShader from './fragmentShader.glsl.js'
 import vShader from './vertexShader.glsl.js'
-import fShader2 from './fragmentShader2.glsl.js'
-import vShader2 from './vertexShader2.glsl.js'
 
-//import flashModel from './assets/flash/scene.gltf';
 
+const loadingManager = new THREE.LoadingManager();
+loadingManager.onStart = function(url, item, total){
+  console.log('started loading')
+}
+const loadingScreenContainer = document.querySelector('.loader-wrapper');
+loadingManager.onLoad = function(url, item, total){
+  loadingScreenContainer.style.display = 'none';
+  setTimeout(function(){
+    
+  },5000);
+}
+loadingManager.onError = function(url){
+  console.error('mathafakin fatal error')
+}
 
 //debug controls!
 const gui = new GUI();
@@ -287,7 +297,7 @@ const skellyMat2 = new THREE.ShaderMaterial({
 //   fragmentShader: fShader2
 // });
 
-const gltfLoader = new GLTFLoader();
+const gltfLoader = new GLTFLoader(loadingManager);
 gltfLoader.load('/assets/key/scene.gltf', (gltfScene) => {
   gltfScene.scene.scale.set(4,4,4);
 
@@ -302,7 +312,7 @@ gltfLoader.load('/assets/key/scene.gltf', (gltfScene) => {
   scene.add(gltfScene.scene);
 });
 
-const gltfLoader2 = new GLTFLoader();
+const gltfLoader2 = new GLTFLoader(loadingManager);
 gltfLoader2.load('/assets/skeleton/switch/skellyArmUV.gltf', (gltfScene) => {
   gltfScene.scene.scale.set(5,5,5);
   gltfScene.scene.position.set(0.13, -27, -4);
@@ -322,7 +332,7 @@ gltfLoader2.load('/assets/skeleton/switch/skellyArmUV.gltf', (gltfScene) => {
 var mixer;
 var flashModel;
 
-const gltfLoader3 = new GLTFLoader();
+const gltfLoader3 = new GLTFLoader(loadingManager);
 gltfLoader3.load('./assets/flash/scene.gltf', function(gltfScene) {
   console.log('stroke my shaft ' + gltfScene);
   gltfScene.scene.scale.set(10,10,10);
@@ -487,6 +497,7 @@ ytplayerDivElement.id = 'screenDiv';
 
 const clock = new THREE.Clock();
 function tick(){
+
   //update with elapsed time to mimic delta second action
   const elapsedTime = clock.getElapsedTime()
 
