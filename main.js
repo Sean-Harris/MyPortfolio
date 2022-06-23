@@ -200,7 +200,7 @@ const viewportSize = {
   width: window.innerWidth,
   height: window.innerHeight
 };
-var widthHalf = width / 2, heightHalf = height / 2;
+//var widthHalf = width / 2, heightHalf = height / 2;
 
 window.addEventListener('resize', () => {
   viewportSize.width = window.innerWidth;
@@ -522,7 +522,7 @@ const testCube = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshBasi
 function DebugHello(){
   //flashMat.opacity = 1;
   gsap.fromTo(flashMat, {opacity: 1}, {opacity: 0,duration: 4,})
-  //gsap.to(flashRotSpeed, {var: 0, duration: 1, ease: Power2.easeOut})
+  gsap.to(flashRotSpeed, {var: 0, duration: 1, ease: Power2.easeOut})
 }
 
 function rotateFlashFX(){
