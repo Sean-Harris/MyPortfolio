@@ -23,6 +23,13 @@ import vShader from './vertexShader.glsl.js'
   });
 })();
 
+const scrollProgress = document.getElementById('progressbar');
+var height =
+  document.documentElement.scrollHeight - document.documentElement.clientHeight;
+window.addEventListener('scroll', () => {
+  const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+  scrollProgress.style.height = `${(scrollTop / height) * 100}%`;
+});
 
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onStart = function(url, item, total){
@@ -195,6 +202,9 @@ const viewportSize = {
 window.addEventListener('resize', () => {
   viewportSize.width = window.innerWidth;
   viewportSize.height = window.innerHeight;
+
+  height =
+  document.documentElement.scrollHeight - document.documentElement.clientHeight;
 
   camera.aspect = viewportSize.width / viewportSize.height;
   camera.updateProjectionMatrix();

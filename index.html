@@ -7,6 +7,11 @@
     <title>Sean Harris - Home</title>
   </head>
   <body id="body">
+	<div id="progressbar"></div>
+	<div id="scrollpath"></div>
+	<div id="scroll-progress"></div>
+
+
     <div id ="css">test</div>
 
 	<main id="main">
@@ -202,7 +207,16 @@
     <canvas id="main-content"></canvas>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollTrigger.min.js"></script>
+	
     <script type="module" src="/main.js"></script>
+	<!-- <script type="text/javascript">
+		let progress = document.getElementById('progressbar');
+		let totalHeight = document.body.scrollHeight - window.innerHeight;
+		window.onscroll = function(){
+			let progressHeight = (window.pageYOffset / totalHeight) * 100;
+			progress.style.height = progressHeight + "%";
+		};
+	</script> -->
 	
 
   </body>
