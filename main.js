@@ -16,10 +16,10 @@ loadingManager.onStart = function(url, item, total){
 }
 const loadingScreenContainer = document.querySelector('.loader-wrapper');
 loadingManager.onLoad = function(url, item, total){
-  loadingScreenContainer.style.display = 'none';
+  
   setTimeout(function(){
-    
-  },5000);
+    loadingScreenContainer.style.display = 'none';
+  },6000);
 }
 loadingManager.onError = function(url){
   console.error('mathafakin fatal error')
@@ -471,7 +471,7 @@ ytplayerDivElement.id = 'screenDiv';
             scrollTrigger:
             {
               //trigger: renderer.domElement,
-              trigger: document.getElementById("main"),
+              trigger: document.getElementById("body"),
               start: 'top top',
               end: 'bottom center',
               //pin: true,
@@ -480,7 +480,7 @@ ytplayerDivElement.id = 'screenDiv';
             },
             x: 0,
             y: -42,
-            z: 13,
+            z: 33,
             ease: "sine",
             
             //onUpdate: function () {
