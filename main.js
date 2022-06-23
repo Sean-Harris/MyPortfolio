@@ -30,9 +30,10 @@ loadingManager.onStart = function(url, item, total){
 }
 const loadingScreenContainer = document.querySelector('.loader-wrapper');
 loadingManager.onLoad = function(url, item, total){
+  loadingScreenContainer.style.display = 'none';
   
   setTimeout(function(){
-    loadingScreenContainer.style.display = 'none';
+    
   },6000);
 }
 loadingManager.onError = function(url){
