@@ -380,6 +380,7 @@ gltfLoader3.load('./assets/flash/scene.gltf', function(gltfScene) {
             mixer.clipAction( clip ).play();
         });
         scene.add(gltfScene.scene);
+        gltfScene.scene.visible = false;
         sugma();
 });
 

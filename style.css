@@ -84,9 +84,9 @@ iframe {
   position: fixed;
   top: 0;
   right: 0;
-  width: 10px;
+  width: 5px;
   background: linear-gradient(to top, #fcb045, #fd1d1d, #833ab4);
-  animation: animate 5s linear infinite;
+  animation: animate 50s linear infinite;
 }
 @keyframes animate{
   0%,100%{
