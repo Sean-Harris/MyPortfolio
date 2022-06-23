@@ -9,6 +9,7 @@ import { SplineCurve, Vector3, Vector4 } from 'three';
 import fShader from './fragmentShader.glsl.js'
 import vShader from './vertexShader.glsl.js'
 
+var modelsLoaded = false;
 
 (() => {
   const $triangles = document.querySelectorAll(".triangle");
@@ -38,6 +39,7 @@ loadingManager.onStart = function(url, item, total){
 const loadingScreenContainer = document.querySelector('.loader-wrapper');
 loadingManager.onLoad = function(url, item, total){
   loadingScreenContainer.style.display = 'none';
+  modelsLoaded = true;
   
   setTimeout(function(){
     
@@ -198,6 +200,7 @@ const viewportSize = {
   width: window.innerWidth,
   height: window.innerHeight
 };
+var widthHalf = width / 2, heightHalf = height / 2;
 
 window.addEventListener('resize', () => {
   viewportSize.width = window.innerWidth;
@@ -286,10 +289,6 @@ const skellyMat = new THREE.MeshToonMaterial({
   color: 0xffffff,
 });
 
-// const dubShitTestCube = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshBasicMaterial);
-// scene.add(dubShitTestCube);
-
-
 const uniforms = {
   time: {value: 0.0},
   speed: {value: 18.0},
@@ -316,11 +315,6 @@ const skellyMat2 = new THREE.ShaderMaterial({
   fragmentShader: fShader
 });
 
-// const skellyMat3 = new THREE.ShaderMaterial({
-//   uniforms: uniforms2,
-//   vertexShader: vShader2,
-//   fragmentShader: fShader2
-// });
 
 const gltfLoader = new GLTFLoader(loadingManager);
 gltfLoader.load('/assets/key/scene.gltf', (gltfScene) => {
@@ -337,11 +331,13 @@ gltfLoader.load('/assets/key/scene.gltf', (gltfScene) => {
   scene.add(gltfScene.scene);
 });
 
+var skellyHandOpen;
+var skellyHandClosed;
+
 const gltfLoader2 = new GLTFLoader(loadingManager);
 gltfLoader2.load('/assets/skeleton/switch/skellyArmUV.gltf', (gltfScene) => {
   gltfScene.scene.scale.set(5,5,5);
   gltfScene.scene.position.set(0.13, -27, -4);
-  //gltfScene.scene.rotateOnWorldAxis
 
   gltfScene.scene.traverse((o) => {
     if (o.isMesh) {
@@ -356,6 +352,13 @@ gltfLoader2.load('/assets/skeleton/switch/skellyArmUV.gltf', (gltfScene) => {
 
 var mixer;
 var flashModel;
+var flashMat = new THREE.MeshBasicMaterial({
+  color: 0xfcd303,
+  transparent: true,
+  opacity: 0.0,
+});
+
+var flashRotSpeed = 0.05;
 
 const gltfLoader3 = new GLTFLoader(loadingManager);
 gltfLoader3.load('./assets/flash/scene.gltf', function(gltfScene) {
@@ -369,27 +372,21 @@ gltfLoader3.load('./assets/flash/scene.gltf', function(gltfScene) {
 
   gltfScene.scene.traverse(function(o) {
     if (o.isMesh) {
-      // flashModel = o;
-      o.material = new THREE.MeshBasicMaterial({
-        color: 0xfcd303
-      });
+      o.material = flashMat;
     };
   });
-  mixer = new THREE.AnimationMixer( gltfScene.scene );
-        gltfScene.animations.forEach( ( clip ) => {
-            mixer.clipAction( clip ).play();
-        });
+  // mixer = new THREE.AnimationMixer( gltfScene.scene );
+  //       gltfScene.animations.forEach( ( clip ) => {
+  //           mixer.clipAction( clip ).play();
+  //       });
         scene.add(gltfScene.scene);
-        gltfScene.scene.visible = false;
+        //gltfScene.scene.visible = false;
         sugma();
 });
 
 function sugma(){
   console.log('suck my balls ' + flashModel);
 }
-
-
-//flashModel.position.set(0,80,0);
 
 //var content = document.getElementById("css").innerHTML;
 
@@ -462,33 +459,19 @@ ytplayerDivElement.id = 'screenDiv';
 
 
 
-
-
-
-        const contentCubeMatArray = [];
-        const cc_ft = material;
-        const cc_bk = new THREE.TextureLoader().load('/assets/skybox/back.png');
-        const cc_up = new THREE.TextureLoader().load('/assets/skybox/top.png');
-        const cc_dn = new THREE.TextureLoader().load('/assets/skybox/bottom.png');
-        const cc_rt = new THREE.TextureLoader().load('/assets/skybox/right.png');
-        const cc_lf = new THREE.TextureLoader().load('/assets/skybox/left.png');
-
-        contentCubeMatArray.push(new THREE.MeshPhongMaterial({map: cc_ft}));
-        contentCubeMatArray.push(new THREE.MeshBasicMaterial({map: cc_bk}));
-        // contentCubeMatArray.push(new THREE.MeshBasicMaterial({map: cc_up}));
-        // contentCubeMatArray.push(new THREE.MeshBasicMaterial({map: cc_dn}));
-        // contentCubeMatArray.push(new THREE.MeshBasicMaterial({map: cc_rt}));
-        // contentCubeMatArray.push(new THREE.MeshBasicMaterial({map: cc_lf}));
-
-        // for(let i=0;i<6;i++)
-        // contentCubeMatArray[i].side = THREE.BackSide;
-
-        const contentCubeGeometry = new THREE.BoxGeometry(1, 1, 1);
-        const contentCube = new THREE.Mesh(contentCubeGeometry, contentCubeMatArray);
-        //scene.add(contentCube);
-        //scene.add( mesh, mesh2 );
-        //scene.add(group);
-
+//object from world position to screenspace(?)
+                    // let pos = new THREE.Vector3();
+                    // pos = pos.setFromMatrixPosition(object.matrixWorld);
+                    // pos.project(camera);
+                    
+                    // let widthHalf = canvasWidth / 2;
+                    // let heightHalf = canvasHeight / 2;
+                    
+                    // pos.x = (pos.x * widthHalf) + widthHalf;
+                    // pos.y = - (pos.y * heightHalf) + heightHalf;
+                    // pos.z = 0;
+                    
+                    // console.log(pos);
 
 
 
@@ -499,42 +482,62 @@ ytplayerDivElement.id = 'screenDiv';
               //trigger: renderer.domElement,
               trigger: document.getElementById("body"),
               start: 'top top',
-              end: 'bottom center',
+              end: 'bottom bottom',
               //pin: true,
-              scrub: 0.19,
-              markers: true
+              scrub: 0.39,
+              //markers: true
             },
             x: 0,
             y: -42,
             z: 33,
-            ease: "sine",
+            ease: "power0",
             
             //onUpdate: function () {
             //  camera.updateProjectionMatrix();
             //}
           });
 
-          //gsap.to
+// gsap.to(flashMat, {
+//   opacity: 1.0,
+//   scrollTrigger: {
+//     trigger: document.getElementById("main2"),
+//     start: 'top center',
+//     end: 'center bottom',
+//     scrub: true,
+
+//   },
+// })
+
+ScrollTrigger.create({
+  trigger: document.getElementById("main"),
+  start: 'bottom center',
+  end: 'bottom top',
+  toggleActions: 'play none none none',
+  onEnter: DebugHello,
+  markers: true,
+})
+
+const testCube = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshBasicMaterial())
+
+function DebugHello(){
+  //flashMat.opacity = 1;
+  gsap.fromTo(flashMat, {opacity: 1}, {opacity: 0,duration: 4,})
+  //gsap.to(flashRotSpeed, {var: 0, duration: 1, ease: Power2.easeOut})
+}
+
+function rotateFlashFX(){
+  if(modelsLoaded){
+    flashModel.rotation.z += flashRotSpeed;
+  }
+}
 
 
-// function rotatedub(){
-//   dubShitTestCube.rotation.y += 0.001;
-// }
 
 const clock = new THREE.Clock();
 function tick(){
 
   //update with elapsed time to mimic delta second action
   const elapsedTime = clock.getElapsedTime()
-
-
-  
-  //moveCamera();
-  
-  
-
-
-
   renderer.render(scene, camera);
   //renderer2.render(scene2, camera);
   //cssRenderer.render(cssScene, camera);
@@ -545,6 +548,7 @@ function tick(){
 	if ( mixer ) mixer.update( delta );
 
   //rotatedub();
+  rotateFlashFX();
 
   uniforms.time.value = clock.getElapsedTime();
 }

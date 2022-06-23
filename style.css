@@ -15,6 +15,15 @@ main {
   color: rgb(255, 255, 255);
   /* background-color: black; */
 }
+#main {
+  /* margin-top: 20%; */
+  margin-left: 10%;
+  margin-right: 10%;
+}
+#main2{
+  margin-left: 10%;
+  margin-right: 10%;
+}
 
 #css {
   /* width: 100%;
