@@ -62,14 +62,13 @@ iframe {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2;
+  z-index: 1;
 }
 
 html {
   height: 100%;
 }
 body {
-  overflow: auto;
   margin-top: 20%;
   margin-left: 10%;
   margin-right: 10%;
