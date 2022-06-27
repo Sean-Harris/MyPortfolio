@@ -5,7 +5,7 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 import { GUI } from 'dat.gui';
 import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { SplineCurve, Vector3, Vector4 } from 'three';
+import { Camera, SplineCurve, Vector3, Vector4 } from 'three';
 import fShader from './fragmentShader.glsl.js'
 import vShader from './vertexShader.glsl.js'
 
@@ -484,7 +484,7 @@ ytplayerDivElement.id = 'screenDiv';
               start: 'top top',
               end: 'bottom bottom',
               //pin: true,
-              scrub: 0.39,
+              scrub: true,
               //markers: true
             },
             x: 0,
@@ -513,7 +513,7 @@ ScrollTrigger.create({
   start: 'bottom center',
   end: 'bottom top',
   toggleActions: 'play none none none',
-  onEnter: DebugHello,
+  //onEnter: DebugHello,
   markers: true,
 })
 
@@ -522,14 +522,73 @@ const testCube = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshBasi
 function DebugHello(){
   //flashMat.opacity = 1;
   gsap.fromTo(flashMat, {opacity: 1}, {opacity: 0,duration: 4,})
-  gsap.to(flashRotSpeed, {var: 0, duration: 1, ease: Power2.easeOut})
+  //gsap.to(flashRotSpeed, {var: 0, duration: 1, ease: Power2.easeOut})
 }
+
+
 
 function rotateFlashFX(){
   if(modelsLoaded){
     flashModel.rotation.z += flashRotSpeed;
   }
 }
+
+
+var camPassedHand;
+var camY;
+var flashY;
+function checkCamZ(){
+  
+
+  if(modelsLoaded){
+    camY = camera.position.y;
+    flashY = flashModel.position.y;
+
+
+    if(camY <= flashY + 1){
+      // console.log('CAMY: ' + camY + ', FLASHY: ' + flashY);
+        OnCamPassHand();
+    }
+    else{
+      camPassedHand = false;
+    }
+  }
+}
+
+function OnCamPassHand(){
+  if(camPassedHand == false){
+    camPassedHand = true;
+    DebugHello();
+  }
+  if(camPassedHand){
+
+  }
+
+}
+
+// function getScreenTranslation (flashModel) {
+
+//   var vector = new THREE.Vector3();
+//   var widthHalf = 0.5 * renderer.context.canvas.width;
+//   var heightHalf = 0.5 * renderer.context.canvas.height;
+
+//   var bbox = new THREE.BoundingBoxHelper(flashModel, 0xFFFFFF);
+
+//   bbox.update();
+
+//           bbox.updateMatrixWorld();
+//           bbox.updateMatrix();
+
+//   vector.setFromMatrixPosition(bbox.matrixWorld);
+//   vector.project(camera);
+//   vector.x = vector.x * widthHalf + widthHalf;
+//   vector.y = -(vector.y * heightHalf) + heightHalf;
+//   return {
+//           x: vector.x,
+//           y: vector.y
+//   };
+
+// }
 
 
 
@@ -549,6 +608,8 @@ function tick(){
 
   //rotatedub();
   rotateFlashFX();
+  //getScreenTranslation();
+  checkCamZ();
 
   uniforms.time.value = clock.getElapsedTime();
 }

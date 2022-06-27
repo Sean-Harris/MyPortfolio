@@ -6,6 +6,7 @@
 
 #main-content {
   position: fixed;
+  height: 100%;
   top: 0;
   left: 0;
   z-index: -1;
@@ -95,7 +96,7 @@ iframe {
   right: 0;
   width: 5px;
   background: linear-gradient(to top, #fcb045, #fd1d1d, #833ab4);
-  animation: animate 50s linear infinite;
+  animation: animate 15s linear infinite;
 }
 @keyframes animate{
   0%,100%{
