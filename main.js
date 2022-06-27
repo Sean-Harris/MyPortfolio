@@ -125,8 +125,10 @@ const originTarget = new THREE.Object3D();
 targetObject.position.set(-420,-500,400);
 scene.add(targetObject, originTarget);
 
-const pointLight = new THREE.PointLight(0xfffffff, 1);
-pointLight.position.set(10,-15,0);
+const pointLight = new THREE.PointLight(0x00ffff, 1);
+pointLight.position.set(10,-15,-3);
+pointLight.castShadow = true; // default false
+const lightHelper = new THREE.PointLightHelper(pointLight);
 const pointLight2 = new THREE.PointLight(0xe60944, 1);
 pointLight2.position.set(-10,-15,0);
 const directionalLight = new THREE.DirectionalLight(0xffeba1, 1);
@@ -136,7 +138,38 @@ directionalLight.target = targetObject;
 //scene.add(directionalLight);
 //pointLight.position.set(0, 13, -10);
 const ambientLight = new THREE.AmbientLight(0xffffff,.1);
-scene.add(pointLight, pointLight2);
+scene.add(pointLight, lightHelper);
+scene.add(pointLight2);
+
+
+class ColorGUIHelper {
+  constructor(object, prop) {
+    this.object = object;
+    this.prop = prop;
+  }
+  get value() {
+    return `#${this.object[this.prop].getHexString()}`;
+  }
+  set value(hexString) {
+    this.object[this.prop].set(hexString);
+  }
+}
+
+const lightGui1 = gui.addFolder('Light1');
+lightGui1.add(pointLight.position, 'x');
+lightGui1.add(pointLight.position, 'y');
+lightGui1.add(pointLight.position, 'z');
+lightGui1.addColor(new ColorGUIHelper(pointLight, 'color'), 'value').name('color');
+lightGui1.add(pointLight, 'intensity');
+
+const lightGui2 = gui.addFolder('Light2');
+lightGui2.add(pointLight2.position, 'x')
+lightGui2.add(pointLight2.position, 'y')
+lightGui2.add(pointLight2.position, 'z')
+lightGui2.addColor(new ColorGUIHelper(pointLight2, 'color'), 'value').name('color');
+lightGui2.add(pointLight2, 'intensity');
+
+
 
 /*
  * PRACTICE ACTORS
@@ -200,7 +233,6 @@ const viewportSize = {
   width: window.innerWidth,
   height: window.innerHeight
 };
-//var widthHalf = width / 2, heightHalf = height / 2;
 
 window.addEventListener('resize', () => {
   viewportSize.width = window.innerWidth;
@@ -244,11 +276,6 @@ window.addEventListener('resize', () => {
 // ctx.strokeStyle = '#ff00ff';
 // ctx.strokeRect(0, 0, canvas1.width, canvas1.height);
 
-// let diagetic = document.getElementById('player');
-// const canvasTexture = new THREE.CanvasTexture(diagetic);
-
-// const planeGeometry = new THREE.BoxGeometry(100,100,100);
-// const testTexture = new THREE.MeshBasicMaterial({map: canvasTexture})
 
 
 // //const planeGeometry = new THREE.BoxGeometry(100,100,100);
@@ -260,32 +287,20 @@ window.addEventListener('resize', () => {
 //   document.getElementById("content").innerHTML='<object type="text/html" data="home.html" ></object>';
 // }
 
+const threeTone = new THREE.TextureLoader().load('/assets/gradientMaps/threeTone.jpg')
+threeTone.minFilter = THREE.NearestFilter
+threeTone.magFilter = THREE.NearestFilter
 
+const fourTone = new THREE.TextureLoader().load('/assets/gradientMaps/fourTone.jpg')
+fourTone.minFilter = THREE.NearestFilter
+fourTone.magFilter = THREE.NearestFilter
 
-
-// const geometryTest = new THREE.SphereGeometry(1, 128, 64)
-// const materialTest = new LayerMaterial({
-//   color: '#d9d9d9',
-//   shading: 'physical',
-//   transmission: 1,
-//   layers: [
-//     new Depth({
-//       colorA: '#002f4b',
-//       colorB: '#f2fdff',
-//       alpha: 0.5,
-//       mode: 'multiply',
-//       near: 0,
-//       far: 2,
-//       origin: new THREE.Vector3(1, 1, 1),
-//     }),
-//   ],
-// })
-
-// const meshTest = new THREE.Mesh(geometryTest, materialTest)
-// scene.add(meshTest);
+const fiveTone = new THREE.TextureLoader().load('/assets/gradientMaps/fiveTone.jpg')
+fiveTone.minFilter = THREE.NearestFilter
+fiveTone.magFilter = THREE.NearestFilter
 
 const skellyMat = new THREE.MeshToonMaterial({
-  //gradientMap: threeTone,
+  gradientMap: threeTone,
   color: 0xffffff,
 });
 
@@ -343,7 +358,7 @@ gltfLoader2.load('/assets/skeleton/switch/skellyArmUV.gltf', (gltfScene) => {
   gltfScene.scene.traverse((o) => {
     if (o.isMesh) {
       o.material = skellyMat;
-      o.castShadow = true;
+      //o.castShadow = true;
       o.receiveShadow= true;
     };
   });
@@ -365,7 +380,7 @@ const gltfLoader3 = new GLTFLoader(loadingManager);
 gltfLoader3.load('./assets/flash/scene.gltf', function(gltfScene) {
   console.log('stroke my shaft ' + gltfScene);
   gltfScene.scene.scale.set(10,10,10);
-  gltfScene.scene.position.set(0, -19, -5);
+  gltfScene.scene.position.set(0, -19, -6);
   flashModel = gltfScene.scene;
 
   //gltfScene.scene.parent = dubShitTestCube;
@@ -392,9 +407,10 @@ gltfLoader4.load('./assets/skellyClosed/skellyFist.gltf', function(gltfScene) {
 
   gltfScene.scene.traverse((o) => {
     if (o.isMesh) {
-      o.material = digiMat;
-      // o.castShadow = true;
-      // o.receiveShadow= true;
+      //o.material = digiMat;
+      o.material = skellyMat;
+      //o.castShadow = true;
+      o.receiveShadow= true;
     };
   });
   scene.add(gltfScene.scene);
@@ -476,22 +492,6 @@ ytplayerDivElement.id = 'screenDiv';
 
 
 
-//object from world position to screenspace(?)
-                    // let pos = new THREE.Vector3();
-                    // pos = pos.setFromMatrixPosition(object.matrixWorld);
-                    // pos.project(camera);
-                    
-                    // let widthHalf = canvasWidth / 2;
-                    // let heightHalf = canvasHeight / 2;
-                    
-                    // pos.x = (pos.x * widthHalf) + widthHalf;
-                    // pos.y = - (pos.y * heightHalf) + heightHalf;
-                    // pos.z = 0;
-                    
-                    // console.log(pos);
-
-
-
           gsap.registerPlugin(ScrollTrigger);
           gsap.to(camera.position, {
             scrollTrigger:
@@ -506,7 +506,7 @@ ytplayerDivElement.id = 'screenDiv';
             },
             x: 0,
             y: -42,
-            z: 10, //used to be 33
+            z: 23, //used to be 33
             ease: Power1.easeIn,
             
             //onUpdate: function () {
@@ -544,12 +544,9 @@ var camPassedHand = false;
 var camY;
 var flashY;
 function checkCamZ(){
-  
-
   if(modelsLoaded){
     camY = camera.position.y;
     flashY = flashModel.position.y;
-
 
     if(camY <= flashY + 1){
       // console.log('CAMY: ' + camY + ', FLASHY: ' + flashY);
@@ -579,32 +576,8 @@ function openFist(){
   skellyHandOpen.visible = true;
   skellyHandClosed.visible = false;
   camPassedHand = false;
+  flashMat.opacity = 0.0;
 }
-
-// function getScreenTranslation (flashModel) {
-
-//   var vector = new THREE.Vector3();
-//   var widthHalf = 0.5 * renderer.context.canvas.width;
-//   var heightHalf = 0.5 * renderer.context.canvas.height;
-
-//   var bbox = new THREE.BoundingBoxHelper(flashModel, 0xFFFFFF);
-
-//   bbox.update();
-
-//           bbox.updateMatrixWorld();
-//           bbox.updateMatrix();
-
-//   vector.setFromMatrixPosition(bbox.matrixWorld);
-//   vector.project(camera);
-//   vector.x = vector.x * widthHalf + widthHalf;
-//   vector.y = -(vector.y * heightHalf) + heightHalf;
-//   return {
-//           x: vector.x,
-//           y: vector.y
-//   };
-
-// }
-
 
 
 const clock = new THREE.Clock();
@@ -621,9 +594,7 @@ function tick(){
 
 	if ( mixer ) mixer.update( delta );
 
-  //rotatedub();
   rotateFlashFX();
-  //getScreenTranslation();
   checkCamZ();
 
   uniforms.time.value = clock.getElapsedTime();
