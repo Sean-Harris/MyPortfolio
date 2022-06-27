@@ -126,14 +126,14 @@ targetObject.position.set(-420,-500,400);
 scene.add(targetObject, originTarget);
 
 const pointLight = new THREE.PointLight(0x00ffff, 1);
-pointLight.position.set(10,-15,-3);
-pointLight.castShadow = true; // default false
+pointLight.position.set(10,-9,-3);
+//pointLight.castShadow = true; // default false
 const lightHelper = new THREE.PointLightHelper(pointLight);
 const pointLight2 = new THREE.PointLight(0xe60944, 1);
-pointLight2.position.set(-10,-15,0);
+pointLight2.position.set(-10,-32,0);
 const directionalLight = new THREE.DirectionalLight(0xffeba1, 1);
 //directionalLight.target = targetObject;
-pointLight.castShadow = true;
+//pointLight.castShadow = true;
 directionalLight.target = targetObject;
 //scene.add(directionalLight);
 //pointLight.position.set(0, 13, -10);
