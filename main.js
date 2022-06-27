@@ -309,7 +309,7 @@ const uniforms = {
 //   toonNoise2: {value: new THREE.TextureLoader().load('/assets/skybox/top.png')},
 // };
 
-const skellyMat2 = new THREE.ShaderMaterial({
+const digiMat = new THREE.ShaderMaterial({
   uniforms: uniforms,
   vertexShader: vShader,
   fragmentShader: fShader
@@ -322,7 +322,7 @@ gltfLoader.load('/assets/key/scene.gltf', (gltfScene) => {
 
   gltfScene.scene.traverse((o) => {
     if (o.isMesh) {
-      o.material = skellyMat2;
+      o.material = digiMat;
       //o.castShadow = true;
       o.receiveShadow= true;
     };
@@ -338,6 +338,7 @@ const gltfLoader2 = new GLTFLoader(loadingManager);
 gltfLoader2.load('/assets/skeleton/switch/skellyArmUV.gltf', (gltfScene) => {
   gltfScene.scene.scale.set(5,5,5);
   gltfScene.scene.position.set(0.13, -27, -4);
+  skellyHandOpen = gltfScene.scene;
 
   gltfScene.scene.traverse((o) => {
     if (o.isMesh) {
@@ -364,7 +365,7 @@ const gltfLoader3 = new GLTFLoader(loadingManager);
 gltfLoader3.load('./assets/flash/scene.gltf', function(gltfScene) {
   console.log('stroke my shaft ' + gltfScene);
   gltfScene.scene.scale.set(10,10,10);
-  gltfScene.scene.position.set(0, -17, -5);
+  gltfScene.scene.position.set(0, -19, -5);
   flashModel = gltfScene.scene;
 
   //gltfScene.scene.parent = dubShitTestCube;
@@ -380,8 +381,24 @@ gltfLoader3.load('./assets/flash/scene.gltf', function(gltfScene) {
   //           mixer.clipAction( clip ).play();
   //       });
         scene.add(gltfScene.scene);
-        //gltfScene.scene.visible = false;
         sugma();
+});
+
+const gltfLoader4 = new GLTFLoader(loadingManager);
+gltfLoader4.load('./assets/skellyClosed/skellyFist.gltf', function(gltfScene) {
+  gltfScene.scene.scale.set(5,5,5);
+  gltfScene.scene.position.set(0.13, -27, -4);
+  skellyHandClosed = gltfScene.scene;
+
+  gltfScene.scene.traverse((o) => {
+    if (o.isMesh) {
+      o.material = digiMat;
+      // o.castShadow = true;
+      // o.receiveShadow= true;
+    };
+  });
+  scene.add(gltfScene.scene);
+  gltfScene.scene.visible = false;
 });
 
 function sugma(){
@@ -489,24 +506,13 @@ ytplayerDivElement.id = 'screenDiv';
             },
             x: 0,
             y: -42,
-            z: 33,
-            ease: "power0",
+            z: 10, //used to be 33
+            ease: Power1.easeIn,
             
             //onUpdate: function () {
             //  camera.updateProjectionMatrix();
             //}
           });
-
-// gsap.to(flashMat, {
-//   opacity: 1.0,
-//   scrollTrigger: {
-//     trigger: document.getElementById("main2"),
-//     start: 'top center',
-//     end: 'center bottom',
-//     scrub: true,
-
-//   },
-// })
 
 ScrollTrigger.create({
   trigger: document.getElementById("main"),
@@ -534,7 +540,7 @@ function rotateFlashFX(){
 }
 
 
-var camPassedHand;
+var camPassedHand = false;
 var camY;
 var flashY;
 function checkCamZ(){
@@ -550,7 +556,9 @@ function checkCamZ(){
         OnCamPassHand();
     }
     else{
-      camPassedHand = false;
+      if(camPassedHand){
+        openFist();
+      }
     }
   }
 }
@@ -558,12 +566,19 @@ function checkCamZ(){
 function OnCamPassHand(){
   if(camPassedHand == false){
     camPassedHand = true;
+    closeFist();
     DebugHello();
   }
-  if(camPassedHand){
+}
 
-  }
-
+function closeFist(){
+  skellyHandOpen.visible = false;
+  skellyHandClosed.visible = true;
+}
+function openFist(){
+  skellyHandOpen.visible = true;
+  skellyHandClosed.visible = false;
+  camPassedHand = false;
 }
 
 // function getScreenTranslation (flashModel) {
