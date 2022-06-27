@@ -301,6 +301,7 @@ fiveTone.magFilter = THREE.NearestFilter
 
 const skellyMat = new THREE.MeshToonMaterial({
   gradientMap: threeTone,
+  //normalMap: new THREE.TextureLoader().load('/assets/skellyClosed/textures/Skeleton_normal.png'),
   color: 0xffffff,
 });
 
@@ -350,7 +351,7 @@ var skellyHandOpen;
 var skellyHandClosed;
 
 const gltfLoader2 = new GLTFLoader(loadingManager);
-gltfLoader2.load('/assets/skeleton/switch/skellyArmUV.gltf', (gltfScene) => {
+gltfLoader2.load('/assets/skeleton/skellyArmUV.gltf', (gltfScene) => {
   gltfScene.scene.scale.set(5,5,5);
   gltfScene.scene.position.set(0.13, -27, -4);
   skellyHandOpen = gltfScene.scene;
@@ -400,7 +401,7 @@ gltfLoader3.load('./assets/flash/scene.gltf', function(gltfScene) {
 });
 
 const gltfLoader4 = new GLTFLoader(loadingManager);
-gltfLoader4.load('./assets/skellyClosed/skellyFist.gltf', function(gltfScene) {
+gltfLoader4.load('./assets/skeleton/skellyFist.gltf', function(gltfScene) {
   gltfScene.scene.scale.set(5,5,5);
   gltfScene.scene.position.set(0.13, -27, -4);
   skellyHandClosed = gltfScene.scene;
@@ -525,9 +526,12 @@ ScrollTrigger.create({
 
 const testCube = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshBasicMaterial())
 
+var flashOpacityTo = gsap.fromTo(flashMat, {opacity: 1}, {opacity: 0,duration: 4,})
+
 function DebugHello(){
   //flashMat.opacity = 1;
-  gsap.fromTo(flashMat, {opacity: 1}, {opacity: 0,duration: 4,})
+  // gsap.fromTo(flashMat, {opacity: 1}, {opacity: 0,duration: 4,})
+  flashOpacityTo.restart();
   //gsap.to(flashRotSpeed, {var: 0, duration: 1, ease: Power2.easeOut})
 }
 
@@ -576,7 +580,7 @@ function openFist(){
   skellyHandOpen.visible = true;
   skellyHandClosed.visible = false;
   camPassedHand = false;
-  flashMat.opacity = 0.0;
+  flashOpacityTo.time(4);
 }
 
 
