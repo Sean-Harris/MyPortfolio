@@ -40,6 +40,8 @@ const loadingScreenContainer = document.querySelector('.loader-wrapper');
 loadingManager.onLoad = function(url, item, total){
   loadingScreenContainer.style.display = 'none';
   modelsLoaded = true;
+  init();
+
   
   setTimeout(function(){
     
@@ -331,10 +333,12 @@ const digiMat = new THREE.ShaderMaterial({
   fragmentShader: fShader
 });
 
+var keyMesh;
 
 const gltfLoader = new GLTFLoader(loadingManager);
 gltfLoader.load('/assets/key/scene.gltf', (gltfScene) => {
   gltfScene.scene.scale.set(4,4,4);
+  keyMesh = gltfScene.scene;
 
   gltfScene.scene.traverse((o) => {
     if (o.isMesh) {
@@ -375,7 +379,7 @@ var flashMat = new THREE.MeshBasicMaterial({
   opacity: 0.0,
 });
 
-var flashRotSpeed = 0.05;
+var flashRotSpeed = 0.024;
 
 const gltfLoader3 = new GLTFLoader(loadingManager);
 gltfLoader3.load('./assets/flash/scene.gltf', function(gltfScene) {
@@ -428,11 +432,12 @@ const group = new THREE.Group();
 
 var ytplayerDivElement = document.createElement( 'div' );
 ytplayerDivElement.id = 'screenDiv';
-        
-        ytplayerDivElement.innerHTML = '<object type="text/html" data="PHPageContent.html" ></object>';
 
-        var domObject = new CSS3DObject( ytplayerDivElement );
-        domObject.position.set(0,-30,-69)
+        
+ytplayerDivElement.innerHTML = '<object type="text/html" data="PHPageContent.html" ></object>';
+
+var domObject = new CSS3DObject( ytplayerDivElement );
+domObject.position.set(0,-30,-69)
         // domObject.position.y = Math.random() * 600 - 300;
         // domObject.position.z = Math.random() * 800 - 600;
         // domObject.rotation.x = Math.random();
@@ -444,76 +449,106 @@ ytplayerDivElement.id = 'screenDiv';
         //group.add(domObject);
 
 
-          var material = new THREE.MeshPhongMaterial({
-              opacity	: 0.2,
-              color	: new THREE.Color('black'),
-              blending: THREE.NoBlending,
-              side	: THREE.DoubleSide,
-          });
-          var geometry = new THREE.PlaneGeometry( 100, 100 );
-          var mesh = new THREE.Mesh( geometry, material );
-          mesh.position.copy( domObject.position );
-          mesh.rotation.copy( domObject.rotation );
-          //mesh.scale.copy( domObject.scale );
-          mesh.castShadow = false;
-          mesh.receiveShadow = true;
+var material = new THREE.MeshPhongMaterial({
+  opacity	: 0.2,
+  color	: new THREE.Color('black'),
+  blending: THREE.NoBlending,
+  side	: THREE.DoubleSide,
+});
+var geometry = new THREE.PlaneGeometry( 100, 100 );
+var mesh = new THREE.Mesh( geometry, material );
+mesh.position.copy( domObject.position );
+mesh.rotation.copy( domObject.rotation );
+//mesh.scale.copy( domObject.scale );
+mesh.castShadow = false;
+mesh.receiveShadow = true;
 
 
-          var ytplayerDivElement2 = document.createElement( 'div' );
-          ytplayerDivElement2.id = 'screenDiv2';
+var ytplayerDivElement2 = document.createElement( 'div' );
+ytplayerDivElement2.id = 'screenDiv2';
                   
-                  ytplayerDivElement2.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>';
+ytplayerDivElement2.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>';
           
-                  var domObject2 = new CSS3DObject( ytplayerDivElement2 );
-                  domObject2.position.set(10,-3,69)
-                  // domObject.position.y = Math.random() * 600 - 300;
-                  // domObject.position.z = Math.random() * 800 - 600;
-                  // domObject.rotation.x = Math.random();
-                  // domObject.rotation.y = Math.random();
-                  // domObject.rotation.z = Math.random();
-                  //domObject.scale.x = Math.random() + 0.5;
-                  //domObject.scale.y = Math.random() + 0.5;
-                  //scene2.add( domObject2 );
-                  //group.add(domObject2);
+var domObject2 = new CSS3DObject( ytplayerDivElement2 );
+domObject2.position.set(10,-3,69)
+// domObject.position.y = Math.random() * 600 - 300;
+// domObject.position.z = Math.random() * 800 - 600;
+// domObject.rotation.x = Math.random();
+// domObject.rotation.y = Math.random();
+// domObject.rotation.z = Math.random();
+//domObject.scale.x = Math.random() + 0.5;
+//domObject.scale.y = Math.random() + 0.5;
+//scene2.add( domObject2 );
+//group.add(domObject2);
           
           
-                    var material2 = new THREE.MeshPhongMaterial({
-                        opacity	: 0.2,
-                        color	: new THREE.Color('black'),
-                        blending: THREE.NoBlending,
-                        side	: THREE.DoubleSide,
-                    });
-                    var geometry2 = new THREE.PlaneGeometry( 100, 100 );
-                    var mesh2 = new THREE.Mesh( geometry2, material2 );
-                    mesh2.position.copy( domObject2.position );
-                    mesh2.rotation.copy( domObject2.rotation );
-                    //mesh.scale.copy( domObject.scale );
-                    mesh2.castShadow = false;
-                    mesh2.receiveShadow = true;
+var material2 = new THREE.MeshPhongMaterial({
+  opacity	: 0.2,
+  color	: new THREE.Color('black'),
+  blending: THREE.NoBlending,
+  side	: THREE.DoubleSide,
+});
+var geometry2 = new THREE.PlaneGeometry( 100, 100 );
+var mesh2 = new THREE.Mesh( geometry2, material2 );
+mesh2.position.copy( domObject2.position );
+mesh2.rotation.copy( domObject2.rotation );
+//mesh.scale.copy( domObject.scale );
+mesh2.castShadow = false;
+mesh2.receiveShadow = true;
 
 
 
-          gsap.registerPlugin(ScrollTrigger);
-          gsap.to(camera.position, {
-            scrollTrigger:
-            {
-              //trigger: renderer.domElement,
-              trigger: document.getElementById("body"),
-              start: 'top top',
-              end: 'bottom bottom',
-              //pin: true,
-              scrub: true,
-              //markers: true
-            },
-            x: 0,
-            y: -42,
-            z: 23, //used to be 33
-            ease: Power1.easeIn,
+gsap.registerPlugin(ScrollTrigger);
+gsap.to(camera.position, {
+
+  scrollTrigger:
+  {
+
+    //trigger: renderer.domElement,
+    trigger: document.getElementById("body"),
+    start: 'top top',
+    end: 'bottom bottom',
+    //pin: true,
+    scrub: true,
+    //markers: true
+  },
+  x: 0,
+  y: -42,
+  z: 23, //used to be 33
+  ease: Power1.easeIn,
             
-            //onUpdate: function () {
-            //  camera.updateProjectionMatrix();
-            //}
-          });
+  //onUpdate: function () {
+  //  camera.updateProjectionMatrix();
+  //}
+});
+
+function init(){
+  gsap.to(keyMesh.position, {
+    scrollTrigger:
+    {
+      //trigger: renderer.domElement,
+      trigger: document.getElementById("body"),
+      start: 'top top',
+      end: 'bottom bottom',
+      //pin: true,
+      scrub: true,
+      //markers: true
+    },
+    x: 0,
+    y: -42,
+    z: 0, //23, //used to be 33
+    ease: Power1.easeIn,
+              
+    //onUpdate: function () {
+    //  camera.updateProjectionMatrix();
+    //}
+  });
+
+  gsap.to()
+}
+
+
+
 
 ScrollTrigger.create({
   trigger: document.getElementById("main"),
@@ -521,17 +556,20 @@ ScrollTrigger.create({
   end: 'bottom top',
   toggleActions: 'play none none none',
   //onEnter: DebugHello,
-  markers: true,
+  //markers: true,
 })
 
 const testCube = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshBasicMaterial())
 
-var flashOpacityTo = gsap.fromTo(flashMat, {opacity: 1}, {opacity: 0,duration: 4,})
+var flashOpacityTo = gsap.fromTo(flashMat, {opacity: 1}, {opacity: 0,duration: 2,})
+
 
 function DebugHello(){
   //flashMat.opacity = 1;
   // gsap.fromTo(flashMat, {opacity: 1}, {opacity: 0,duration: 4,})
   flashOpacityTo.restart();
+  var flashScaleTo = gsap.fromTo(flashModel.scale, {x: 50, y: 50, z: 50}, {x: 0.1, y: 0.1, z: 0.1, duration: 0.4})
+  flashScaleTo.play();
   //gsap.to(flashRotSpeed, {var: 0, duration: 1, ease: Power2.easeOut})
 }
 
@@ -571,14 +609,20 @@ function OnCamPassHand(){
     DebugHello();
   }
 }
-
 function closeFist(){
   skellyHandOpen.visible = false;
   skellyHandClosed.visible = true;
+
+
+  keyMesh.visible = false;
 }
 function openFist(){
   skellyHandOpen.visible = true;
   skellyHandClosed.visible = false;
+
+
+  keyMesh.visible = true;
+
   camPassedHand = false;
   flashOpacityTo.time(4);
 }
