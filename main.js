@@ -79,7 +79,7 @@ skyMatArray.push(new THREE.MeshBasicMaterial({map: sb_lf}));
 for(let i=0;i<6;i++)
   skyMatArray[i].side = THREE.BackSide;
 
-const skyboxInterstellar = new THREE.BoxGeometry(10000, 10000, 10000);
+const skyboxInterstellar = new THREE.BoxGeometry(1000, 1000, 1000);
 const skybox = new THREE.Mesh(skyboxInterstellar, skyMatArray);
 scene.add(skybox);
 
@@ -87,7 +87,7 @@ scene.background = new THREE.Color(0x000000); //FFE8DC
 
 //const scene2 = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 10000);
+const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
 //camera.lookAt(66,40,35);
 camera.position.set(0, 0, 6);
 
@@ -319,12 +319,12 @@ const skellyMat = new THREE.MeshToonMaterial({
 
 const uniforms = {
   time: {value: 0.0},
-  speed: {value: 18.0},
-  charSize: {value: {x:2.0, y:1.5}},
-  charResolution: {value: 7.0},
+  speed: {value: 10.0},
+  charSize: {value: {x:20.0, y:10.5}},
+  charResolution: {value: 1.0},
   color: {value: new THREE.Color(0xff002b)},
-  backgroundColor: {value: new Vector4(0,0,0.1,1)},
-  resolution: {value: {x:4.0, y:2.0}}
+  backgroundColor: {value: new Vector4(0,0,0,1)},
+  resolution: {value: {x:10.0, y:10.0}}
 };
 
 var digiMatHexColor = 0xFF0075;
@@ -393,6 +393,7 @@ var flashMat = new THREE.MeshBasicMaterial({
 });
 
 var flashRotSpeed = 0.024;
+var keyGlowMesh;
 
 const gltfLoader3 = new GLTFLoader(loadingManager);
 gltfLoader3.load('./assets/flash/scene.gltf', function(gltfScene) {
@@ -400,6 +401,8 @@ gltfLoader3.load('./assets/flash/scene.gltf', function(gltfScene) {
   gltfScene.scene.scale.set(10,10,10);
   gltfScene.scene.position.set(0, -19, -6);
   flashModel = gltfScene.scene;
+  // keyGlowMesh = flashModel.clone();
+  // keyGlowMesh.position.set(-0.1,0,-20)
 
   //gltfScene.scene.parent = dubShitTestCube;
   //
@@ -409,11 +412,12 @@ gltfLoader3.load('./assets/flash/scene.gltf', function(gltfScene) {
       o.material = flashMat;
     };
   });
-  // mixer = new THREE.AnimationMixer( gltfScene.scene );
+  // mixer = new THREE.AnimationMixer( keyGlowMesh );
   //       gltfScene.animations.forEach( ( clip ) => {
   //           mixer.clipAction( clip ).play();
   //       });
         scene.add(gltfScene.scene);
+        //scene.add(keyGlowMesh)
         sugma();
 });
 
@@ -433,6 +437,23 @@ gltfLoader4.load('./assets/skeleton/skellyFist.gltf', function(gltfScene) {
   });
   scene.add(gltfScene.scene);
   gltfScene.scene.visible = false;
+});
+
+const gltfLoader5 = new GLTFLoader(loadingManager);
+gltfLoader5.load('./assets/tv/tv.gltf', function(gltfScene) {
+  gltfScene.scene.scale.set(.07,.07,.07);
+  gltfScene.scene.rotation.set(0,-1.5708,0)
+  gltfScene.scene.position.set(0, 0, 3);
+
+  // gltfScene.scene.traverse((o) => {
+  //   if (o.isMesh) {
+  //     //o.material = digiMat;
+  //     //o.material = skellyMat;
+  //     o.castShadow = true;
+  //     o.receiveShadow= true;
+  //   };
+  // });
+  scene.add(gltfScene.scene);
 });
 
 function sugma(){

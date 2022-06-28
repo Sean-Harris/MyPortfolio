@@ -26,7 +26,6 @@ main {
   color: rgb(255, 255, 255);
 
   padding: 0px 0px;
-  color: rgb(255, 255, 255);
   font-family: 'Roboto Mono', monospace;
   
   /* background-color: black; */
@@ -60,7 +59,7 @@ blockquote {
 }
 
 section {
-  width: 80%;
+  width: 90%;
   padding: 20px;
   margin: 200px auto;
   background-image: linear-gradient(rgba(167, 98, 245, 0.411), rgba(105, 226, 247, 0.349));
@@ -153,7 +152,7 @@ iframe {
   position: fixed;
   top: 0;
   right: 0;
-  width: 10px;
+  width: 5px;
   height: 100%;
   background: rgba(255, 255, 255, 0.05);
 }
