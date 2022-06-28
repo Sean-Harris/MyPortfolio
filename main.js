@@ -358,6 +358,7 @@ const gltfLoader = new GLTFLoader(loadingManager);
 gltfLoader.load('/assets/key/scene.gltf', (gltfScene) => {
   gltfScene.scene.scale.set(4,4,4);
   gltfScene.scene.rotation.set(0,0,0); //0.785398 is 45 in rad
+  gltfScene.scene.position.set(0, -0.5, 0);
   keyMesh = gltfScene.scene;
 
   gltfScene.scene.traverse((o) => {
@@ -448,9 +449,9 @@ gltfLoader4.load('./assets/skeleton/skellyFist.gltf', function(gltfScene) {
 
 const gltfLoader5 = new GLTFLoader(loadingManager);
 gltfLoader5.load('./assets/tv/tv.gltf', function(gltfScene) {
-  gltfScene.scene.scale.set(.07,.07,.07);
+  gltfScene.scene.scale.set(.09,.09,.09);
   gltfScene.scene.rotation.set(0,-1.5708,0)
-  gltfScene.scene.position.set(0, 0, 3);
+  gltfScene.scene.position.set(0, -0.3, 3);
 
   // gltfScene.scene.traverse((o) => {
   //   if (o.isMesh) {
