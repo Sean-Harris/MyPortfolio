@@ -350,6 +350,7 @@ var keyMesh;
 const gltfLoader = new GLTFLoader(loadingManager);
 gltfLoader.load('/assets/key/scene.gltf', (gltfScene) => {
   gltfScene.scene.scale.set(4,4,4);
+  gltfScene.scene.rotation.set(0,0,0); //0.785398 is 45 in rad
   keyMesh = gltfScene.scene;
 
   gltfScene.scene.traverse((o) => {
