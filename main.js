@@ -307,15 +307,27 @@ const skellyMat = new THREE.MeshToonMaterial({
   color: 0xffffff,
 });
 
+// const uniforms = {
+//   time: {value: 0.0},
+//   speed: {value: 18.0},
+//   charSize: {value: {x:2.0, y:1.5}},
+//   charResolution: {value: 7.0},
+//   color: {value: new THREE.Color(0xFF0075)},
+//   backgroundColor: {value: new Vector4(0,0,0.1,1)},
+//   resolution: {value: {x:4.0, y:4.0}}
+// };
+
 const uniforms = {
   time: {value: 0.0},
   speed: {value: 18.0},
   charSize: {value: {x:2.0, y:1.5}},
   charResolution: {value: 7.0},
-  color: {value: new THREE.Color(0xFF0075)},
+  color: {value: new THREE.Color(0xff002b)},
   backgroundColor: {value: new Vector4(0,0,0.1,1)},
-  resolution: {value: {x:4.0, y:4.0}}
+  resolution: {value: {x:4.0, y:2.0}}
 };
+
+var digiMatHexColor = 0xFF0075;
 
 // const uniforms2 = {
 //   cameraPosition: {value: {x: 0, y:0, z:0}},
@@ -544,7 +556,8 @@ function init(){
     //}
   });
 
-  gsap.to()
+  // gsap.fromTo(digiMatHexColor, {value: 0xFF0075}, {value: 0x80ff00,
+  // duration: 5})
 }
 
 
@@ -646,5 +659,6 @@ function tick(){
   checkCamZ();
 
   uniforms.time.value = clock.getElapsedTime();
+  //uniforms.color.value =
 }
 tick();

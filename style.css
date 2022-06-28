@@ -1,3 +1,12 @@
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+
 #diagetic {
   position: fixed;
   top: 0;
@@ -15,6 +24,11 @@
 
 main {
   color: rgb(255, 255, 255);
+
+  padding: 100px 0px;
+  color: rgb(255, 255, 255);
+  font-family: 'Roboto Mono', monospace;
+  
   /* background-color: black; */
 }
 #main {
@@ -33,6 +47,58 @@ main {
   position: absolute;
   top: 0; left: 0;
   z-index: -1;
+}
+
+header {
+  margin-bottom: 1300px;
+}
+
+blockquote {
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-family: 'Roboto Mono', monospace;
+}
+
+section {
+  width: 60%;
+  padding: 20px;
+  margin: 200px auto;
+  background-image: linear-gradient(rgba(167, 98, 245, 0.411), rgba(105, 226, 247, 0.349));
+  box-shadow:
+    3px 3px 0 rgb(255, 251, 0),
+  -1px -1px 0 rgb(255, 251, 0),
+  1px -1px 0 rgb(255, 251, 0),
+  -1px 1px 0 rgb(255, 251, 0),
+    1px 1px 0 rgb(255, 251, 0);
+}
+
+blockquote {
+  margin-bottom: 0px;
+}
+
+h1 {
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  margin-top: 8%;
+  font-size: 5em;
+  text-shadow:
+       3px 3px 0 rgb(255, 0, 76),
+     -1px -1px 0 rgb(72, 255, 0),
+      1px -1px 0 rgb(43, 255, 0),
+      -1px 1px 0 rgb(0, 247, 255),
+       1px 1px 0 rgb(255, 196, 0);
+}
+h2 {
+  text-align: center;
+  color: rgb(221 218 241);
+  /* font-size: em; */
+  text-shadow:
+       3px 3px 0 #000,
+     -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+       1px 1px 0 #000;
 }
 
 .videocontainer{
