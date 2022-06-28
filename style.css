@@ -60,9 +60,9 @@ blockquote {
 }
 
 section {
-  width: 60%;
+  width: 80%;
   padding: 20px;
-  margin: 200px auto;
+  margin: 5% auto;
   background-image: linear-gradient(rgba(167, 98, 245, 0.411), rgba(105, 226, 247, 0.349));
   box-shadow:
     3px 3px 0 rgb(255, 251, 0),
