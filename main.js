@@ -31,6 +31,13 @@ window.addEventListener('scroll', () => {
   const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
   scrollProgress.style.height = `${(scrollTop / height) * 100}%`;
 });
+const scrollProgressL = document.getElementById('progressbar2');
+// var height =
+//   document.documentElement.scrollHeight - document.documentElement.clientHeight;
+window.addEventListener('scroll', () => {
+  const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+  scrollProgressL.style.height = `${(scrollTop / height) * 100}%`;
+});
 
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onStart = function(url, item, total){

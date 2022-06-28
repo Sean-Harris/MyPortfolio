@@ -80,7 +80,8 @@ h1 {
   text-align: center;
   color: rgb(255, 255, 255);
   margin-top: 8%;
-  font-size: 5vh;
+  margin-bottom: 0;
+  font-size: 9vh;
   text-shadow:
        3px 3px 0 rgb(255, 0, 76),
      -1px -1px 0 rgb(72, 255, 0),
@@ -91,7 +92,21 @@ h1 {
 h2 {
   text-align: center;
   color: rgb(221 218 241);
+  /* margin-bottom: 10%; */
   /* font-size: em; */
+  text-shadow:
+       3px 3px 0 #000,
+     -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+       1px 1px 0 #000;
+}
+
+h3 {
+  text-align: center;
+  color: rgb(221 218 241);
+  /* font-size: em; */
+  margin-bottom: 5vh;
   text-shadow:
        3px 3px 0 #000,
      -1px -1px 0 #000,
@@ -187,6 +202,50 @@ iframe {
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, #fcb045, #fd1d1d, #833ab4);
+  filter: blur(24px);
+}
+#scrollpath2{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.05);
+}
+#progressbar2{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 5px;
+  background: linear-gradient(to top, #fcb045, #fd1d1d, #833ab4);
+  animation: animate 15s linear infinite;
+}
+@keyframes animate{
+  0%,100%{
+    filter: hue-rotate(0deg);
+  }
+  50%{
+    filter: hue-rotate(360deg);
+  }
+}
+#progressbar2::before{
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, #fcb045, #fd1d1d, #833ab4);
+  filter: blur(10px);
+}
+#progressbar2::after{
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
   width: 100%;
   height: 100%;
   background: linear-gradient(to top, #fcb045, #fd1d1d, #833ab4);
