@@ -93,7 +93,7 @@ scene.add(skybox);
 
 scene.background = new THREE.Color(0x000000); //FFE8DC
 
-//const scene2 = new THREE.Scene();
+const scene2 = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
 //camera.lookAt(66,40,35);
@@ -107,11 +107,13 @@ camPos.add(camera.position, 'y').listen();
 camPos.add(camera.position, 'z').listen();
 
 
-// const renderer2 = new CSS3DRenderer();
-//     renderer2.setSize( window.innerWidth, window.innerHeight );
-//     renderer2.domElement.style.position = 'fixed';
-//     renderer2.domElement.style.top = 0;
-//     document.querySelector('#css').appendChild( renderer2.domElement );
+const renderer2 = new CSS3DRenderer();
+    renderer2.setSize( window.innerWidth, window.innerHeight );
+    renderer2.domElement.style.position = 'fixed';
+    renderer2.domElement.style.top = 0;
+    document.querySelector('#css').appendChild( renderer2.domElement );
+
+
 const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector('#main-content'),
   alpha: true
@@ -374,9 +376,12 @@ var keyMesh;
 
 const gltfLoader = new GLTFLoader(loadingManager);
 gltfLoader.load('/assets/key/scene.gltf', (gltfScene) => {
-  gltfScene.scene.scale.set(4,4,4);
+  // gltfScene.scene.scale.set(4,4,4);
+  // gltfScene.scene.rotation.set(0,0,0); //0.785398 is 45 in rad
+  // gltfScene.scene.position.set(0, -0.5, 0);
+  gltfScene.scene.scale.set(.4,.4,.4);
   gltfScene.scene.rotation.set(0,0,0); //0.785398 is 45 in rad
-  gltfScene.scene.position.set(0, -0.5, 0);
+  gltfScene.scene.position.set(0, 0.069, 3.5);
   keyMesh = gltfScene.scene;
 
   gltfScene.scene.traverse((o) => {
@@ -466,7 +471,7 @@ gltfLoader4.load('./assets/skeleton/skellyFist.gltf', function(gltfScene) {
 });
 
 const gltfLoader5 = new GLTFLoader(loadingManager);
-gltfLoader5.load('./assets/tv/tv.gltf', function(gltfScene) {
+gltfLoader5.load('./assets/tv/TV2/tv2.gltf', function(gltfScene) {
   gltfScene.scene.scale.set(.09,.09,.09);
   gltfScene.scene.rotation.set(0,-1.5708,0)
   gltfScene.scene.position.set(0, -0.3, 3);
@@ -517,7 +522,7 @@ var geometry = new THREE.PlaneGeometry( 100, 100 );
 var mesh = new THREE.Mesh( geometry, material );
 mesh.position.copy( domObject.position );
 mesh.rotation.copy( domObject.rotation );
-//mesh.scale.copy( domObject.scale );
+mesh.scale.copy( domObject.scale );
 mesh.castShadow = false;
 mesh.receiveShadow = true;
 
@@ -528,7 +533,8 @@ ytplayerDivElement2.id = 'screenDiv2';
 ytplayerDivElement2.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>';
           
 var domObject2 = new CSS3DObject( ytplayerDivElement2 );
-domObject2.position.set(10,-3,69)
+domObject2.position.set(0,0,-200)
+domObject2.scale.set(.1,.1,.1)
 // domObject.position.y = Math.random() * 600 - 300;
 // domObject.position.z = Math.random() * 800 - 600;
 // domObject.rotation.x = Math.random();
@@ -536,7 +542,7 @@ domObject2.position.set(10,-3,69)
 // domObject.rotation.z = Math.random();
 //domObject.scale.x = Math.random() + 0.5;
 //domObject.scale.y = Math.random() + 0.5;
-//scene2.add( domObject2 );
+scene2.add( domObject2 );
 //group.add(domObject2);
           
           
@@ -550,11 +556,9 @@ var geometry2 = new THREE.PlaneGeometry( 100, 100 );
 var mesh2 = new THREE.Mesh( geometry2, material2 );
 mesh2.position.copy( domObject2.position );
 mesh2.rotation.copy( domObject2.rotation );
-//mesh.scale.copy( domObject.scale );
+mesh.scale.copy( domObject.scale );
 mesh2.castShadow = false;
 mesh2.receiveShadow = true;
-
-
 
 gsap.registerPlugin(ScrollTrigger);
 gsap.to(camera.position, {
@@ -594,7 +598,7 @@ function init(){
     },
     x: 0,
     y: -42,
-    z: 0, //23, //used to be 33
+    z: 3.5, //0, //23, //used to be 33
     ease: Power1.easeIn,
               
     //onUpdate: function () {
@@ -637,6 +641,12 @@ function DebugHello(){
 function rotateFlashFX(){
   if(modelsLoaded){
     flashModel.rotation.z += flashRotSpeed;
+  }
+}
+
+function rotateIdleKey(){
+  if(modelsLoaded){
+    keyMesh.rotation.y += 0.0021;
   }
 }
 
@@ -693,7 +703,7 @@ function tick(){
   //update with elapsed time to mimic delta second action
   const elapsedTime = clock.getElapsedTime()
   renderer.render(scene, camera);
-  //renderer2.render(scene2, camera);
+  renderer2.render(scene2, camera);
   //cssRenderer.render(cssScene, camera);
   requestAnimationFrame( tick );
 
@@ -702,6 +712,7 @@ function tick(){
 	if ( mixer ) mixer.update( delta );
 
   rotateFlashFX();
+  rotateIdleKey();
   checkCamZ();
 
   uniforms.time.value = clock.getElapsedTime();
