@@ -565,7 +565,7 @@ gsap.to(camera.position, {
   {
 
     //trigger: renderer.domElement,
-    trigger: document.getElementById("body"),
+    trigger: document.getElementById("main"),
     start: 'top top',
     end: 'bottom bottom',
     //pin: true,
@@ -587,7 +587,7 @@ function init(){
     scrollTrigger:
     {
       //trigger: renderer.domElement,
-      trigger: document.getElementById("body"),
+      trigger: document.getElementById("main"),
       start: 'top top',
       end: 'bottom bottom',
       //pin: true,
