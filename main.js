@@ -95,7 +95,7 @@ scene.background = new THREE.Color(0x000000); //FFE8DC
 
 //const scene2 = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
 //camera.lookAt(66,40,35);
 camera.position.set(0, 0, 6.3);
 
@@ -240,7 +240,7 @@ const textureLoader = new THREE.TextureLoader();
  * VIEWPORT SCALING
  */
 
-const fov = 45;
+const fov = 65;
 const planeAspectRatio = 16 / 9;
 
 
@@ -262,28 +262,17 @@ window.addEventListener('resize', () => {
 
   // if (camera.aspect > planeAspectRatio) {
 	// 	// window too large
+	// 	camera.fov = fov;
+	// } else {
+	// 	// window too narrow
 	// 	const cameraHeight = Math.tan(MathUtils.degToRad(fov / 2));
 	// 	const ratio = camera.aspect / planeAspectRatio;
 	// 	const newCameraHeight = cameraHeight / ratio;
 	// 	camera.fov = MathUtils.radToDeg(Math.atan(newCameraHeight)) * 2;
-	// } else {
-	// 	// window too narrow
-	// 	camera.fov = fov;
 	// }
 
-  if (camera.aspect > planeAspectRatio) {
-		// window too large
-		camera.fov = fov;
-	} else {
-		// window too narrow
-		const cameraHeight = Math.tan(MathUtils.degToRad(fov / 2));
-		const ratio = camera.aspect / planeAspectRatio;
-		const newCameraHeight = cameraHeight / ratio;
-		camera.fov = MathUtils.radToDeg(Math.atan(newCameraHeight)) * 2;
-	}
-
   
-  // renderer.setPixelRatio(Map.min(window.devicePixelRatio, 2));
+  //renderer.setPixelRatio(Map.min(window.devicePixelRatio, 2));
 });
 
 // // create the dom Element
