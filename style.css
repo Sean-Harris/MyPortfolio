@@ -22,7 +22,7 @@
   z-index: -1;
   @supports (-webkit-appearance:none) {
     .os-android & {
-      min-height: calc(100vh - 56px);
+      height: calc(100vh - 56px);
     }
   }
 }
@@ -59,21 +59,13 @@ main {
   z-index: -1;
 }
 
-.page-header {
-  @supports (-webkit-appearance:none) {
-    .os-android & {
-      min-height: calc(100vh - 56px);
-    }
-  }
-}
-
 header {
   margin-bottom: 1300px;
-  @supports (-webkit-appearance:none) {
+  /* @supports (-webkit-appearance:none) {
     .os-android & {
       min-height: calc(100vh - 56px);
     }
-  }
+  } */
 }
 
 blockquote {
