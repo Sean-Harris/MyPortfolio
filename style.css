@@ -24,21 +24,27 @@
 
 main {
   color: rgb(255, 255, 255);
+  
 
-  padding: 0px 0px;
+  /* width: 100vw; */
+  /* position: absolute; */
+  /* width: 100%;
+  margin: 0px;
+  z-index: 99; */
+
+  /* padding: 100px 0px; */
   font-family: 'Roboto Mono', monospace;
   
   /* background-color: black; */
 }
-#main {
-  /* margin-top: 20%; */
+/* #main {
   margin-left: 10%;
   margin-right: 10%;
 }
 #main2{
   margin-left: 10%;
   margin-right: 10%;
-}
+} */
 
 #css {
   /* width: 100%;
@@ -59,9 +65,14 @@ blockquote {
 }
 
 section {
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  /* position: relative; */
   width: 90%;
   padding: 20px;
-  margin: 2vw;
+  margin: 200px auto;
+  margin-bottom: 10vh;
   background-image: linear-gradient(rgba(167, 98, 245, 0.411), rgba(105, 226, 247, 0.349));
   box-shadow:
     3px 3px 0 rgb(255, 251, 0),
@@ -72,7 +83,7 @@ section {
 }
 
 blockquote {
-  margin-bottom: 0px;
+  margin-bottom: 10px;
 }
 
 h1 {

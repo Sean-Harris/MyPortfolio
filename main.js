@@ -1,6 +1,7 @@
 import './style.css?parameter=1'
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { MathUtils } from 'three';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 import { GUI } from 'dat.gui';
 import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer.js'
@@ -94,9 +95,9 @@ scene.background = new THREE.Color(0x000000); //FFE8DC
 
 //const scene2 = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 //camera.lookAt(66,40,35);
-camera.position.set(0, 0, 6);
+camera.position.set(0, 0, 6.3);
 
 const camGui = gui.addFolder('Camera');
 const camPos = camGui.addFolder('Position');
@@ -238,6 +239,11 @@ const textureLoader = new THREE.TextureLoader();
 /*
  * VIEWPORT SCALING
  */
+
+const fov = 45;
+const planeAspectRatio = 16 / 9;
+
+
 const viewportSize = {
   width: window.innerWidth,
   height: window.innerHeight
@@ -252,9 +258,32 @@ window.addEventListener('resize', () => {
 
   camera.aspect = viewportSize.width / viewportSize.height;
   camera.updateProjectionMatrix();
-
   renderer.setSize(viewportSize.width, viewportSize.height);
-  renderer.setPixelRatio(Map.min(window.devicePixelRatio, 2));
+
+  // if (camera.aspect > planeAspectRatio) {
+	// 	// window too large
+	// 	const cameraHeight = Math.tan(MathUtils.degToRad(fov / 2));
+	// 	const ratio = camera.aspect / planeAspectRatio;
+	// 	const newCameraHeight = cameraHeight / ratio;
+	// 	camera.fov = MathUtils.radToDeg(Math.atan(newCameraHeight)) * 2;
+	// } else {
+	// 	// window too narrow
+	// 	camera.fov = fov;
+	// }
+
+  if (camera.aspect > planeAspectRatio) {
+		// window too large
+		camera.fov = fov;
+	} else {
+		// window too narrow
+		const cameraHeight = Math.tan(MathUtils.degToRad(fov / 2));
+		const ratio = camera.aspect / planeAspectRatio;
+		const newCameraHeight = cameraHeight / ratio;
+		camera.fov = MathUtils.radToDeg(Math.atan(newCameraHeight)) * 2;
+	}
+
+  
+  // renderer.setPixelRatio(Map.min(window.devicePixelRatio, 2));
 });
 
 // // create the dom Element
