@@ -24,7 +24,6 @@
 
 main {
   color: rgb(255, 255, 255);
-  min-height: 100vh;
   
 
   /* width: 100vw; */
@@ -55,8 +54,21 @@ main {
   z-index: -1;
 }
 
+.page-header {
+  @supports (-webkit-appearance:none) {
+    .os-android & {
+      min-height: calc(100vh - 56px);
+    }
+  }
+}
+
 header {
   margin-bottom: 1300px;
+  @supports (-webkit-appearance:none) {
+    .os-android & {
+      min-height: calc(100vh - 56px);
+    }
+  }
 }
 
 blockquote {
