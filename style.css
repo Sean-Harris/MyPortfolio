@@ -20,11 +20,11 @@
   top: 0;
   left: 0;
   z-index: -1;
-  @supports (-webkit-appearance:none) {
+  /* @supports (-webkit-appearance:none) {
     .os-android & {
       height: calc(100vh - 56px);
     }
-  }
+  } */
 }
 
 main {
