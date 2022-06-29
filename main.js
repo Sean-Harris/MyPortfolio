@@ -473,10 +473,8 @@ gltfLoader5.load('./assets/tv/tv.gltf', function(gltfScene) {
 
   // gltfScene.scene.traverse((o) => {
   //   if (o.isMesh) {
-  //     //o.material = digiMat;
+  //     o.material = digiMat;
   //     //o.material = skellyMat;
-  //     o.castShadow = true;
-  //     o.receiveShadow= true;
   //   };
   // });
   scene.add(gltfScene.scene);
