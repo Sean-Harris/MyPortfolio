@@ -379,9 +379,9 @@ gltfLoader.load('/assets/key/scene.gltf', (gltfScene) => {
   // gltfScene.scene.scale.set(4,4,4);
   // gltfScene.scene.rotation.set(0,0,0); //0.785398 is 45 in rad
   // gltfScene.scene.position.set(0, -0.5, 0);
-  gltfScene.scene.scale.set(.4,.4,.4);
+  gltfScene.scene.scale.set(.39,.39,.39);
   gltfScene.scene.rotation.set(0,0,0); //0.785398 is 45 in rad
-  gltfScene.scene.position.set(0, 0.069, 3.5);
+  gltfScene.scene.position.set(0, 0.069, 3.62);
   keyMesh = gltfScene.scene;
 
   gltfScene.scene.traverse((o) => {
@@ -497,10 +497,11 @@ var ytplayerDivElement = document.createElement( 'div' );
 ytplayerDivElement.id = 'screenDiv';
 
         
-ytplayerDivElement.innerHTML = '<object type="text/html" data="PHPageContent.html" ></object>';
+ytplayerDivElement.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>';
 
 var domObject = new CSS3DObject( ytplayerDivElement );
-domObject.position.set(0,-30,-69)
+domObject.position.set(0,-0.14,3.5)
+domObject.scale.set(.008,.008,.008)
         // domObject.position.y = Math.random() * 600 - 300;
         // domObject.position.z = Math.random() * 800 - 600;
         // domObject.rotation.x = Math.random();
@@ -508,7 +509,7 @@ domObject.position.set(0,-30,-69)
         // domObject.rotation.z = Math.random();
         //domObject.scale.x = Math.random() + 0.5;
         //domObject.scale.y = Math.random() + 0.5;
-        //scene2.add( domObject );
+        scene2.add( domObject );
         //group.add(domObject);
 
 
@@ -518,13 +519,15 @@ var material = new THREE.MeshPhongMaterial({
   blending: THREE.NoBlending,
   side	: THREE.DoubleSide,
 });
-var geometry = new THREE.PlaneGeometry( 100, 100 );
+var geometry = new THREE.PlaneGeometry( 160, 103 );
 var mesh = new THREE.Mesh( geometry, material );
 mesh.position.copy( domObject.position );
 mesh.rotation.copy( domObject.rotation );
-mesh.scale.copy( domObject.scale );
+//mesh.scale.copy( domObject.scale );
 mesh.castShadow = false;
 mesh.receiveShadow = true;
+scene.add(mesh);
+// domObject.position.set(0,0,0)
 
 
 var ytplayerDivElement2 = document.createElement( 'div' );
@@ -542,7 +545,7 @@ domObject2.scale.set(.1,.1,.1)
 // domObject.rotation.z = Math.random();
 //domObject.scale.x = Math.random() + 0.5;
 //domObject.scale.y = Math.random() + 0.5;
-scene2.add( domObject2 );
+//scene2.add( domObject2 );
 //group.add(domObject2);
           
           
