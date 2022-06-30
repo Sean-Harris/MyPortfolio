@@ -141,7 +141,7 @@ h3 {
 
 .videocontainer{
   overflow: hidden;
-  position: absolute;
+  position: fixed;
   min-height: 100%;
   /*min-width: 3840px; */
   min-width: 100%;

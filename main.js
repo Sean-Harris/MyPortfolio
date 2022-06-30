@@ -261,6 +261,7 @@ window.addEventListener('resize', () => {
   camera.aspect = viewportSize.width / viewportSize.height;
   camera.updateProjectionMatrix();
   renderer.setSize(viewportSize.width, viewportSize.height);
+  renderer2.setSize(viewportSize.width, viewportSize.height);
 
   // if (camera.aspect > planeAspectRatio) {
 	// 	// window too large
@@ -514,7 +515,7 @@ domObject.scale.set(.008,.008,.008)
 
 
 var material = new THREE.MeshPhongMaterial({
-  opacity	: 0.2,
+  opacity	: 0.1,
   color	: new THREE.Color('black'),
   blending: THREE.NoBlending,
   side	: THREE.DoubleSide,
