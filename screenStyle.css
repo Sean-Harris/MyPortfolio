@@ -308,15 +308,15 @@ body {
   min-width: 100%;
   left: 50%;
   top: 50%;
-    transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   z-index: -1;
-  margin: auto;
+  /* margin: auto; */
 
 
 }
 
 iframe {
-  resize: none;
+  /* resize: none; */
   position: absolute;
   overflow: hidden;
   /* Make video to at least 100% wide and tall 
