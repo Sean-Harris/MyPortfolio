@@ -492,34 +492,30 @@ function sugma(){
 
 //var content = document.getElementById("css").innerHTML;
 
-const group = new THREE.Group();
 
 
-//var ytplayerDivElement = document.getElementById('player');
 //ytplayerDivElement.id = 'screenDiv';
 var ytplayerDivElement = document.createElement( 'div' )
-// fetch('./ScreenPage.html')
-// .then(res=>res.text())
-// .then(data=>{
-//   ytplayerDivElement.innerHTML = data
-
-// })
-
         
 ytplayerDivElement.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>';
 
 var domObject = new CSS3DObject( ytplayerDivElement );
 domObject.position.set(0,-0.14,3.5)
 domObject.scale.set(.008,.008,.008)
-        // domObject.position.y = Math.random() * 600 - 300;
-        // domObject.position.z = Math.random() * 800 - 600;
-        // domObject.rotation.x = Math.random();
-        // domObject.rotation.y = Math.random();
-        // domObject.rotation.z = Math.random();
-        //domObject.scale.x = Math.random() + 0.5;
-        //domObject.scale.y = Math.random() + 0.5;
-        scene2.add( domObject );
-        //group.add(domObject);
+scene2.add( domObject );
+
+var whiteNoiseElement = document.getElementById("static");
+var whiteNoiseTexture = new THREE.VideoTexture(whiteNoiseElement);
+whiteNoiseTexture.minFilter = THREE.LinearFilter;
+whiteNoiseTexture.magFilter = THREE.LinearFilter;
+
+var whiteNoiseMaterial = new THREE.MeshBasicMaterial({
+  map: whiteNoiseTexture,
+  side: THREE.FrontSide,
+  //toneMapped: false,
+  transparent: true,
+  opacity: 1,
+});
 
 
 var material = new THREE.MeshPhongMaterial({
@@ -537,6 +533,16 @@ mesh.castShadow = false;
 mesh.receiveShadow = true;
 scene.add(mesh);
 // domObject.position.set(0,0,0)
+
+var staticGeometry = new THREE.PlaneGeometry( 160, 103 );
+var staticMesh = new THREE.Mesh( staticGeometry, whiteNoiseMaterial );
+//staticMesh.position.copy( domObject.position );
+staticMesh.position.set(0,-0.14,3.5001)
+staticMesh.scale.copy(domObject.scale)
+// staticMesh.position.add(10,0,-1.01)
+staticMesh.rotation.copy( domObject.rotation );
+//mesh.scale.copy( domObject.scale );
+scene.add(staticMesh);
 
 
 var ytplayerDivElement2 = document.createElement( 'div' );
@@ -618,21 +624,56 @@ function init(){
     //}
   });
 
+  var staticOpacityTo = gsap.fromTo(whiteNoiseMaterial, {opacity: 1}, {opacity: 0,duration: 2,})
+  ScrollTrigger.create({
+    trigger: document.getElementById("main"),
+    start: 'top top',
+    end: 'bottom top',
+    toggleActions: 'play none none none',
+    //onEnter: DebugHello,
+    //markers: true,
+    onUpdate: (self) => {
+      staticOpacityTo.restart();
+      scrollVelocity = self.getVelocity(); 
+  
+     }
+  })
+
+  //gsap.fromTo(whiteNoiseMaterial, {opacity: 1}, {opacity: 0,duration: 2,})
+
   // gsap.fromTo(digiMatHexColor, {value: 0xFF0075}, {value: 0x80ff00,
   // duration: 5})
 }
 
 
+var scrollVelocity = 0;
+
+// ScrollTrigger.create({
+//   trigger: document.getElementById("main"),
+//   start: 'bottom center',
+//   end: 'bottom top',
+//   toggleActions: 'play none none none',
+//   //onEnter: DebugHello,
+//   //markers: true,
+//   onUpdate: (self) => {
+//     //staticOnScroll;
+//     scrollVelocity = self.getVelocity(); 
+
+//    }
+// })
 
 
-ScrollTrigger.create({
-  trigger: document.getElementById("main"),
-  start: 'bottom center',
-  end: 'bottom top',
-  toggleActions: 'play none none none',
-  //onEnter: DebugHello,
-  //markers: true,
-})
+
+
+function staticOnScroll(){
+    staticOpacityTo.restart();
+  
+
+
+}
+//document.body.onscroll = staticOnScroll();
+
+
 
 const testCube = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshBasicMaterial())
 
@@ -658,7 +699,7 @@ function rotateFlashFX(){
 
 function rotateIdleKey(){
   if(modelsLoaded){
-    keyMesh.rotation.y += 0.0021;
+    keyMesh.rotation.y += 0.0042;
   }
 }
 
@@ -726,6 +767,9 @@ function tick(){
   rotateFlashFX();
   rotateIdleKey();
   checkCamZ();
+
+  //whiteNoiseMaterial.opacity=scrollVelocity;
+  //scrollVelocity=0;
 
   uniforms.time.value = clock.getElapsedTime();
   //uniforms.color.value =
