@@ -506,7 +506,7 @@ var ytplayerDivElement = document.createElement( 'div' )
 // })
 
         
-ytplayerDivElement.innerHTML = '<object type="text/html" data="./ScreenPage.html" ></object>';
+ytplayerDivElement.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>';
 
 var domObject = new CSS3DObject( ytplayerDivElement );
 domObject.position.set(0,-0.14,3.5)
