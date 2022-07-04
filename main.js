@@ -492,7 +492,12 @@ function sugma(){
 
 //var content = document.getElementById("css").innerHTML;
 
-
+// var video = document.getElementById('static2');
+// video.src = "./StaticVideo.mp4";
+// video.load();
+// video.addEventListener('loadeddata', function() {
+  
+// }, false);
 
 //ytplayerDivElement.id = 'screenDiv';
 var ytplayerDivElement = document.createElement( 'div' )
@@ -504,7 +509,8 @@ domObject.position.set(0,-0.14,3.5)
 domObject.scale.set(.008,.008,.008)
 scene2.add( domObject );
 
-var whiteNoiseElement = document.getElementById("static");
+const whiteNoiseElement = document.getElementById("staticVid");
+whiteNoiseElement.play();
 var whiteNoiseTexture = new THREE.VideoTexture(whiteNoiseElement);
 whiteNoiseTexture.minFilter = THREE.LinearFilter;
 whiteNoiseTexture.magFilter = THREE.LinearFilter;
@@ -512,10 +518,20 @@ whiteNoiseTexture.magFilter = THREE.LinearFilter;
 var whiteNoiseMaterial = new THREE.MeshBasicMaterial({
   map: whiteNoiseTexture,
   side: THREE.FrontSide,
-  //toneMapped: false,
+  toneMapped: false,
   transparent: true,
   opacity: 1,
 });
+
+  var staticGeometry = new THREE.PlaneGeometry( 160, 103 );
+  var staticMesh = new THREE.Mesh( staticGeometry, whiteNoiseMaterial );
+  //staticMesh.position.copy( domObject.position );
+  staticMesh.position.set(0,-0.14,3.5101)
+  staticMesh.scale.copy(domObject.scale)
+  // staticMesh.position.add(10,0,-1.01)
+  staticMesh.rotation.copy( domObject.rotation );
+  //mesh.scale.copy( domObject.scale );
+  scene.add(staticMesh);
 
 
 var material = new THREE.MeshPhongMaterial({
@@ -534,21 +550,13 @@ mesh.receiveShadow = true;
 scene.add(mesh);
 // domObject.position.set(0,0,0)
 
-var staticGeometry = new THREE.PlaneGeometry( 160, 103 );
-var staticMesh = new THREE.Mesh( staticGeometry, whiteNoiseMaterial );
-//staticMesh.position.copy( domObject.position );
-staticMesh.position.set(0,-0.14,3.5001)
-staticMesh.scale.copy(domObject.scale)
-// staticMesh.position.add(10,0,-1.01)
-staticMesh.rotation.copy( domObject.rotation );
-//mesh.scale.copy( domObject.scale );
-scene.add(staticMesh);
+
 
 
 var ytplayerDivElement2 = document.createElement( 'div' );
 ytplayerDivElement2.id = 'screenDiv2';
                   
-ytplayerDivElement2.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>';
+//ytplayerDivElement2.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>';
           
 var domObject2 = new CSS3DObject( ytplayerDivElement2 );
 domObject2.position.set(0,0,-200)
@@ -639,6 +647,8 @@ function init(){
      }
   })
 
+  
+
   //gsap.fromTo(whiteNoiseMaterial, {opacity: 1}, {opacity: 0,duration: 2,})
 
   // gsap.fromTo(digiMatHexColor, {value: 0xFF0075}, {value: 0x80ff00,
@@ -665,12 +675,12 @@ var scrollVelocity = 0;
 
 
 
-function staticOnScroll(){
-    staticOpacityTo.restart();
+// function staticOnScroll(){
+//     staticOpacityTo.restart();
   
 
 
-}
+// }
 //document.body.onscroll = staticOnScroll();
 
 
@@ -699,7 +709,7 @@ function rotateFlashFX(){
 
 function rotateIdleKey(){
   if(modelsLoaded){
-    keyMesh.rotation.y += 0.0042;
+    keyMesh.rotation.y += 0.0069;
   }
 }
 
@@ -748,6 +758,13 @@ function openFist(){
   camPassedHand = false;
   flashOpacityTo.time(4);
 }
+var staticLoaded = false;
+function checkIfStaticReady(){
+  if ( whiteNoiseElement.readyState === 4 ) {
+    
+  staticLoaded = true;
+  }
+}
 
 
 const clock = new THREE.Clock();
@@ -767,6 +784,10 @@ function tick(){
   rotateFlashFX();
   rotateIdleKey();
   checkCamZ();
+
+  // if(!staticLoaded){
+  //   checkIfStaticReady();
+  // }
 
   //whiteNoiseMaterial.opacity=scrollVelocity;
   //scrollVelocity=0;
