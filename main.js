@@ -321,13 +321,13 @@ const threeTone = new THREE.TextureLoader().load('/assets/gradientMaps/threeTone
 threeTone.minFilter = THREE.NearestFilter
 threeTone.magFilter = THREE.NearestFilter
 
-const fourTone = new THREE.TextureLoader().load('/assets/gradientMaps/fourTone.jpg')
-fourTone.minFilter = THREE.NearestFilter
-fourTone.magFilter = THREE.NearestFilter
+// const fourTone = new THREE.TextureLoader().load('/assets/gradientMaps/fourTone.jpg')
+// fourTone.minFilter = THREE.NearestFilter
+// fourTone.magFilter = THREE.NearestFilter
 
-const fiveTone = new THREE.TextureLoader().load('/assets/gradientMaps/fiveTone.jpg')
-fiveTone.minFilter = THREE.NearestFilter
-fiveTone.magFilter = THREE.NearestFilter
+// const fiveTone = new THREE.TextureLoader().load('/assets/gradientMaps/fiveTone.jpg')
+// fiveTone.minFilter = THREE.NearestFilter
+// fiveTone.magFilter = THREE.NearestFilter
 
 const skellyMat = new THREE.MeshToonMaterial({
   gradientMap: threeTone,
@@ -494,11 +494,12 @@ function sugma(){
 
 const group = new THREE.Group();
 
-var ytplayerDivElement = document.createElement( 'div' );
+//var ytplayerDivElement = document.createElement( 'div' );
+var ytplayerDivElement = document.getElementById('player');
 ytplayerDivElement.id = 'screenDiv';
 
         
-ytplayerDivElement.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>';
+//ytplayerDivElement.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>';
 
 var domObject = new CSS3DObject( ytplayerDivElement );
 domObject.position.set(0,-0.14,3.5)
