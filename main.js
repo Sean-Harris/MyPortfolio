@@ -494,12 +494,19 @@ function sugma(){
 
 const group = new THREE.Group();
 
-//var ytplayerDivElement = document.createElement( 'div' );
-var ytplayerDivElement = document.getElementById('player');
-ytplayerDivElement.id = 'screenDiv';
+
+//var ytplayerDivElement = document.getElementById('player');
+//ytplayerDivElement.id = 'screenDiv';
+var ytplayerDivElement = document.createElement( 'div' )
+// fetch('./ScreenPage.html')
+// .then(res=>res.text())
+// .then(data=>{
+//   ytplayerDivElement.innerHTML = data
+
+// })
 
         
-//ytplayerDivElement.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>';
+ytplayerDivElement.innerHTML = '<object type="text/html" data="./ScreenPage.html" ></object>';
 
 var domObject = new CSS3DObject( ytplayerDivElement );
 domObject.position.set(0,-0.14,3.5)
