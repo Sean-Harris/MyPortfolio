@@ -107,7 +107,10 @@ camPos.add(camera.position, 'y').listen();
 camPos.add(camera.position, 'z').listen();
 
 
-const renderer2 = new CSS3DRenderer();
+const renderer2 = new CSS3DRenderer({
+  antialias: false,
+  powerPreference: 'high-performance',
+});
     renderer2.setSize( window.innerWidth, window.innerHeight );
     renderer2.domElement.style.position = 'fixed';
     renderer2.domElement.style.top = 0;
@@ -142,7 +145,7 @@ const controls = new OrbitControls(camera, renderer.domElement);
 const pointLight = new THREE.PointLight(0x00ffff, 1);
 pointLight.position.set(10,-9,-3);
 pointLight.castShadow = false; // default false
-const lightHelper = new THREE.PointLightHelper(pointLight);
+//const lightHelper = new THREE.PointLightHelper(pointLight);
 const pointLight2 = new THREE.PointLight(0xe60944, 1);
 pointLight2.position.set(-10,-32,0);
 //const directionalLight = new THREE.DirectionalLight(0xffeba1, 1);
@@ -152,7 +155,8 @@ pointLight2.position.set(-10,-32,0);
 //scene.add(directionalLight);
 //pointLight.position.set(0, 13, -10);
 //const ambientLight = new THREE.AmbientLight(0xffffff,.1);
-scene.add(pointLight, lightHelper);
+scene.add(pointLight);
+//scene.add(lightHelper);
 scene.add(pointLight2);
 
 
