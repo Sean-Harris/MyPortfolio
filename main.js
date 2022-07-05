@@ -118,9 +118,10 @@ const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector('#main-content'),
   alpha: true,
   antialias: false,
+  powerPreference: "high-performance"
 });
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+// renderer.shadowMap.enabled = true;
+// renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.gammaOutput = true;
 renderer.gammaFactor = 2.2;
 renderer.setPixelRatio(window.devicePixelRatio * 0.75);
@@ -140,7 +141,7 @@ const controls = new OrbitControls(camera, renderer.domElement);
 
 const pointLight = new THREE.PointLight(0x00ffff, 1);
 pointLight.position.set(10,-9,-3);
-//pointLight.castShadow = true; // default false
+pointLight.castShadow = false; // default false
 const lightHelper = new THREE.PointLightHelper(pointLight);
 const pointLight2 = new THREE.PointLight(0xe60944, 1);
 pointLight2.position.set(-10,-32,0);
