@@ -87,7 +87,7 @@ skyMatArray.push(new THREE.MeshBasicMaterial({map: sb_lf}));
 for(let i=0;i<6;i++)
   skyMatArray[i].side = THREE.BackSide;
 
-const skyboxInterstellar = new THREE.BoxGeometry(1000, 1000, 1000);
+const skyboxInterstellar = new THREE.BoxGeometry(500, 500, 500);
 const skybox = new THREE.Mesh(skyboxInterstellar, skyMatArray);
 scene.add(skybox);
 
@@ -95,7 +95,7 @@ scene.background = new THREE.Color(0x000000); //FFE8DC
 
 const scene2 = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 600);
 //camera.lookAt(66,40,35);
 camera.position.set(0, 0, 6.3);
 
@@ -133,10 +133,10 @@ const controls = new OrbitControls(camera, renderer.domElement);
 /*
  * LIGHTS
  */
-const targetObject = new THREE.Object3D();
-const originTarget = new THREE.Object3D();
-targetObject.position.set(-420,-500,400);
-scene.add(targetObject, originTarget);
+// const targetObject = new THREE.Object3D();
+// const originTarget = new THREE.Object3D();
+// targetObject.position.set(-420,-500,400);
+// scene.add(targetObject, originTarget);
 
 const pointLight = new THREE.PointLight(0x00ffff, 1);
 pointLight.position.set(10,-9,-3);
@@ -144,66 +144,66 @@ pointLight.position.set(10,-9,-3);
 const lightHelper = new THREE.PointLightHelper(pointLight);
 const pointLight2 = new THREE.PointLight(0xe60944, 1);
 pointLight2.position.set(-10,-32,0);
-const directionalLight = new THREE.DirectionalLight(0xffeba1, 1);
+//const directionalLight = new THREE.DirectionalLight(0xffeba1, 1);
 //directionalLight.target = targetObject;
 //pointLight.castShadow = true;
-directionalLight.target = targetObject;
+//directionalLight.target = targetObject;
 //scene.add(directionalLight);
 //pointLight.position.set(0, 13, -10);
-const ambientLight = new THREE.AmbientLight(0xffffff,.1);
+//const ambientLight = new THREE.AmbientLight(0xffffff,.1);
 scene.add(pointLight, lightHelper);
 scene.add(pointLight2);
 
 
-class ColorGUIHelper {
-  constructor(object, prop) {
-    this.object = object;
-    this.prop = prop;
-  }
-  get value() {
-    return `#${this.object[this.prop].getHexString()}`;
-  }
-  set value(hexString) {
-    this.object[this.prop].set(hexString);
-  }
-}
+// class ColorGUIHelper {
+//   constructor(object, prop) {
+//     this.object = object;
+//     this.prop = prop;
+//   }
+//   get value() {
+//     return `#${this.object[this.prop].getHexString()}`;
+//   }
+//   set value(hexString) {
+//     this.object[this.prop].set(hexString);
+//   }
+// }
 
-const lightGui1 = gui.addFolder('Light1');
-lightGui1.add(pointLight.position, 'x');
-lightGui1.add(pointLight.position, 'y');
-lightGui1.add(pointLight.position, 'z');
-lightGui1.addColor(new ColorGUIHelper(pointLight, 'color'), 'value').name('color');
-lightGui1.add(pointLight, 'intensity');
+// const lightGui1 = gui.addFolder('Light1');
+// lightGui1.add(pointLight.position, 'x');
+// lightGui1.add(pointLight.position, 'y');
+// lightGui1.add(pointLight.position, 'z');
+// lightGui1.addColor(new ColorGUIHelper(pointLight, 'color'), 'value').name('color');
+// lightGui1.add(pointLight, 'intensity');
 
-const lightGui2 = gui.addFolder('Light2');
-lightGui2.add(pointLight2.position, 'x')
-lightGui2.add(pointLight2.position, 'y')
-lightGui2.add(pointLight2.position, 'z')
-lightGui2.addColor(new ColorGUIHelper(pointLight2, 'color'), 'value').name('color');
-lightGui2.add(pointLight2, 'intensity');
+// const lightGui2 = gui.addFolder('Light2');
+// lightGui2.add(pointLight2.position, 'x')
+// lightGui2.add(pointLight2.position, 'y')
+// lightGui2.add(pointLight2.position, 'z')
+// lightGui2.addColor(new ColorGUIHelper(pointLight2, 'color'), 'value').name('color');
+// lightGui2.add(pointLight2, 'intensity');
 
 
 
 /*
  * PRACTICE ACTORS
  */
-const crystalGeometry = new THREE.OctahedronGeometry(1, 0);
+// const crystalGeometry = new THREE.OctahedronGeometry(1, 0);
 
-//DEMOMATERIAL
-const shinyMaterial = new THREE.MeshStandardMaterial({
-  color: 0xffffff,
-  metalness: 0.1,
-  roughness: 0.2,
-  //shininess: 0.9,
-  transparent: true, //transparency must be true for opacity to work
-  opacity: 0.7
-})
+// //DEMOMATERIAL
+// const shinyMaterial = new THREE.MeshStandardMaterial({
+//   color: 0xffffff,
+//   metalness: 0.1,
+//   roughness: 0.2,
+//   //shininess: 0.9,
+//   transparent: true, //transparency must be true for opacity to work
+//   opacity: 0.7
+// })
 
 
 /*
  * TEXTURE STUDIES
  */
-const textureLoader = new THREE.TextureLoader();
+//const textureLoader = new THREE.TextureLoader();
 // const normalTexture = textureLoader.load('/normal-map.jpeg');
 // const texturedMaterial = new THREE.MeshStandardMaterial({
 //   color: 0xffffff,
@@ -390,7 +390,7 @@ gltfLoader.load('/assets/key/scene.gltf', (gltfScene) => {
     if (o.isMesh) {
       o.material = digiMat;
       //o.castShadow = true;
-      o.receiveShadow= true;
+      //o.receiveShadow= true;
     };
   });
 
@@ -410,7 +410,7 @@ gltfLoader2.load('/assets/skeleton/skellyArmUV.gltf', (gltfScene) => {
     if (o.isMesh) {
       o.material = skellyMat;
       //o.castShadow = true;
-      o.receiveShadow= true;
+      //o.receiveShadow= true;
     };
   });
 
@@ -430,7 +430,7 @@ var keyGlowMesh;
 
 const gltfLoader3 = new GLTFLoader(loadingManager);
 gltfLoader3.load('./assets/flash/scene.gltf', function(gltfScene) {
-  console.log('stroke my shaft ' + gltfScene);
+  //console.log('stroke my shaft ' + gltfScene);
   gltfScene.scene.scale.set(10,10,10);
   gltfScene.scene.position.set(0, -19, -6);
   flashModel = gltfScene.scene;
@@ -878,6 +878,6 @@ function tick(){
   //uniforms.color.value =
 
 
-  console.log("Number of Triangles :", renderer.info.render.triangles);
+  //console.log("Number of Triangles :", renderer.info.render.triangles);
 }
 tick();
