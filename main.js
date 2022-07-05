@@ -355,10 +355,10 @@ const uniforms = {
   time: {value: 0.0},
   speed: {value: 8.0},
   charSize: {value: {x:20.0, y:10.5}},
-  charResolution: {value: 1.0},
+  charResolution: {value: 4.0},
   color: {value: new THREE.Color(0xff002b)},
   backgroundColor: {value: new Vector4(0,0,0,1)},
-  resolution: {value: {x:1.0, y:1.0}}
+  resolution: {value: {x:2.0, y:1.5}}
 };
 
 var digiMatHexColor = 0xFF0075;
@@ -477,21 +477,29 @@ gltfLoader4.load('./assets/skeleton/skellyFist.gltf', function(gltfScene) {
 });
 
 const TVgroup = new THREE.Group();
+var tvMesh;
+var tvMat;
 
 const gltfLoader5 = new GLTFLoader(loadingManager);
 gltfLoader5.load('./assets/tv/TV2/tv2.gltf', function(gltfScene) {
   gltfScene.scene.scale.set(.09,.09,.09);
   gltfScene.scene.rotation.set(0,-1.5708,0)
   gltfScene.scene.position.set(0, -0.3, 3);
+  tvMesh = gltfScene.scene;
+  //tvMat = gltfScene.scene.material;
 
-  // gltfScene.scene.traverse((o) => {
-  //   if (o.isMesh) {
-  //     o.material = digiMat;
-  //     //o.material = skellyMat;
-  //   };
-  // });
+  gltfScene.scene.traverse((o) => {
+    if (o.isMesh) {
+      // tvMesh = o;
+      tvMat = o.material;
+      //o.material = digiMat;
+      //o.material = skellyMat;
+    };
+  });
   scene.add(gltfScene.scene);
 });
+
+
 
 
 
@@ -719,7 +727,7 @@ function init(){
   //   //}
   // });
 
-  var staticOpacityTo = gsap.fromTo(whiteNoiseMaterial, {opacity: 1}, {opacity: 0.042,duration: 4,})
+  var staticOpacityTo = gsap.fromTo(whiteNoiseMaterial, {opacity: 1}, {opacity: 0.052,duration: 4,})
   ScrollTrigger.create({
     trigger: document.getElementById("main"),
     start: 'top top',
@@ -740,6 +748,11 @@ function init(){
 
   // gsap.fromTo(digiMatHexColor, {value: 0xFF0075}, {value: 0x80ff00,
   // duration: 5})
+  
+
+  //tvMesh.material = tvMat;
+
+  testCube.material = tvMat;
 }
 
 
@@ -773,6 +786,8 @@ function init(){
 
 
 const testCube = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshBasicMaterial())
+testCube.position.set(3,0,0)
+scene.add(testCube)
 
 var flashOpacityTo = gsap.fromTo(flashMat, {opacity: 1}, {opacity: 0,duration: 2,})
 
