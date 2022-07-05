@@ -347,12 +347,12 @@ const skellyMat = new THREE.MeshToonMaterial({
 
 const uniforms = {
   time: {value: 0.0},
-  speed: {value: 10.0},
+  speed: {value: 8.0},
   charSize: {value: {x:20.0, y:10.5}},
   charResolution: {value: 1.0},
   color: {value: new THREE.Color(0xff002b)},
   backgroundColor: {value: new Vector4(0,0,0,1)},
-  resolution: {value: {x:10.0, y:10.0}}
+  resolution: {value: {x:1.0, y:1.0}}
 };
 
 var digiMatHexColor = 0xFF0075;
