@@ -116,13 +116,14 @@ const renderer2 = new CSS3DRenderer();
 
 const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector('#main-content'),
-  alpha: true
+  alpha: true,
+  antialias: false,
 });
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.gammaOutput = true;
 renderer.gammaFactor = 2.2;
-renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setPixelRatio(window.devicePixelRatio * 0.75);
 document.body.appendChild( renderer.domElement );
 renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -875,5 +876,8 @@ function tick(){
 
   uniforms.time.value = clock.getElapsedTime();
   //uniforms.color.value =
+
+
+  console.log("Number of Triangles :", renderer.info.render.triangles);
 }
 tick();
