@@ -27,6 +27,8 @@
   }
 }
 
+
+
 main {
   color: rgb(255, 255, 255);
   /* min-height: 100vh; */
@@ -99,13 +101,35 @@ blockquote {
   margin-bottom: 10px;
 }
 
+#title {
+  overflow: hidden;
+  /* text-overflow: ellipsis; */
+  /* word-wrap: break-word; */
+  /* display: block; */
+  /* white-space: nowrap; */
+}
+
+#title {
+  font-size: 46px;
+}
+@media screen and (min-width: 320px) {
+  #title {
+    font-size: calc(56px + 6 * ((100vw - 320px) / 680));
+  }
+}
+@media screen and (min-width: 1000px) {
+  #title {
+    font-size: 82px;
+  }
+}
+
 h1 {
   font-family: 'Roboto', sans-serif;
   text-align: center;
   color: rgb(255, 255, 255);
   margin-top: 8%;
   margin-bottom: 0;
-  font-size: 9vh;
+  /* font-size: 13vw; */
   text-shadow:
        3px 3px 0 rgb(255, 0, 76),
      -1px -1px 0 rgb(72, 255, 0),
@@ -166,7 +190,7 @@ h3 {
   position: fixed;
   top: 0;
   right: 0;
-  width: 5px;
+  width: 2px;
   height: 100%;
   background: rgba(255, 255, 255, 0.05);
 }
@@ -174,7 +198,7 @@ h3 {
   position: fixed;
   top: 0;
   right: 0;
-  width: 5px;
+  width: 2px;
   background: linear-gradient(to top, #fcb045, #fd1d1d, #833ab4);
   animation: animate 15s linear infinite;
 }
@@ -210,7 +234,7 @@ h3 {
   position: fixed;
   top: 0;
   left: 0;
-  width: 5px;
+  width: 2px;
   height: 100%;
   background: rgba(255, 255, 255, 0.05);
 }
@@ -218,7 +242,7 @@ h3 {
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 5px;
+  width: 2px;
   background: linear-gradient(to top, #fcb045, #fd1d1d, #833ab4);
   animation: animate 15s linear infinite;
 }

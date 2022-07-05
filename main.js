@@ -450,7 +450,6 @@ gltfLoader3.load('./assets/flash/scene.gltf', function(gltfScene) {
   //       });
         scene.add(gltfScene.scene);
         //scene.add(keyGlowMesh)
-        sugma();
 });
 
 const gltfLoader4 = new GLTFLoader(loadingManager);
@@ -471,6 +470,8 @@ gltfLoader4.load('./assets/skeleton/skellyFist.gltf', function(gltfScene) {
   gltfScene.scene.visible = false;
 });
 
+const TVgroup = new THREE.Group();
+
 const gltfLoader5 = new GLTFLoader(loadingManager);
 gltfLoader5.load('./assets/tv/TV2/tv2.gltf', function(gltfScene) {
   gltfScene.scene.scale.set(.09,.09,.09);
@@ -486,9 +487,8 @@ gltfLoader5.load('./assets/tv/TV2/tv2.gltf', function(gltfScene) {
   scene.add(gltfScene.scene);
 });
 
-function sugma(){
-  console.log('suck my balls ' + flashModel);
-}
+
+
 
 //var content = document.getElementById("css").innerHTML;
 
@@ -561,15 +561,6 @@ ytplayerDivElement2.id = 'screenDiv2';
 var domObject2 = new CSS3DObject( ytplayerDivElement2 );
 domObject2.position.set(0,0,-200)
 domObject2.scale.set(.1,.1,.1)
-// domObject.position.y = Math.random() * 600 - 300;
-// domObject.position.z = Math.random() * 800 - 600;
-// domObject.rotation.x = Math.random();
-// domObject.rotation.y = Math.random();
-// domObject.rotation.z = Math.random();
-//domObject.scale.x = Math.random() + 0.5;
-//domObject.scale.y = Math.random() + 0.5;
-//scene2.add( domObject2 );
-//group.add(domObject2);
           
           
 var material2 = new THREE.MeshPhongMaterial({
@@ -587,23 +578,46 @@ mesh2.castShadow = false;
 mesh2.receiveShadow = true;
 
 gsap.registerPlugin(ScrollTrigger);
+// gsap.to(camera.position, {
+
+//   scrollTrigger:
+//   {
+
+//     //trigger: renderer.domElement,
+//     trigger: document.getElementById("main"),
+//     start: 'top top',
+//     end: 'bottom bottom',
+//     //pin: true,
+//     scrub: true,
+//     //markers: true
+//   },
+//   x: 0,
+//   y: -42,
+//   z: 23, //used to be 33
+//   ease: Power1.easeIn,
+            
+//   //onUpdate: function () {
+//   //  camera.updateProjectionMatrix();
+//   //}
+// });
 gsap.to(camera.position, {
 
   scrollTrigger:
   {
 
     //trigger: renderer.domElement,
-    trigger: document.getElementById("main"),
-    start: 'top top',
+    trigger: document.getElementById("baby"),
+    start: 'bottom 40%',
+    endTrigger: document.getElementById("main"),
     end: 'bottom bottom',
     //pin: true,
     scrub: true,
     //markers: true
   },
   x: 0,
-  y: -42,
-  z: 23, //used to be 33
-  ease: Power1.easeIn,
+  y: -41.87,
+  z: 13,//23, //used to be 33
+  ease: Power3.easeIn,
             
   //onUpdate: function () {
   //  camera.updateProjectionMatrix();
@@ -611,28 +625,95 @@ gsap.to(camera.position, {
 });
 
 function init(){
-  gsap.to(keyMesh.position, {
+  var keyTL = gsap.timeline(//{
+  //   scrollTrigger: {
+  //     trigger: document.getElementById("main"),
+  //     start: 'top top',
+  //     endTrigger: document.getElementById("baby"),
+  //     end: 'bottom 40%',
+  //     scrub: true,
+  //   }
+  // }
+  )
+  keyTL.to(keyMesh.position, {
     scrollTrigger:
     {
-      //trigger: renderer.domElement,
       trigger: document.getElementById("main"),
       start: 'top top',
+      endTrigger: document.getElementById("baby"),
+      end: 'top 40%',
+      scrub: true,
+    },
+    x: 0,
+    y: 0.13,
+    z: 5.4,
+    ease: Power1.easeIn
+  })
+  .to(keyMesh.position, {
+    scrollTrigger:
+    {
+      immediateRender: false,
+      //trigger: renderer.domElement,
+      trigger: document.getElementById("baby"),
+      start: 'bottom 40%',
+      endTrigger: document.getElementById("main"),
       end: 'bottom bottom',
       //pin: true,
       scrub: true,
       //markers: true
     },
     x: 0,
-    y: -42,
-    z: 3.5, //0, //23, //used to be 33
-    ease: Power1.easeIn,
-              
-    //onUpdate: function () {
-    //  camera.updateProjectionMatrix();
-    //}
-  });
+    y: -41.87,
+    z: 10,//5.1, //0, //23, //used to be 33
+    ease: Power3.easeIn,
+  })
 
-  var staticOpacityTo = gsap.fromTo(whiteNoiseMaterial, {opacity: 1}, {opacity: 0,duration: 2,})
+
+  // gsap.to(keyMesh.position, {
+  //   scrollTrigger:
+  //   {
+  //     trigger: document.getElementById("main"),
+  //     start: 'top top',
+  //     endTrigger: document.getElementById("baby"),
+  //     end: 'top 40%',
+  //     scrub: true,
+  //   },
+  //   x: 0,
+  //   y: 0.13,
+  //   z: 5.4,
+              
+  //   //onUpdate: function () {
+  //   //  camera.updateProjectionMatrix();
+  //   //}
+  // });
+
+  
+
+
+
+
+  // gsap.to(keyMesh.position, {
+  //   scrollTrigger:
+  //   {
+  //     //trigger: renderer.domElement,
+  //     trigger: document.getElementById("main"),
+  //     start: 'top top',
+  //     end: 'bottom bottom',
+  //     //pin: true,
+  //     scrub: true,
+  //     //markers: true
+  //   },
+  //   x: 0,
+  //   y: -42,
+  //   z: 3.5, //0, //23, //used to be 33
+  //   ease: Power1.easeIn,
+              
+  //   //onUpdate: function () {
+  //   //  camera.updateProjectionMatrix();
+  //   //}
+  // });
+
+  var staticOpacityTo = gsap.fromTo(whiteNoiseMaterial, {opacity: 1}, {opacity: 0.042,duration: 4,})
   ScrollTrigger.create({
     trigger: document.getElementById("main"),
     start: 'top top',
