@@ -126,14 +126,14 @@ blockquote {
 h1 {
   font-family: 'Roboto', sans-serif;
   text-align: center;
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   margin-top: 8%;
   margin-bottom: 0;
   /* font-size: 13vw; */
   text-shadow:
        3px 3px 0 rgb(255, 0, 76),
-     -1px -1px 0 rgb(72, 255, 0),
-      1px -1px 0 rgb(43, 255, 0),
+     -1px -1px 0 rgb(255, 251, 0),
+      1px -1px 0 rgb(255, 123, 0),
       -1px 1px 0 rgb(0, 247, 255),
        1px 1px 0 rgb(255, 196, 0);
 }

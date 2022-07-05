@@ -145,7 +145,7 @@ const controls = new OrbitControls(camera, renderer.domElement);
 const pointLight = new THREE.PointLight(0x00ffff, 1);
 pointLight.position.set(10,-9,-3);
 pointLight.castShadow = false; // default false
-//const lightHelper = new THREE.PointLightHelper(pointLight);
+const lightHelper = new THREE.PointLightHelper(pointLight);
 const pointLight2 = new THREE.PointLight(0xe60944, 1);
 pointLight2.position.set(-10,-32,0);
 //const directionalLight = new THREE.DirectionalLight(0xffeba1, 1);
@@ -156,36 +156,36 @@ pointLight2.position.set(-10,-32,0);
 //pointLight.position.set(0, 13, -10);
 //const ambientLight = new THREE.AmbientLight(0xffffff,.1);
 scene.add(pointLight);
-//scene.add(lightHelper);
+scene.add(lightHelper);
 scene.add(pointLight2);
 
 
-// class ColorGUIHelper {
-//   constructor(object, prop) {
-//     this.object = object;
-//     this.prop = prop;
-//   }
-//   get value() {
-//     return `#${this.object[this.prop].getHexString()}`;
-//   }
-//   set value(hexString) {
-//     this.object[this.prop].set(hexString);
-//   }
-// }
+class ColorGUIHelper {
+  constructor(object, prop) {
+    this.object = object;
+    this.prop = prop;
+  }
+  get value() {
+    return `#${this.object[this.prop].getHexString()}`;
+  }
+  set value(hexString) {
+    this.object[this.prop].set(hexString);
+  }
+}
 
-// const lightGui1 = gui.addFolder('Light1');
-// lightGui1.add(pointLight.position, 'x');
-// lightGui1.add(pointLight.position, 'y');
-// lightGui1.add(pointLight.position, 'z');
-// lightGui1.addColor(new ColorGUIHelper(pointLight, 'color'), 'value').name('color');
-// lightGui1.add(pointLight, 'intensity');
+const lightGui1 = gui.addFolder('Light1');
+lightGui1.add(pointLight.position, 'x');
+lightGui1.add(pointLight.position, 'y');
+lightGui1.add(pointLight.position, 'z');
+lightGui1.addColor(new ColorGUIHelper(pointLight, 'color'), 'value').name('color');
+lightGui1.add(pointLight, 'intensity');
 
-// const lightGui2 = gui.addFolder('Light2');
-// lightGui2.add(pointLight2.position, 'x')
-// lightGui2.add(pointLight2.position, 'y')
-// lightGui2.add(pointLight2.position, 'z')
-// lightGui2.addColor(new ColorGUIHelper(pointLight2, 'color'), 'value').name('color');
-// lightGui2.add(pointLight2, 'intensity');
+const lightGui2 = gui.addFolder('Light2');
+lightGui2.add(pointLight2.position, 'x')
+lightGui2.add(pointLight2.position, 'y')
+lightGui2.add(pointLight2.position, 'z')
+lightGui2.addColor(new ColorGUIHelper(pointLight2, 'color'), 'value').name('color');
+lightGui2.add(pointLight2, 'intensity');
 
 
 
@@ -479,6 +479,7 @@ gltfLoader4.load('./assets/skeleton/skellyFist.gltf', function(gltfScene) {
 const TVgroup = new THREE.Group();
 var tvMesh;
 var tvMat;
+const tvMats = new Set();
 
 const gltfLoader5 = new GLTFLoader(loadingManager);
 gltfLoader5.load('./assets/tv/TV2/tv2.gltf', function(gltfScene) {
@@ -487,9 +488,24 @@ gltfLoader5.load('./assets/tv/TV2/tv2.gltf', function(gltfScene) {
   gltfScene.scene.position.set(0, -0.3, 3);
   tvMesh = gltfScene.scene;
   //tvMat = gltfScene.scene.material;
+  // gltfscene.parser.getDependencies( 'material' ).then( ( materials ) => {
+  //   console.log( materials );
+  // });
+
+  
 
   gltfScene.scene.traverse((o) => {
+    //if ( o.material ) tvMats.add( o.material );
+    if ( o.material && o.material.name === 'Material_17' )
+    o.material = digiMat; // tvMats.add( o.material );
+    if ( o.material && o.material.name === 'Material_65' )
+    o.material = new THREE.MeshBasicMaterial({
+      //gradientMap: threeTone,
+      color: 0x0d0d0d,
+      //receiveShadow: true,
+    })
     if (o.isMesh) {
+      o.castShadow = true;
       // tvMesh = o;
       tvMat = o.material;
       //o.material = digiMat;
@@ -655,8 +671,8 @@ function init(){
       trigger: document.getElementById("main"),
       start: 'top top',
       endTrigger: document.getElementById("baby"),
-      end: 'top 40%',
-      scrub: true,
+      end: 'top 90%',
+      scrub: 1,
     },
     x: 0,
     y: 0.13,
@@ -751,8 +767,6 @@ function init(){
   
 
   //tvMesh.material = tvMat;
-
-  testCube.material = tvMat;
 }
 
 
@@ -786,8 +800,8 @@ function init(){
 
 
 const testCube = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshBasicMaterial())
-testCube.position.set(3,0,0)
-scene.add(testCube)
+// testCube.position.set(3,0,0)
+// scene.add(testCube)
 
 var flashOpacityTo = gsap.fromTo(flashMat, {opacity: 1}, {opacity: 0,duration: 2,})
 
