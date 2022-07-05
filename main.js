@@ -469,7 +469,7 @@ gltfLoader4.load('./assets/skeleton/skellyFist.gltf', function(gltfScene) {
       //o.material = digiMat;
       o.material = skellyMat;
       //o.castShadow = true;
-      o.receiveShadow= true;
+      //o.receiveShadow= true;
     };
   });
   scene.add(gltfScene.scene);
@@ -729,7 +729,7 @@ function init(){
     //markers: true,
     onUpdate: (self) => {
       staticOpacityTo.restart();
-      scrollVelocity = self.getVelocity(); 
+      //scrollVelocity = self.getVelocity(); 
   
      }
   })
@@ -743,7 +743,7 @@ function init(){
 }
 
 
-var scrollVelocity = 0;
+//var scrollVelocity = 0;
 
 // ScrollTrigger.create({
 //   trigger: document.getElementById("main"),
@@ -864,9 +864,9 @@ function tick(){
   //cssRenderer.render(cssScene, camera);
   requestAnimationFrame( tick );
 
-  var delta = clock.getDelta();
+  // var delta = clock.getDelta();
 
-	if ( mixer ) mixer.update( delta );
+	// if ( mixer ) mixer.update( delta );
 
   rotateFlashFX();
   rotateIdleKey();
