@@ -501,7 +501,7 @@ gltfLoader5.load('./assets/tv/TV2/tv2.gltf', function(gltfScene) {
     if ( o.material && o.material.name === 'Material_65' )
     o.material = new THREE.MeshBasicMaterial({
       //gradientMap: threeTone,
-      color: 0x0d0d0d,
+      color: 0x988D8D,
       //receiveShadow: true,
     })
     if (o.isMesh) {
@@ -513,6 +513,7 @@ gltfLoader5.load('./assets/tv/TV2/tv2.gltf', function(gltfScene) {
     };
   });
   scene.add(gltfScene.scene);
+  TVgroup.add(gltfScene.scene);
 });
 
 
@@ -538,6 +539,7 @@ var domObject = new CSS3DObject( ytplayerDivElement );
 domObject.position.set(0,-0.14,3.5)
 domObject.scale.set(.008,.008,.008)
 scene2.add( domObject );
+//TVgroup.add(domObject);
 
 const whiteNoiseElement = document.getElementById("staticVid");
 whiteNoiseElement.play();
@@ -562,6 +564,7 @@ var whiteNoiseMaterial = new THREE.MeshBasicMaterial({
   staticMesh.rotation.copy( domObject.rotation );
   //mesh.scale.copy( domObject.scale );
   scene.add(staticMesh);
+  TVgroup.add(staticMesh);
 
 
 var material = new THREE.MeshPhongMaterial({
@@ -574,38 +577,38 @@ var geometry = new THREE.PlaneGeometry( 160, 103 );
 var mesh = new THREE.Mesh( geometry, material );
 mesh.position.copy( domObject.position );
 mesh.rotation.copy( domObject.rotation );
-//mesh.scale.copy( domObject.scale );
+mesh.scale.copy( domObject.scale );
 mesh.castShadow = false;
 mesh.receiveShadow = true;
 scene.add(mesh);
-// domObject.position.set(0,0,0)
+TVgroup.add(mesh);
+domObject.position.set(0,0.86,3.5)
 
 
 
 
-var ytplayerDivElement2 = document.createElement( 'div' );
-ytplayerDivElement2.id = 'screenDiv2';
+// var ytplayerDivElement2 = document.createElement( 'div' );
+// ytplayerDivElement2.id = 'screenDiv2';
                   
-//ytplayerDivElement2.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>';
+// //ytplayerDivElement2.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>';
           
-var domObject2 = new CSS3DObject( ytplayerDivElement2 );
-domObject2.position.set(0,0,-200)
-domObject2.scale.set(.1,.1,.1)
+// var domObject2 = new CSS3DObject( ytplayerDivElement2 );
+// domObject2.position.set(0,0,-200)
+// domObject2.scale.set(.1,.1,.1)
           
           
-var material2 = new THREE.MeshPhongMaterial({
-  opacity	: 0.2,
-  color	: new THREE.Color('black'),
-  blending: THREE.NoBlending,
-  side	: THREE.DoubleSide,
-});
-var geometry2 = new THREE.PlaneGeometry( 100, 100 );
-var mesh2 = new THREE.Mesh( geometry2, material2 );
-mesh2.position.copy( domObject2.position );
-mesh2.rotation.copy( domObject2.rotation );
-mesh.scale.copy( domObject.scale );
-mesh2.castShadow = false;
-mesh2.receiveShadow = true;
+// var material2 = new THREE.MeshPhongMaterial({
+//   opacity	: 0.2,
+//   color	: new THREE.Color('black'),
+//   blending: THREE.NoBlending,
+//   side	: THREE.DoubleSide,
+// });
+// var geometry2 = new THREE.PlaneGeometry( 100, 100 );
+// var mesh2 = new THREE.Mesh( geometry2, material2 );
+// mesh2.position.copy( domObject2.position );
+// mesh2.rotation.copy( domObject2.rotation );
+// mesh2.castShadow = false;
+// mesh2.receiveShadow = true;
 
 gsap.registerPlugin(ScrollTrigger);
 // gsap.to(camera.position, {
@@ -699,6 +702,45 @@ function init(){
   })
 
 
+  scene.add(TVgroup)
+  // TVgroup.position.set(0,-1,0);
+  domObject.position.set(0 + TVgroup.position.x, -0.14 + TVgroup.position.y, 3.5 + TVgroup.position.z);
+  
+  gsap.to(TVgroup.position, {
+    scrollTrigger:
+    {
+      trigger: document.getElementById("main"),
+      start: 'top top',
+      endTrigger: document.getElementById("baby"),
+      end: 'top 90%',
+      scrub: 1,
+    },
+    x: 0,
+    y: 0,//4,
+    z: -5.4,
+    ease: Power1.easeIn,
+    onUpdate: (self) => {
+      domObject.position.set(0 + TVgroup.position.x, -0.14 + TVgroup.position.y, 3.5 + TVgroup.position.z);
+     }
+  });
+  gsap.to(TVgroup.position, {
+    scrollTrigger:
+    {
+      trigger: document.getElementById("baby"),
+      start: 'top bottom',
+      endTrigger: document.getElementById("baby"),
+      end: 'top 90%',
+      scrub: 1,
+    },
+    x: 0,
+    y: 8.4,//4,
+    ease: Power1.easeIn,
+    onUpdate: (self) => {
+      domObject.position.set(0 + TVgroup.position.x, -0.14 + TVgroup.position.y, 3.5 + TVgroup.position.z);
+     }
+  });
+
+
   // gsap.to(keyMesh.position, {
   //   scrollTrigger:
   //   {
@@ -767,6 +809,7 @@ function init(){
   
 
   //tvMesh.material = tvMat;
+  
 }
 
 
