@@ -408,7 +408,7 @@ var skellyHandClosed;
 const gltfLoader2 = new GLTFLoader(loadingManager);
 gltfLoader2.load('/assets/skeleton/skellyArmUV.gltf', (gltfScene) => {
   gltfScene.scene.scale.set(5,5,5);
-  gltfScene.scene.position.set(0.13, -27, -4);
+  gltfScene.scene.position.set(0.13, -35, -4);
   skellyHandOpen = gltfScene.scene;
 
   gltfScene.scene.traverse((o) => {
@@ -437,7 +437,7 @@ const gltfLoader3 = new GLTFLoader(loadingManager);
 gltfLoader3.load('./assets/flash/scene.gltf', function(gltfScene) {
   //console.log('stroke my shaft ' + gltfScene);
   gltfScene.scene.scale.set(10,10,10);
-  gltfScene.scene.position.set(0, -19, -6);
+  gltfScene.scene.position.set(0, -26, -6);
   flashModel = gltfScene.scene;
   // keyGlowMesh = flashModel.clone();
   // keyGlowMesh.position.set(-0.1,0,-20)
@@ -461,7 +461,7 @@ gltfLoader3.load('./assets/flash/scene.gltf', function(gltfScene) {
 const gltfLoader4 = new GLTFLoader(loadingManager);
 gltfLoader4.load('./assets/skeleton/skellyFist.gltf', function(gltfScene) {
   gltfScene.scene.scale.set(5,5,5);
-  gltfScene.scene.position.set(0.13, -27, -4);
+  gltfScene.scene.position.set(0.13, -35, -4);
   skellyHandClosed = gltfScene.scene;
 
   gltfScene.scene.traverse((o) => {
@@ -518,17 +518,7 @@ gltfLoader5.load('./assets/tv/TV2/tv2.gltf', function(gltfScene) {
 
 
 
-
-
-
 //var content = document.getElementById("css").innerHTML;
-
-// var video = document.getElementById('static2');
-// video.src = "./StaticVideo.mp4";
-// video.load();
-// video.addEventListener('loadeddata', function() {
-  
-// }, false);
 
 //ytplayerDivElement.id = 'screenDiv';
 var ytplayerDivElement = document.createElement( 'div' )
@@ -584,31 +574,6 @@ scene.add(mesh);
 TVgroup.add(mesh);
 domObject.position.set(0,0.86,3.5)
 
-
-
-
-// var ytplayerDivElement2 = document.createElement( 'div' );
-// ytplayerDivElement2.id = 'screenDiv2';
-                  
-// //ytplayerDivElement2.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>';
-          
-// var domObject2 = new CSS3DObject( ytplayerDivElement2 );
-// domObject2.position.set(0,0,-200)
-// domObject2.scale.set(.1,.1,.1)
-          
-          
-// var material2 = new THREE.MeshPhongMaterial({
-//   opacity	: 0.2,
-//   color	: new THREE.Color('black'),
-//   blending: THREE.NoBlending,
-//   side	: THREE.DoubleSide,
-// });
-// var geometry2 = new THREE.PlaneGeometry( 100, 100 );
-// var mesh2 = new THREE.Mesh( geometry2, material2 );
-// mesh2.position.copy( domObject2.position );
-// mesh2.rotation.copy( domObject2.rotation );
-// mesh2.castShadow = false;
-// mesh2.receiveShadow = true;
 
 gsap.registerPlugin(ScrollTrigger);
 // gsap.to(camera.position, {
@@ -927,6 +892,8 @@ function checkIfStaticReady(){
 
 
 const clock = new THREE.Clock();
+clock.autoStart = true;
+var delta
 function tick(){
 
   //update with elapsed time to mimic delta second action
@@ -936,7 +903,7 @@ function tick(){
   //cssRenderer.render(cssScene, camera);
   requestAnimationFrame( tick );
 
-  // var delta = clock.getDelta();
+  //delta = clock.getDelta();
 
 	// if ( mixer ) mixer.update( delta );
 
