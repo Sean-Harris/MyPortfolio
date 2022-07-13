@@ -12,6 +12,10 @@ import vShader from './vertexShader.glsl.js'
 
 var modelsLoaded = false;
 
+var seanCenter = document.querySelector('#sean');
+var seanNav = document.querySelector('.container');
+const seanTitle = document.querySelector("#title");
+
 (() => {
   const $triangles = document.querySelectorAll(".triangle");
   const template = `<svg class="triangle-svg" viewBox="0 0 140 141">
@@ -24,6 +28,48 @@ var modelsLoaded = false;
     $triangle.innerHTML = template;
   });
 })();
+
+const hamburger = document.querySelector('.hamburger');
+hamburger.addEventListener('click', function(){
+  this.classList.toggle('is-active');
+})
+
+const navbar = document.querySelector('nav');
+
+// var menuToggleButton = document.getElementById("menuToggle");
+// var menuBar = gsap.timeline({paused: true});
+
+// menuBar.to('.bar-top', 0.5,{
+//   attr:{d: "M8,2 L2,8"},
+//   x: 1,
+//   ease: Power2.easeInOut,
+// }, 'start');
+
+// menuBar.to('.bar-center', 0.5,{
+//   autoAlpha: 0,
+// }, 'start');
+
+// menuBar.to('.bar-bottom', 0.5,{
+//   attr:{d: "M8,8 L2,2"},
+//   x: 1,
+//   ease: Power2.easeInOut,
+// }, 'start');
+
+// menuBar.reverse();
+
+// var navTl = gsap.timeline({paused: true});
+
+// //navTl.to();
+
+// //navTl.reverse();
+
+// menuToggleButton.addEventListener('click', function(){
+//   menuBar.reversed(!menuBar.reversed());
+//   //navTl.reversed(!navTl.reversed());
+// })
+
+
+
 
 const scrollProgress = document.getElementById('progressbar');
 var height =
@@ -60,7 +106,7 @@ loadingManager.onError = function(url){
 }
 
 //debug controls!
-const gui = new GUI();
+// const gui = new GUI();
 
 
 /*
@@ -87,7 +133,7 @@ skyMatArray.push(new THREE.MeshBasicMaterial({map: sb_lf}));
 for(let i=0;i<6;i++)
   skyMatArray[i].side = THREE.BackSide;
 
-const skyboxInterstellar = new THREE.BoxGeometry(500, 500, 500);
+const skyboxInterstellar = new THREE.BoxGeometry(1000, 1000, 1000);
 const skybox = new THREE.Mesh(skyboxInterstellar, skyMatArray);
 scene.add(skybox);
 
@@ -99,12 +145,12 @@ const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerH
 //camera.lookAt(66,40,35);
 camera.position.set(0, 0, 6.3);
 
-const camGui = gui.addFolder('Camera');
-const camPos = camGui.addFolder('Position');
+// const camGui = gui.addFolder('Camera');
+// const camPos = camGui.addFolder('Position');
 
-camPos.add(camera.position, 'x').listen();
-camPos.add(camera.position, 'y').listen();
-camPos.add(camera.position, 'z').listen();
+// camPos.add(camera.position, 'x').listen();
+// camPos.add(camera.position, 'y').listen();
+// camPos.add(camera.position, 'z').listen();
 
 
 const renderer2 = new CSS3DRenderer({
@@ -160,32 +206,32 @@ scene.add(lightHelper);
 scene.add(pointLight2);
 
 
-class ColorGUIHelper {
-  constructor(object, prop) {
-    this.object = object;
-    this.prop = prop;
-  }
-  get value() {
-    return `#${this.object[this.prop].getHexString()}`;
-  }
-  set value(hexString) {
-    this.object[this.prop].set(hexString);
-  }
-}
+// class ColorGUIHelper {
+//   constructor(object, prop) {
+//     this.object = object;
+//     this.prop = prop;
+//   }
+//   get value() {
+//     return `#${this.object[this.prop].getHexString()}`;
+//   }
+//   set value(hexString) {
+//     this.object[this.prop].set(hexString);
+//   }
+// }
 
-const lightGui1 = gui.addFolder('Light1');
-lightGui1.add(pointLight.position, 'x');
-lightGui1.add(pointLight.position, 'y');
-lightGui1.add(pointLight.position, 'z');
-lightGui1.addColor(new ColorGUIHelper(pointLight, 'color'), 'value').name('color');
-lightGui1.add(pointLight, 'intensity');
+// const lightGui1 = gui.addFolder('Light1');
+// lightGui1.add(pointLight.position, 'x');
+// lightGui1.add(pointLight.position, 'y');
+// lightGui1.add(pointLight.position, 'z');
+// lightGui1.addColor(new ColorGUIHelper(pointLight, 'color'), 'value').name('color');
+// lightGui1.add(pointLight, 'intensity');
 
-const lightGui2 = gui.addFolder('Light2');
-lightGui2.add(pointLight2.position, 'x')
-lightGui2.add(pointLight2.position, 'y')
-lightGui2.add(pointLight2.position, 'z')
-lightGui2.addColor(new ColorGUIHelper(pointLight2, 'color'), 'value').name('color');
-lightGui2.add(pointLight2, 'intensity');
+// const lightGui2 = gui.addFolder('Light2');
+// lightGui2.add(pointLight2.position, 'x')
+// lightGui2.add(pointLight2.position, 'y')
+// lightGui2.add(pointLight2.position, 'z')
+// lightGui2.addColor(new ColorGUIHelper(pointLight2, 'color'), 'value').name('color');
+// lightGui2.add(pointLight2, 'intensity');
 
 
 
@@ -257,6 +303,12 @@ const viewportSize = {
   height: window.innerHeight
 };
 
+gsap.registerPlugin(ScrollTrigger);
+var titleRect = seanTitle.getBoundingClientRect();
+var titleHeight = titleRect.height;
+var titleWidth = titleRect.width;
+var titleLeftPadding = parseFloat(window.getComputedStyle(navbar, null).getPropertyValue('padding-left'));
+
 window.addEventListener('resize', () => {
   viewportSize.width = window.innerWidth;
   viewportSize.height = window.innerHeight;
@@ -282,6 +334,13 @@ window.addEventListener('resize', () => {
 
   
   //renderer.setPixelRatio(Map.min(window.devicePixelRatio, 2));
+
+  titleRect = seanTitle.getBoundingClientRect();
+  titleHeight = titleRect.height;
+  titleWidth = titleRect.width;
+  titleLeftPadding = parseFloat(window.getComputedStyle(navbar, null).getPropertyValue('padding-left'));
+
+  ScrollTrigger.refresh();
 });
 
 // // create the dom Element
@@ -574,8 +633,8 @@ scene.add(mesh);
 TVgroup.add(mesh);
 domObject.position.set(0,0.86,3.5)
 
+// gsap.defaults({overwrite: 'auto'});
 
-gsap.registerPlugin(ScrollTrigger);
 // gsap.to(camera.position, {
 
 //   scrollTrigger:
@@ -622,6 +681,25 @@ gsap.to(camera.position, {
   //}
 });
 
+// ScrollTrigger.create({
+//   start: 'top 6%',
+//   trigger: '#sean',
+//   endTrigger: 'main',
+//   toggleClass: { targets: 'nav', className: 'nav-active'},
+//   onEnter: titleToNav,
+//   onToggle: titleToPage,
+// });
+
+ScrollTrigger.create({
+  start: 'bottom bottom',
+  trigger: '#baby',
+  endTrigger: 'main',
+  toggleClass: { targets: 'nav', className: 'is-active'},
+  // scrub: true,
+  // onEnter: titleToNav,
+  // onToggle: titleToPage,
+});
+
 function init(){
   var keyTL = gsap.timeline(//{
   //   scrollTrigger: {
@@ -636,16 +714,18 @@ function init(){
   keyTL.to(keyMesh.position, {
     scrollTrigger:
     {
+      immediateRender: false,
       trigger: document.getElementById("main"),
       start: 'top top',
       endTrigger: document.getElementById("baby"),
       end: 'top 90%',
-      scrub: 1,
+      scrub: .8,
     },
     x: 0,
     y: 0.13,
     z: 5.4,
-    ease: Power1.easeIn
+    ease: Power1.easeIn,
+    duration: 1,
   })
   .to(keyMesh.position, {
     scrollTrigger:
@@ -664,6 +744,7 @@ function init(){
     y: -41.87,
     z: 10,//5.1, //0, //23, //used to be 33
     ease: Power3.easeIn,
+    //onEnter: keyMesh.position.set(0, 0.13, 5.4)
   })
 
 
@@ -765,51 +846,83 @@ function init(){
      }
   })
 
-  
+  initDelay();
 
-  //gsap.fromTo(whiteNoiseMaterial, {opacity: 1}, {opacity: 0,duration: 2,})
+  // setTimeout(function(){
+  //   initDelay();
+  // },500);
+}
 
-  // gsap.fromTo(digiMatHexColor, {value: 0xFF0075}, {value: 0x80ff00,
-  // duration: 5})
-  
 
-  //tvMesh.material = tvMat;
+
+
+
+
+// gsap.from('#sean', {
+//   top: 4200,
+//   left: 420,
+//   duration: 2,
+//   scrollTrigger: {
+//     trigger: document.querySelector("#baby"),
+//   }
+// })
+
+// seanCenter.addEventListener("click", titleToPage);
+// seanNav.addEventListener("click", titleToNav);
+
+function titleToNav() {
+  var rect = seanTitle.getBoundingClientRect();
+  // var classes = this.classList;
+  // seanNav.appendChild(seanTitle);
+  seanNav.insertBefore(seanTitle, seanNav.children[0]);
   
+  // gsap.set(box, {x: 0, y: 0});
+  
+  // if(classes.contains('sean')){
+  //   gsap.to(seanTitle, 1, { backgroundColor: "red" });
+  // } else if(classes.contains('navb')){
+  //   gsap.to(seanTitle, 1, { backgroundColor: "blue" });
+  // }
+  
+  var newRect = seanTitle.getBoundingClientRect();
+
+  gsap.from(seanTitle, {
+    duration: 1,
+    x: rect.left - newRect.left,
+    y: rect.top - newRect.top,
+    ease: Power3.easeOut
+  });
+}
+
+function titleToPage() {
+  var rect = seanTitle.getBoundingClientRect();
+  // var classes = this.classList;
+  // seanCenter.appendChild(seanTitle);
+  seanCenter.insertBefore(seanTitle, seanCenter.children[0]);
+  
+  // gsap.set(box, {x: 0, y: 0});
+  
+  // if(classes.contains('sean')){
+  //   gsap.to(seanTitle, 1, { backgroundColor: "red" });
+  // } else if(classes.contains('navb')){
+  //   gsap.to(seanTitle, 1, { backgroundColor: "blue" });
+  // }
+  
+  var newRect = seanTitle.getBoundingClientRect();
+
+  gsap.from(seanTitle, {
+    duration: 1,
+    x: rect.left - newRect.left,
+    y: rect.top - newRect.top,
+    ease: Power3.easeOut
+  });
 }
 
 
 //var scrollVelocity = 0;
 
-// ScrollTrigger.create({
-//   trigger: document.getElementById("main"),
-//   start: 'bottom center',
-//   end: 'bottom top',
-//   toggleActions: 'play none none none',
-//   //onEnter: DebugHello,
-//   //markers: true,
-//   onUpdate: (self) => {
-//     //staticOnScroll;
-//     scrollVelocity = self.getVelocity(); 
-
-//    }
-// })
-
-
-
-
-// function staticOnScroll(){
-//     staticOpacityTo.restart();
-  
-
-
-// }
-//document.body.onscroll = staticOnScroll();
-
-
 
 const testCube = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshBasicMaterial())
-// testCube.position.set(3,0,0)
-// scene.add(testCube)
 
 var flashOpacityTo = gsap.fromTo(flashMat, {opacity: 1}, {opacity: 0,duration: 2,})
 
@@ -846,7 +959,7 @@ function checkCamZ(){
     camY = camera.position.y;
     flashY = flashModel.position.y;
 
-    if(camY <= flashY + 1){
+    if(camY <= flashY + 1.1){
       // console.log('CAMY: ' + camY + ', FLASHY: ' + flashY);
         OnCamPassHand();
     }
@@ -891,6 +1004,87 @@ function checkIfStaticReady(){
 }
 
 
+// // Static variables - That do not change while scrolling
+// var header = $("nav"),
+//     headerHeight = header.height(), // Get height of header
+//  	 	logo = $(".logo"), // Get the logo
+//  	 	logoHeight = logo.height(), // Get logo height
+//  	 	scrollTo = 60; // Animation until scrolled to this point
+
+// // Scroll function
+// $(window).on("scroll", function() {
+//   // Dynamic variables - That do change while scrolling
+//   var yPos = $(this).scrollTop(), // Get the scroll Y-position
+//   	  yPer = (yPos / scrollTo); // Calculate percenage of scroll
+
+//   // If percentage is over 100, set to 100
+//   if (yPer > 1) {
+//     yPer = 1;
+//   }
+//   // Dynamic variables for the elements
+//   var logoPos = ( -1*(yPer*50)+50), // Calculate position of logo (starting from 50%)
+//     	logoSize = ((headerHeight*yPer)-(logoHeight*yPer)+logoHeight); // Calculate new size height for logo
+//     	// headerPos = ((yPer * headerHeight) - headerHeight); // Calculate position of header (starting from minus the height of itself)
+
+//   // Change the top, left, transform and height of the logo
+//   // logo.css({
+//   //   top: logoPos + "%",
+//   //   left: logoPos + "%",
+//   //   transform: "translate3d(-" + logoPos + "%,-" + logoPos + "%,0)",
+//   //   height: logoSize
+//   // });
+//   // Change the transform and opacity of the header
+//   // $('nav').css({
+//   //   //transform: "translate3d(0," + headerPos + "px,0)",
+// 	// 	top: headerPos,
+//   //   opacity: yPer
+//   // });
+// });
+
+// gsap.from(seanTitle, {
+//   top: 20 + "%",
+//   left: 50 + "%",
+//   transform: "translate3d(-" + 50 + "%,-" + 50 + "%,0)",
+//   scrollTrigger: {
+//     trigger: document.querySelector('#baby'),
+//     start: 'bottom bottom',
+//     end: 'top top',
+//     scrub: true,
+//   },
+//   onStart: seanNav.insertBefore(seanTitle, seanNav.children[0]),
+// });
+
+// ScrollTrigger.addEventListener("refreshInit", resize);
+// resize();
+
+function initDelay(){
+  gsap.from(seanTitle, {
+    x: viewportSize.width / 2.0 - titleWidth / 2.0 - parseFloat((window.getComputedStyle(navbar, null).getPropertyValue('padding-left'))),
+    y: (viewportSize.height * 0.2) - (titleHeight / 2),
+    scrollTrigger: {
+      trigger: document.querySelector('#baby'),
+      start: 'bottom bottom',
+      end: 'top top',
+      scrub: true,
+    },
+  });
+};
+
+
+
+// gsap.from(navbar, {
+//   padding: '0',
+//   scrollTrigger: {
+//     trigger: document.querySelector('#baby'),
+//     start: 'bottom bottom',
+//     end: 'top top',
+//     scrub: true,
+//     invalidateOnRefresh: true,
+//   },
+//   // onUpdate: titleScroll.refresh(),
+// });
+
+
 const clock = new THREE.Clock();
 clock.autoStart = true;
 var delta
@@ -923,5 +1117,7 @@ function tick(){
 
 
   //console.log("Number of Triangles :", renderer.info.render.triangles);
+  // console.log((window.innerWidth / 2) - (titleWidth / 2));
+  console.log(window.innerWidth / 2.0 - titleWidth / 2.0 - parseFloat((window.getComputedStyle(navbar, null).getPropertyValue('padding-left'))));
 }
 tick();

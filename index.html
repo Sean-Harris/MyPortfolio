@@ -2,9 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" href="PHseanPic.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sean Harris - Home</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   </head>
   <body id="body">
 	<div id="progressbar"></div>
@@ -19,7 +21,8 @@
 					You aren't supposed to see this.<br>
 					I'm still new to this web dev stuff, so I have no idea how to prevent this.<br>
 					However, refreshing the page will get everything working again.<br>
-					but before you go, I want to wish you a great rest of the day!</div>
+					but before you go, I want to wish you a great rest of the day!
+				</div>
 
 
 	<video
@@ -35,16 +38,71 @@
 
 	<main id="main">
 
-		<header>
+		<nav id="navb">
+			<div class="container">
+				<h1 id="title">Sean Harris</h1>
+
+				<div class="menu">
+					<a href="#" class="is-active">Home</a>
+					<a href="#">About me</a>
+					<a href="#lastsection">Portfolio</a>
+					<a href="#">Contact</a>
+				</div>
+
+				<button class="hamburger">
+					<span></span>
+					<span></span>
+					<span></span>
+				</button>
+			</div>
 			
-		  <h1 id="title">Sean Harris</h1>
-		  <h3>Version: 0.2.346</h3>
-		  <!-- <h2>"Chillin, killin"</h2> -->
+
+
+
+
+			<!-- <div id="titleNav"></div> -->
+			<!-- <ul> -->
+				<!-- <li><a href="#" class="is-active">Home</a></li> -->
+				<!-- <li><a href="#">About me</a></li> -->
+				<!-- <li><a href="#">Services</a></li> -->
+				<!-- <li><a href="#lastsection">Portfolio</a></li> -->
+				<!-- <li><a href="#">Contact</a></li> -->
+				<!-- <ul class="icons">
+					<li><a href="www.linkedin.com/in/sean-michael-harris" class="icon brands fa-linkedin"><span class="label">Linked-In</span></a></li>
+					<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+				</ul> -->
+			<!-- </ul> -->
+			<!-- <button class="menu-toggle" id="menuToggle">
+				<svg viewBox="0 0 12 10" class="hamburger" height="40px" width="40px">
+					<path d="M10,2 L2,2" class="bar-top"></path>
+					<path d="M2,5 L10,5" class="bar-center"></path>
+					<path d="M10,8 L2,8" class="bar-bottom"></path>
+				</svg>
+			</button> -->
+		</nav>
+		
+
+		
+
+		<header>
+
 		</header>
+		<!-- <img class="logo" src="http://oi68.tinypic.com/2z5m4pu.jpg" /> -->
+		
+
+
+		<div class="banner"></div>
+
+		<div id="sean">
+			<!-- <h1 id="title">Sean Harris</h1> -->
+		  	<h3>Version: 0.2.35</h3>
+		  	<!-- <h2>"Chillin, killin"</h2> -->
+		</div>
+		
   
   
 		<blockquote>
-		  <p id="baby">🎵 wAHOO yyyAAAAAAAHEEEEGHHHHhh 🎵</p>
+		  <p id="baby">🎵 Jo is my babeh, my baby is Jo 🎵</p>
 		</blockquote>
   
 		<section>
@@ -82,8 +140,8 @@
 		  <p>The best way out is always through <br>-Robert Frost</p>
 		</blockquote>
   
-		<section class="left">
-		  <h2>🌮 Work History</h2>
+		<section class="left" id="lastsection">
+		  <h2>Seizing the keys for an  the future</h2>
   
 		  <h3>McDonalds</h3>
 		  <p>
