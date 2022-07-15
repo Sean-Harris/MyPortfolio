@@ -332,7 +332,9 @@ blockquote {
 }
 
 #title {
-  overflow: hidden;
+  overflow: visible;
+  text-transform: uppercase;
+  text-align: center;
   /* text-overflow: ellipsis; */
   /* word-wrap: break-word; */
   /* display: block; */
@@ -574,7 +576,7 @@ h3 {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1;
+  z-index: 99;
   overflow: hidden;
 }
 

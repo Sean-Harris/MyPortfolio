@@ -10,6 +10,11 @@ import { Camera, SplineCurve, Vector3, Vector4 } from 'three';
 import fShader from './fragmentShader.glsl.js'
 import vShader from './vertexShader.glsl.js'
 
+
+
+gsap.registerPlugin(ScrollTrigger);
+
+
 var modelsLoaded = false;
 
 var seanCenter = document.querySelector('#sean');
@@ -141,7 +146,8 @@ scene.background = new THREE.Color(0x000000); //FFE8DC
 
 const scene2 = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 600);
+//CAMERA!!!
+const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 700);
 //camera.lookAt(66,40,35);
 camera.position.set(0, 0, 6.3);
 
@@ -303,11 +309,14 @@ const viewportSize = {
   height: window.innerHeight
 };
 
-gsap.registerPlugin(ScrollTrigger);
+
 var titleRect = seanTitle.getBoundingClientRect();
 var titleHeight = titleRect.height;
 var titleWidth = titleRect.width;
 var titleLeftPadding = parseFloat(window.getComputedStyle(navbar, null).getPropertyValue('padding-left'));
+
+var lastTitleTLprogress = 1.0;
+
 
 window.addEventListener('resize', () => {
   viewportSize.width = window.innerWidth;
@@ -340,7 +349,9 @@ window.addEventListener('resize', () => {
   titleWidth = titleRect.width;
   titleLeftPadding = parseFloat(window.getComputedStyle(navbar, null).getPropertyValue('padding-left'));
 
-  ScrollTrigger.refresh();
+  createTitleTL();
+
+  // ScrollTrigger.refresh();
 });
 
 // // create the dom Element
@@ -805,31 +816,6 @@ function init(){
   //   //}
   // });
 
-  
-
-
-
-
-  // gsap.to(keyMesh.position, {
-  //   scrollTrigger:
-  //   {
-  //     //trigger: renderer.domElement,
-  //     trigger: document.getElementById("main"),
-  //     start: 'top top',
-  //     end: 'bottom bottom',
-  //     //pin: true,
-  //     scrub: true,
-  //     //markers: true
-  //   },
-  //   x: 0,
-  //   y: -42,
-  //   z: 3.5, //0, //23, //used to be 33
-  //   ease: Power1.easeIn,
-              
-  //   //onUpdate: function () {
-  //   //  camera.updateProjectionMatrix();
-  //   //}
-  // });
 
   var staticOpacityTo = gsap.fromTo(whiteNoiseMaterial, {opacity: 1}, {opacity: 0.052,duration: 4,})
   ScrollTrigger.create({
@@ -847,6 +833,7 @@ function init(){
   })
 
   initDelay();
+  createTitleTL();
 
   // setTimeout(function(){
   //   initDelay();
@@ -989,25 +976,17 @@ function openFist(){
   skellyHandOpen.visible = true;
   skellyHandClosed.visible = false;
 
-
   keyMesh.visible = true;
 
   camPassedHand = false;
   flashOpacityTo.time(4);
 }
-var staticLoaded = false;
-function checkIfStaticReady(){
-  if ( whiteNoiseElement.readyState === 4 ) {
-    
-  staticLoaded = true;
-  }
-}
 
 
-// // Static variables - That do not change while scrolling
+// Static variables - That do not change while scrolling
 // var header = $("nav"),
 //     headerHeight = header.height(), // Get height of header
-//  	 	logo = $(".logo"), // Get the logo
+//  	 	logo = $("#title"), // Get the logo
 //  	 	logoHeight = logo.height(), // Get logo height
 //  	 	scrollTo = 60; // Animation until scrolled to this point
 
@@ -1027,12 +1006,12 @@ function checkIfStaticReady(){
 //     	// headerPos = ((yPer * headerHeight) - headerHeight); // Calculate position of header (starting from minus the height of itself)
 
 //   // Change the top, left, transform and height of the logo
-//   // logo.css({
-//   //   top: logoPos + "%",
-//   //   left: logoPos + "%",
-//   //   transform: "translate3d(-" + logoPos + "%,-" + logoPos + "%,0)",
-//   //   height: logoSize
-//   // });
+//   logo.css({
+//     top: logoPos + "%",
+//     left: logoPos + "%",
+//     transform: "translate3d(-" + logoPos + "%,-" + logoPos + "%,0)",
+//     height: logoSize
+//   });
 //   // Change the transform and opacity of the header
 //   // $('nav').css({
 //   //   //transform: "translate3d(0," + headerPos + "px,0)",
@@ -1057,10 +1036,80 @@ function checkIfStaticReady(){
 // ScrollTrigger.addEventListener("refreshInit", resize);
 // resize();
 
-function initDelay(){
-  gsap.from(seanTitle, {
-    x: viewportSize.width / 2.0 - titleWidth / 2.0 - parseFloat((window.getComputedStyle(navbar, null).getPropertyValue('padding-left'))),
-    y: (viewportSize.height * 0.2) - (titleHeight / 2),
+// let bobTL = gsap.timeline({repeat: -1});
+let titleTL; /* gsap.timeline(); */
+
+// const small = window.matchMedia("(max-width: 767px)");
+// const medium = window.matchMedia("(min-width: 768px) and (max-width: 1279px)");
+// const large = window.matchMedia("(min-width: 1280px) and (max-width: 1919px)");
+// const xlarge = window.matchMedia("(min-width: 1920px) and (max-width: 2559px)");
+// const xxlarge = window.matchMedia("(min-width: 2560px)");
+
+// function createTL() {
+//   if(bobTL) {
+//     bobTL.kill();
+//   }
+  
+//   bobTL = gsap.timeline({repeat: -1});
+//   bobTL.fromTo('#title', {y: getYValue}, {duration: 2, y: 0});
+// }
+
+// function getYValue() {
+//   if(small.matches) {
+//       return -10;
+//   } else if (medium.matches) {
+//       return -20;
+//   } else if (large.matches) {
+//       return -30;
+//   } else if (xlarge.matches) {
+//       return -40;
+//   } else if (xxlarge.matches) {
+//       return -50;
+//   } else {
+//       return 0
+//   }
+// };
+
+// small.addEventListener("change", () =>{
+//   // createTL();
+//   console.log('SMALL');
+// });
+// medium.addEventListener("change", () =>{
+//   // createTL();
+//   console.log('MEDIUM');
+// });
+// large.addEventListener("change", () =>{
+//   // createTL();
+//   console.log('LARGE');
+// });
+// xlarge.addEventListener("change", () =>{
+//   // createTL();
+//   console.log('XLARGE');
+// });
+// xxlarge.addEventListener("change", () =>{
+//   // createTL();
+//   console.log('XXLARGE');
+// });
+// createTL();
+
+var titleBoxOffsetX = 0;
+var titleBoxOffsetY = 0;
+
+function createTitleTL() {
+  if(titleTL) {
+    lastTitleTLprogress = titleTL.progress();
+    titleBoxOffsetX = (titleWidth / (2.0 - lastTitleTLprogress)) / 2.0;
+    titleBoxOffsetY = (titleHeight / (2.0 - lastTitleTLprogress)) / 2.0;
+    titleTL.kill();
+    // console.log('titleTL killed, with a width of: ' + titleWidth);
+  }
+  else{
+    titleBoxOffsetX = titleWidth / 2.0;
+    titleBoxOffsetY = titleHeight / 2.0;
+    // console.log('titleTL doesnt exist yet, current titlewidth: ' + titleWidth);
+  }
+  
+  titleTL = gsap.timeline({
     scrollTrigger: {
       trigger: document.querySelector('#baby'),
       start: 'bottom bottom',
@@ -1068,6 +1117,93 @@ function initDelay(){
       scrub: true,
     },
   });
+  // titleTL.from('#title', {
+  //   // fontSize: 50 + 'px',
+  //   x: viewportSize.width / 2.0 - titleWidth / 2.0 - parseFloat((window.getComputedStyle(navbar, null).getPropertyValue('padding-left'))),
+  //   y: (viewportSize.height * 0.2) - (titleHeight / 2),
+  //   scrollTrigger: {
+  //     trigger: document.querySelector('#baby'),
+  //     start: 'bottom bottom',
+  //     end: 'top top',
+  //     scrub: true,
+  //   },
+  // });
+  // titleTL.fromTo('#title', {
+  //   // fontSize: 50 + 'px',
+  //   x: titleRect.left,
+  //   y: titleRect.top,
+  //   scrollTrigger: {
+  //     trigger: document.querySelector('#baby'),
+  //     start: 'bottom bottom',
+  //     end: 'top top',
+  //     scrub: true,
+  //   },
+  // }, {
+  //   x:0,y:0,
+  // });
+  titleTL.fromTo('#title', {
+    scaleX: 2,
+    scaleY: 2,
+    // fontSize: 90 + 'px',
+    x: viewportSize.width / 2.0 - titleBoxOffsetX - parseFloat((window.getComputedStyle(navbar, null).getPropertyValue('padding-left'))),
+    y: viewportSize.height * 0.2 - titleBoxOffsetY,
+  }, {
+    scaleX: 1,
+    scaleY: 1,
+    // fontSize: 40 + 'px',
+    x:0,y:0,
+  });
+  // titleTL.to('#title', {
+  //   fontSize: 54 + 'px',
+  //   scrollTrigger: {
+  //     trigger: document.querySelector('#baby'),
+  //     start: 'bottom bottom',
+  //     end: 'top top',
+  //     scrub: true,
+  //   },
+  // });
+}
+
+function getObjectY(){
+  
+}
+
+
+function initDelay(){
+  titleRect = seanTitle.getBoundingClientRect();
+  titleHeight = titleRect.height;
+  titleWidth = titleRect.width;
+  titleLeftPadding = parseFloat(window.getComputedStyle(navbar, null).getPropertyValue('padding-left'));
+
+  // gsap.from('#title', {
+  //   // fontSize: 80 + 'px',
+  //   x: viewportSize.width / 2.0 - titleWidth / 2.0 - parseFloat((window.getComputedStyle(navbar, null).getPropertyValue('padding-left'))),
+  //   y: (viewportSize.height * 0.2) - (titleHeight / 2),
+  //   scrollTrigger: {
+  //     trigger: document.querySelector('#baby'),
+  //     start: 'bottom bottom',
+  //     end: 'top top',
+  //     scrub: true,
+  //   },
+  // });
+  // gsap.from('#title', {
+  //   fontSize: 80 + 'px',
+  //   xPercent:-50, yPercent:-50, left:"50%", top:"50%",
+  //   scrollTrigger: {
+  //     trigger: document.querySelector('#baby'),
+  //     start: 'bottom bottom',
+  //     end: 'top top',
+  //     scrub: true,
+  //   },
+  // });
+};
+
+function updateTitle(){
+  titleRect = seanTitle.getBoundingClientRect();
+  titleHeight = titleRect.height;
+  titleWidth = titleRect.width;
+  titleLeftPadding = parseFloat(window.getComputedStyle(navbar, null).getPropertyValue('padding-left'));
+  // ScrollTrigger.refresh();
 };
 
 
@@ -1094,7 +1230,6 @@ function tick(){
   const elapsedTime = clock.getElapsedTime()
   renderer.render(scene, camera);
   renderer2.render(scene2, camera);
-  //cssRenderer.render(cssScene, camera);
   requestAnimationFrame( tick );
 
   //delta = clock.getDelta();
@@ -1105,19 +1240,11 @@ function tick(){
   rotateIdleKey();
   checkCamZ();
 
-  // if(!staticLoaded){
-  //   checkIfStaticReady();
-  // }
-
-  //whiteNoiseMaterial.opacity=scrollVelocity;
-  //scrollVelocity=0;
-
   uniforms.time.value = clock.getElapsedTime();
-  //uniforms.color.value =
 
 
   //console.log("Number of Triangles :", renderer.info.render.triangles);
-  // console.log((window.innerWidth / 2) - (titleWidth / 2));
-  console.log(window.innerWidth / 2.0 - titleWidth / 2.0 - parseFloat((window.getComputedStyle(navbar, null).getPropertyValue('padding-left'))));
+  updateTitle();
+  // console.log();
 }
 tick();
