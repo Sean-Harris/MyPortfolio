@@ -1036,61 +1036,61 @@ function openFist(){
 // ScrollTrigger.addEventListener("refreshInit", resize);
 // resize();
 
-// let bobTL = gsap.timeline({repeat: -1});
+let bobTL = gsap.timeline({repeat: -1});
 let titleTL; /* gsap.timeline(); */
 
-// const small = window.matchMedia("(max-width: 767px)");
-// const medium = window.matchMedia("(min-width: 768px) and (max-width: 1279px)");
-// const large = window.matchMedia("(min-width: 1280px) and (max-width: 1919px)");
-// const xlarge = window.matchMedia("(min-width: 1920px) and (max-width: 2559px)");
-// const xxlarge = window.matchMedia("(min-width: 2560px)");
+const small = window.matchMedia("(max-width: 767px)");
+const medium = window.matchMedia("(min-width: 768px) and (max-width: 1279px)");
+const large = window.matchMedia("(min-width: 1280px) and (max-width: 1919px)");
+const xlarge = window.matchMedia("(min-width: 1920px) and (max-width: 2559px)");
+const xxlarge = window.matchMedia("(min-width: 2560px)");
 
-// function createTL() {
-//   if(bobTL) {
-//     bobTL.kill();
-//   }
+function createTL() {
+  if(bobTL) {
+    bobTL.kill();
+  }
   
-//   bobTL = gsap.timeline({repeat: -1});
-//   bobTL.fromTo('#title', {y: getYValue}, {duration: 2, y: 0});
-// }
+  bobTL = gsap.timeline({repeat: -1});
+  bobTL.fromTo('i', {y: getYValue}, {duration: 4, y: 0});
+}
 
-// function getYValue() {
-//   if(small.matches) {
-//       return -10;
-//   } else if (medium.matches) {
-//       return -20;
-//   } else if (large.matches) {
-//       return -30;
-//   } else if (xlarge.matches) {
-//       return -40;
-//   } else if (xxlarge.matches) {
-//       return -50;
-//   } else {
-//       return 0
-//   }
-// };
+function getYValue() {
+  if(small.matches) {
+      return -10;
+  } else if (medium.matches) {
+      return -20;
+  } else if (large.matches) {
+      return -30;
+  } else if (xlarge.matches) {
+      return -40;
+  } else if (xxlarge.matches) {
+      return -50;
+  } else {
+      return 0
+  }
+};
 
-// small.addEventListener("change", () =>{
-//   // createTL();
-//   console.log('SMALL');
-// });
-// medium.addEventListener("change", () =>{
-//   // createTL();
-//   console.log('MEDIUM');
-// });
-// large.addEventListener("change", () =>{
-//   // createTL();
-//   console.log('LARGE');
-// });
-// xlarge.addEventListener("change", () =>{
-//   // createTL();
-//   console.log('XLARGE');
-// });
-// xxlarge.addEventListener("change", () =>{
-//   // createTL();
-//   console.log('XXLARGE');
-// });
-// createTL();
+small.addEventListener("change", () =>{
+  createTL();
+  // console.log('SMALL');
+});
+medium.addEventListener("change", () =>{
+  createTL();
+  // console.log('MEDIUM');
+});
+large.addEventListener("change", () =>{
+  createTL();
+  // console.log('LARGE');
+});
+xlarge.addEventListener("change", () =>{
+  createTL();
+  // console.log('XLARGE');
+});
+xxlarge.addEventListener("change", () =>{
+  createTL();
+  // console.log('XXLARGE');
+});
+createTL();
 
 var titleBoxOffsetX = 0;
 var titleBoxOffsetY = 0;
@@ -1117,51 +1117,18 @@ function createTitleTL() {
       scrub: true,
     },
   });
-  // titleTL.from('#title', {
-  //   // fontSize: 50 + 'px',
-  //   x: viewportSize.width / 2.0 - titleWidth / 2.0 - parseFloat((window.getComputedStyle(navbar, null).getPropertyValue('padding-left'))),
-  //   y: (viewportSize.height * 0.2) - (titleHeight / 2),
-  //   scrollTrigger: {
-  //     trigger: document.querySelector('#baby'),
-  //     start: 'bottom bottom',
-  //     end: 'top top',
-  //     scrub: true,
-  //   },
-  // });
-  // titleTL.fromTo('#title', {
-  //   // fontSize: 50 + 'px',
-  //   x: titleRect.left,
-  //   y: titleRect.top,
-  //   scrollTrigger: {
-  //     trigger: document.querySelector('#baby'),
-  //     start: 'bottom bottom',
-  //     end: 'top top',
-  //     scrub: true,
-  //   },
-  // }, {
-  //   x:0,y:0,
-  // });
   titleTL.fromTo('#title', {
     scaleX: 2,
     scaleY: 2,
     // fontSize: 90 + 'px',
     x: viewportSize.width / 2.0 - titleBoxOffsetX - parseFloat((window.getComputedStyle(navbar, null).getPropertyValue('padding-left'))),
-    y: viewportSize.height * 0.2 - titleBoxOffsetY,
+    y: viewportSize.height * 0.13 - titleBoxOffsetY,
   }, {
     scaleX: 1,
     scaleY: 1,
     // fontSize: 40 + 'px',
     x:0,y:0,
   });
-  // titleTL.to('#title', {
-  //   fontSize: 54 + 'px',
-  //   scrollTrigger: {
-  //     trigger: document.querySelector('#baby'),
-  //     start: 'bottom bottom',
-  //     end: 'top top',
-  //     scrub: true,
-  //   },
-  // });
 }
 
 function getObjectY(){
