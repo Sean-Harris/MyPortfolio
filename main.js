@@ -20,6 +20,7 @@ var modelsLoaded = false;
 var seanCenter = document.querySelector('#sean');
 var seanNav = document.querySelector('.container');
 const seanTitle = document.querySelector("#title");
+const titleContainer = document.querySelector('#titleContainer');
 
 (() => {
   const $triangles = document.querySelectorAll(".triangle");
@@ -35,11 +36,22 @@ const seanTitle = document.querySelector("#title");
 })();
 
 const hamburger = document.querySelector('.hamburger');
+const mobileMenu = document.querySelector('.mobile-nav');
 hamburger.addEventListener('click', function(){
   this.classList.toggle('is-active');
+  mobileMenu.classList.toggle('is-active');
+  titleContainer.classList.toggle('hidden');
+  if(seanTitle.classList.contains('hidden')){
+    seanTitle.classList.toggle('hidden');
+  }
+  else{
+    setTimeout(function(){
+    seanTitle.classList.toggle('hidden');
+  },360);
+  }
 })
 
-const navbar = document.querySelector('nav');
+const navbar = document.querySelector('.navb');
 
 // var menuToggleButton = document.getElementById("menuToggle");
 // var menuBar = gsap.timeline({paused: true});
@@ -705,10 +717,10 @@ ScrollTrigger.create({
   start: 'bottom bottom',
   trigger: '#baby',
   endTrigger: 'main',
-  toggleClass: { targets: 'nav', className: 'is-active'},
+  toggleClass: { targets: '.navb', className: 'is-active'},
   // scrub: true,
   // onEnter: titleToNav,
-  // onToggle: titleToPage,
+  // onToggle: titleTL,
 });
 
 function init(){
@@ -1092,6 +1104,8 @@ xxlarge.addEventListener("change", () =>{
 });
 createTL();
 
+
+
 var titleBoxOffsetX = 0;
 var titleBoxOffsetY = 0;
 
@@ -1111,10 +1125,14 @@ function createTitleTL() {
   
   titleTL = gsap.timeline({
     scrollTrigger: {
-      trigger: document.querySelector('#baby'),
-      start: 'bottom bottom',
-      end: 'top top',
-      scrub: true,
+      trigger: document.querySelector('main'),
+      // trigger: document.querySelector('#baby'),
+      // start: 'bottom bottom',
+      start: '1% top',
+      // end: 'top top',
+      end: '1% top',
+      scrub: 1,
+      markers: true,
     },
   });
   titleTL.fromTo('#title', {
@@ -1131,9 +1149,6 @@ function createTitleTL() {
   });
 }
 
-function getObjectY(){
-  
-}
 
 
 function initDelay(){
@@ -1172,20 +1187,6 @@ function updateTitle(){
   titleLeftPadding = parseFloat(window.getComputedStyle(navbar, null).getPropertyValue('padding-left'));
   // ScrollTrigger.refresh();
 };
-
-
-
-// gsap.from(navbar, {
-//   padding: '0',
-//   scrollTrigger: {
-//     trigger: document.querySelector('#baby'),
-//     start: 'bottom bottom',
-//     end: 'top top',
-//     scrub: true,
-//     invalidateOnRefresh: true,
-//   },
-//   // onUpdate: titleScroll.refresh(),
-// });
 
 
 const clock = new THREE.Clock();
