@@ -705,22 +705,21 @@ gsap.to(camera.position, {
 });
 
 // ScrollTrigger.create({
-//   start: 'top 6%',
-//   trigger: '#sean',
+//   start: 'bottom bottom',
+//   trigger: '#baby',
 //   endTrigger: 'main',
-//   toggleClass: { targets: 'nav', className: 'nav-active'},
-//   onEnter: titleToNav,
-//   onToggle: titleToPage,
+//   toggleClass: { targets: '.navb', className: 'is-active'},
+//   // scrub: true,
+//   // onEnter: titleToNav,
+//   // onToggle: titleTL,
 // });
 
 ScrollTrigger.create({
   start: 'bottom bottom',
-  trigger: '#baby',
-  endTrigger: 'main',
+  trigger: 'main',
+  start: '3% top',
+  // endTrigger: 'main',
   toggleClass: { targets: '.navb', className: 'is-active'},
-  // scrub: true,
-  // onEnter: titleToNav,
-  // onToggle: titleTL,
 });
 
 function init(){
@@ -1128,10 +1127,11 @@ function createTitleTL() {
       trigger: document.querySelector('main'),
       // trigger: document.querySelector('#baby'),
       // start: 'bottom bottom',
-      start: '1% top',
+      start: '3% top',
       // end: 'top top',
-      end: '1% top',
-      scrub: 1,
+      end: '3% top',
+      toggleActions: 'play none none reverse',
+      // scrub: true,
       markers: true,
     },
   });

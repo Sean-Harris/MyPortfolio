@@ -133,9 +133,10 @@
   min-height: 100vh;
   display: block;
   z-index: 97;
+  text-align: center;
   /* background-color: var(--dark); */
   /* background-image: url(/public/assets/skybox/front.png); */
-  padding-top: 120px;
+  padding-top: 78px;
   transition: 0.4s;
   backdrop-filter: blur(30px);
 }
@@ -160,6 +161,10 @@
 
 .mobile-nav a:hover{
   background-color: var(--accent);
+}
+
+.mobile-nav #mobileMenuTitle {
+  padding-bottom: 42px;
 }
 
 
