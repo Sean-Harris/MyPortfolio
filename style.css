@@ -528,7 +528,8 @@ h3 {
 i{
   display: inline-block;
   width: 100%;
-  /* position: absolute; */
+  position: fixed;
+  top: 90%;
   text-align: center;
   background: -webkit-linear-gradient(var(--accent), var(--primary));
   -webkit-background-clip: text;

@@ -326,6 +326,8 @@ var titleRect = seanTitle.getBoundingClientRect();
 var titleHeight = titleRect.height;
 var titleWidth = titleRect.width;
 var titleLeftPadding = parseFloat(window.getComputedStyle(navbar, null).getPropertyValue('padding-left'));
+var navbarRect = navbar.getBoundingClientRect();
+var navbarHeight = navbarRect.height;
 
 var lastTitleTLprogress = 1.0;
 
@@ -360,6 +362,8 @@ window.addEventListener('resize', () => {
   titleHeight = titleRect.height;
   titleWidth = titleRect.width;
   titleLeftPadding = parseFloat(window.getComputedStyle(navbar, null).getPropertyValue('padding-left'));
+  navbarRect = navbar.getBoundingClientRect();
+  navbarHeight = navbarRect.height;
 
   createTitleTL();
 
@@ -715,11 +719,12 @@ gsap.to(camera.position, {
 // });
 
 ScrollTrigger.create({
-  start: 'bottom bottom',
-  trigger: 'main',
-  start: '3% top',
-  // endTrigger: 'main',
+  trigger: document.querySelector('#baby'),
+  start: 'top 90%',//'bottom ' + navbarHeight + 'px',
+  endTrigger: document.querySelector('main'),
+  end: 'bottom top',
   toggleClass: { targets: '.navb', className: 'is-active'},
+  markers: true,
 });
 
 function init(){
@@ -1126,13 +1131,14 @@ function createTitleTL() {
     scrollTrigger: {
       trigger: document.querySelector('main'),
       // trigger: document.querySelector('#baby'),
-      // start: 'bottom bottom',
-      start: '3% top',
-      // end: 'top top',
-      end: '3% top',
-      toggleActions: 'play none none reverse',
-      // scrub: true,
-      markers: true,
+      endTrigger: document.querySelector('#baby'),
+      start: 'top top',
+      // start: '3% top',
+      end: 'top 90%',
+      // end: '3% top',
+      // toggleActions: 'play none none reverse',
+      scrub: true,
+      // markers: true,
     },
   });
   titleTL.fromTo('#title', {
