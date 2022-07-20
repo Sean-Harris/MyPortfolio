@@ -20,6 +20,7 @@ var modelsLoaded = false;
 var seanCenter = document.querySelector('#sean');
 var seanNav = document.querySelector('.container');
 const seanTitle = document.querySelector("#title");
+const greeting = document.querySelector('#greeting');
 const titleContainer = document.querySelector('#titleContainer');
 
 (() => {
@@ -718,14 +719,16 @@ gsap.to(camera.position, {
 //   // onToggle: titleTL,
 // });
 
-ScrollTrigger.create({
-  trigger: document.querySelector('#baby'),
-  start: 'top 90%',//'bottom ' + navbarHeight + 'px',
-  endTrigger: document.querySelector('main'),
-  end: 'bottom top',
-  toggleClass: { targets: '.navb', className: 'is-active'},
-  markers: true,
-});
+// ScrollTrigger.create({
+//   trigger: document.querySelector('#title'),
+//   start: 'top 90%',//'bottom ' + navbarHeight + 'px',
+//   // endTrigger: document.querySelector('main'),
+//   // end: 'bottom top',
+//   toggleClass: { targets: '.navb', className: 'is-active'},
+//   markers: true,
+// });
+
+
 
 function init(){
   var keyTL = gsap.timeline(//{
@@ -741,11 +744,11 @@ function init(){
   keyTL.to(keyMesh.position, {
     scrollTrigger:
     {
-      immediateRender: false,
+      // immediateRender: false,
       trigger: document.getElementById("main"),
       start: 'top top',
       endTrigger: document.getElementById("baby"),
-      end: 'top 90%',
+      end: 'top bottom',
       scrub: .8,
     },
     x: 0,
@@ -785,7 +788,7 @@ function init(){
       trigger: document.getElementById("main"),
       start: 'top top',
       endTrigger: document.getElementById("baby"),
-      end: 'top 90%',
+      end: 'top bottom',
       scrub: 1,
     },
     x: 0,
@@ -804,6 +807,7 @@ function init(){
       endTrigger: document.getElementById("baby"),
       end: 'top 90%',
       scrub: 1,
+      // toggleClass: { targets: 'i', className: 'hidden'},
     },
     x: 0,
     y: 8.4,//4,
@@ -856,19 +860,6 @@ function init(){
   // },500);
 }
 
-
-
-
-
-
-// gsap.from('#sean', {
-//   top: 4200,
-//   left: 420,
-//   duration: 2,
-//   scrollTrigger: {
-//     trigger: document.querySelector("#baby"),
-//   }
-// })
 
 // seanCenter.addEventListener("click", titleToPage);
 // seanNav.addEventListener("click", titleToNav);
@@ -1067,7 +1058,7 @@ function createTL() {
   }
   
   bobTL = gsap.timeline({repeat: -1});
-  bobTL.fromTo('i', {y: getYValue}, {duration: 4, y: 0});
+  bobTL.fromTo('i', {y: getYValue}, {duration: 3, y: 0});
 }
 
 function getYValue() {
@@ -1152,7 +1143,38 @@ function createTitleTL() {
     scaleY: 1,
     // fontSize: 40 + 'px',
     x:0,y:0,
+    // ease: Power3.easeOut,
   });
+}
+
+// gsap.timeline({
+//   scrollTrigger: {
+//     trigger: document.querySelector('#title'),
+//     start: 'bottom 3%',
+//     toggleClass: { targets: '.navb', className: 'is-active'},
+//     markers: true,
+//   }
+// })
+
+var titleZPos;
+var titleZPosWOffset;
+var titlePassedNav = false;
+function navToggleOnTitlePass(){
+  titleZPos = seanTitle.getBoundingClientRect().y;
+  titleZPosWOffset = titleZPos + seanTitle.getBoundingClientRect().height;
+
+  if(titleZPosWOffset <= navbar.getBoundingClientRect().height + 8){
+    if(!titlePassedNav){
+      navbar.classList.toggle('is-active');
+      titlePassedNav = true;
+    }
+  }
+  else{
+    if(titlePassedNav){
+      navbar.classList.toggle('is-active');
+      titlePassedNav = false;
+    }
+  }
 }
 
 
@@ -1214,11 +1236,14 @@ function tick(){
   rotateIdleKey();
   checkCamZ();
 
+
+  navToggleOnTitlePass();
+
   uniforms.time.value = clock.getElapsedTime();
 
 
   //console.log("Number of Triangles :", renderer.info.render.triangles);
   updateTitle();
-  // console.log();
+  // console.log(titleZPosWOffset);
 }
 tick();
