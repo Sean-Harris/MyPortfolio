@@ -1125,10 +1125,10 @@ function createTitleTL() {
       endTrigger: document.querySelector('#baby'),
       start: 'top top',
       // start: '3% top',
-      end: 'top 90%',
+      end: 'top 97%',
       // end: '3% top',
       // toggleActions: 'play none none reverse',
-      scrub: true,
+      scrub: 1,
       // markers: true,
     },
   });
