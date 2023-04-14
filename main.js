@@ -321,6 +321,7 @@ const viewportSize = {
   width: window.outerWidth,
   height: window.outerHeight//window.height//window.innerHeight
 };
+var Twidth = $(window).width(), Theight = $(window).height();
 
 
 var titleRect = seanTitle.getBoundingClientRect();
@@ -334,8 +335,8 @@ var lastTitleTLprogress = 1.0;
 
 
 window.addEventListener('resize', () => {
-  viewportSize.width = window.innerWidth;
-  viewportSize.height = window.innerHeight;
+  viewportSize.width = window.outerWidth;
+  viewportSize.height = window.outerHeight;
 
   height =
   document.documentElement.scrollHeight - document.documentElement.clientHeight;
