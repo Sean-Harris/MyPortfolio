@@ -191,11 +191,12 @@
   }
 }
 
-/* html {
-  overflow: hidden;
-  width: 100%;
+html {
+  /* overflow: hidden;
+  width: 100%; */
+  height: 100vh;
   }
-  body {
+  /* body {
   height: 100%;
   position: fixed;
   overflow-y: scroll;
