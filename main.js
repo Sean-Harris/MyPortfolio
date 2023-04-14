@@ -185,14 +185,14 @@ const renderer2 = new CSS3DRenderer({
 const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector('#main-content'),
   alpha: true,
-  antialias: false,
+  antialias: true,
   powerPreference: "high-performance"
 });
 // renderer.shadowMap.enabled = true;
 // renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.gammaOutput = true;
 renderer.gammaFactor = 2.2;
-renderer.setPixelRatio(window.devicePixelRatio * 0.75);
+renderer.setPixelRatio(window.devicePixelRatio );//* 0.75);
 document.body.appendChild( renderer.domElement );
 renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -410,6 +410,15 @@ window.addEventListener('resize', () => {
 //   document.getElementById("content").innerHTML='<object type="text/html" data="home.html" ></object>';
 // }
 
+
+//Profile picture:
+const ProfilePicGeometry = new THREE.CircleGeometry( .1, 64 );
+const ProfilePicMaterial = new THREE.TextureLoader().load('/PHseanPic.jpg');//new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+let circleMat = new THREE.MeshBasicMaterial({map: ProfilePicMaterial});
+const ProfilePicCircle = new THREE.Mesh( ProfilePicGeometry, circleMat );
+scene.add( ProfilePicCircle );
+ProfilePicCircle.position.set(0,.1,5.85)
+
 const threeTone = new THREE.TextureLoader().load('/assets/gradientMaps/threeTone.jpg')
 threeTone.minFilter = THREE.NearestFilter
 threeTone.magFilter = THREE.NearestFilter
@@ -570,7 +579,7 @@ const tvMats = new Set();
 
 const gltfLoader5 = new GLTFLoader(loadingManager);
 gltfLoader5.load('./assets/tv/TV2/tv2.gltf', function(gltfScene) {
-  gltfScene.scene.scale.set(.09,.09,.09);
+  gltfScene.scene.scale.set(0.09,0.09,0.097);
   gltfScene.scene.rotation.set(0,-1.5708,0)
   gltfScene.scene.position.set(0, -0.3, 3);
   tvMesh = gltfScene.scene;
@@ -610,7 +619,7 @@ gltfLoader5.load('./assets/tv/TV2/tv2.gltf', function(gltfScene) {
 //ytplayerDivElement.id = 'screenDiv';
 var ytplayerDivElement = document.createElement( 'div' )
         
-ytplayerDivElement.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>';
+ytplayerDivElement.innerHTML = '<object type="text/html" data="ScreenPage.html" ></object>'; //generic2wtf.html
 
 var domObject = new CSS3DObject( ytplayerDivElement );
 domObject.position.set(0,-0.14,3.5)
@@ -779,43 +788,69 @@ function init(){
 
 
   scene.add(TVgroup)
-  // TVgroup.position.set(0,-1,0);
+  TVgroup.position.set(0,0.1,2.277);
   domObject.position.set(0 + TVgroup.position.x, -0.14 + TVgroup.position.y, 3.5 + TVgroup.position.z);
   
+  // gsap.to(TVgroup.position, {
+  //   scrollTrigger:
+  //   {
+  //     trigger: document.getElementById("main"),
+  //     start: 'top top',
+  //     endTrigger: document.getElementById("baby"),
+  //     end: 'top bottom',
+  //     scrub: 1,
+  //   },
+  //   x: 0,
+  //   //y: 0,//4,
+  //   z: -5.4,
+  //   ease: Power1.easeIn,
+  //   onUpdate: (self) => {
+  //     domObject.position.set(0 + TVgroup.position.x, -0.14 + TVgroup.position.y, 3.5 + TVgroup.position.z);
+  //    }
+  // });
+  // gsap.to(TVgroup.position, {
+  //   scrollTrigger:
+  //   {
+  //     trigger: document.getElementById("baby"),
+  //     start: 'top bottom',
+  //     endTrigger: document.getElementById("baby"),
+  //     end: 'top 90%',
+  //     scrub: 1,
+  //     // toggleClass: { targets: 'i', className: 'hidden'},
+  //   },
+  //   x: 0,
+  //   y: 8.4,//4,
+  //   ease: Power1.easeIn,
+  //   onUpdate: (self) => {
+  //     //magic numbers below are initial position offset of TVGroup
+  //     domObject.position.set(0 + TVgroup.position.x, -0.14 + TVgroup.position.y, 3.5 + TVgroup.position.z);
+  //    }
+  // });
+
   gsap.to(TVgroup.position, {
     scrollTrigger:
     {
-      trigger: document.getElementById("main"),
+      trigger: document.querySelector('main'),
+      // trigger: document.querySelector('#baby'),
+      endTrigger: document.querySelector('#baby'),
       start: 'top top',
-      endTrigger: document.getElementById("baby"),
-      end: 'top bottom',
+      // start: '3% top',
+      end: 'top 97%',
+      // end: '3% top',
+      // toggleActions: 'play none none reverse',
       scrub: 1,
+      // markers: true,
     },
     x: 0,
-    y: 0,//4,
-    z: -5.4,
-    ease: Power1.easeIn,
+    y: 0,
+    z: 0,
+    ease: Power3.easeIn,
     onUpdate: (self) => {
       domObject.position.set(0 + TVgroup.position.x, -0.14 + TVgroup.position.y, 3.5 + TVgroup.position.z);
      }
   });
-  gsap.to(TVgroup.position, {
-    scrollTrigger:
-    {
-      trigger: document.getElementById("baby"),
-      start: 'top bottom',
-      endTrigger: document.getElementById("baby"),
-      end: 'top 90%',
-      scrub: 1,
-      // toggleClass: { targets: 'i', className: 'hidden'},
-    },
-    x: 0,
-    y: 8.4,//4,
-    ease: Power1.easeIn,
-    onUpdate: (self) => {
-      domObject.position.set(0 + TVgroup.position.x, -0.14 + TVgroup.position.y, 3.5 + TVgroup.position.z);
-     }
-  });
+
+  
 
 
   // gsap.to(keyMesh.position, {
@@ -941,6 +976,12 @@ function rotateFlashFX(){
 function rotateIdleKey(){
   if(modelsLoaded){
     keyMesh.rotation.y += 0.0069;
+  }
+}
+
+function rotateDebug(){
+  if(modelsLoaded){
+    ProfilePicCircle.rotation.y += 0.0069;
   }
 }
 
@@ -1137,7 +1178,7 @@ function createTitleTL() {
     scaleY: 2,
     // fontSize: 90 + 'px',
     x: viewportSize.width / 2.0 - titleBoxOffsetX - parseFloat((window.getComputedStyle(navbar, null).getPropertyValue('padding-left'))),
-    y: viewportSize.height * 0.13 - titleBoxOffsetY,
+    y: viewportSize.height * 0.83 - titleBoxOffsetY,
   }, {
     scaleX: 1,
     scaleY: 1,
@@ -1235,6 +1276,8 @@ function tick(){
   rotateFlashFX();
   rotateIdleKey();
   checkCamZ();
+
+  rotateDebug();
 
 
   navToggleOnTitlePass();
