@@ -319,7 +319,7 @@ const planeAspectRatio = 16 / 9;
 
 const viewportSize = {
   width: window.innerWidth,
-  height: screen.height//window.height//window.innerHeight
+  height: window.outerHeight//window.height//window.innerHeight
 };
 
 
