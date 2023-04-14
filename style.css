@@ -191,17 +191,17 @@
   } */
 }
 
-/* html {
+html {
   overflow: hidden;
   width: 100%;
   height: 100vh;
-  } */
-  /* body {
+  }
+  body {
   height: 100%;
   position: fixed;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  } */
+  }
 
 main {
   color: rgb(255, 255, 255);
