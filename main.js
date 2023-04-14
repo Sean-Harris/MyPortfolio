@@ -335,7 +335,9 @@ var lastTitleTLprogress = 1.0;
 
 
 window.addEventListener('resize', () => {
-  viewportSize.width = window.outerWidth;
+  if($(window).width() != Twidth || $(window).height() != Theight){
+    //Do something
+    viewportSize.width = window.outerWidth;
   viewportSize.height = window.outerHeight;
 
   height =
@@ -370,6 +372,8 @@ window.addEventListener('resize', () => {
   createTitleTL();
 
   // ScrollTrigger.refresh();
+  }
+  
 });
 
 // // create the dom Element
@@ -1170,7 +1174,7 @@ function createTitleTL() {
       end: 'top 97%',
       // end: '3% top',
       // toggleActions: 'play none none reverse',
-      scrub: 1,
+      scrub: true,
       // markers: true,
     },
   });
