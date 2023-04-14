@@ -191,7 +191,7 @@
   }
 }
 
-html {
+/* html {
   overflow: hidden;
   width: 100%;
   }
@@ -200,7 +200,7 @@ html {
   position: fixed;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  }
+  } */
 
 main {
   color: rgb(255, 255, 255);
