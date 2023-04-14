@@ -180,15 +180,15 @@
 #main-content {
   position: fixed;
   height: 100%;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   top: 0;
   left: 0;
   z-index: -1;
-  @supports (-webkit-appearance:none) {
+  /* @supports (-webkit-appearance:none) {
     .os-android & {
       min-height: calc(100vh - 56px);
     }
-  }
+  } */
 }
 
 /* html {
@@ -204,7 +204,7 @@
 
 main {
   color: rgb(255, 255, 255);
-  height: 100vh;
+  /* height: 100vh; */
   /* min-height: 100vh; */
   /* position: fixed; */
   
