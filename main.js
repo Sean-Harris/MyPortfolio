@@ -318,8 +318,8 @@ const planeAspectRatio = 16 / 9;
 
 
 const viewportSize = {
-  width: window.outerWidth,
-  height: window.outerHeight//window.height//window.innerHeight
+  width: window.innerWidth,
+  height: window.innerHeight//window.height//window.innerHeight
 };
 var Twidth = $(window).width(), Theight = $(window).height();
 
@@ -337,41 +337,41 @@ var lastTitleTLprogress = 1.0;
 window.addEventListener('resize', () => {
   if($(window).width() != Twidth || $(window).height() != Theight){
     //Do something
-    viewportSize.width = window.outerWidth;
-  viewportSize.height = window.outerHeight;
+    viewportSize.width = window.innerWidth;
+    viewportSize.height = window.innerHeight;
 
-  height =
-  document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    height =
+    document.documentElement.scrollHeight - document.documentElement.clientHeight;
 
-  camera.aspect = viewportSize.width / viewportSize.height;
-  camera.updateProjectionMatrix();
-  renderer.setSize(viewportSize.width, viewportSize.height);
-  renderer2.setSize(viewportSize.width, viewportSize.height);
+    camera.aspect = viewportSize.width / viewportSize.height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(viewportSize.width, viewportSize.height);
+    renderer2.setSize(viewportSize.width, viewportSize.height);
 
-  // if (camera.aspect > planeAspectRatio) {
-	// 	// window too large
-	// 	camera.fov = fov;
-	// } else {
-	// 	// window too narrow
-	// 	const cameraHeight = Math.tan(MathUtils.degToRad(fov / 2));
-	// 	const ratio = camera.aspect / planeAspectRatio;
-	// 	const newCameraHeight = cameraHeight / ratio;
-	// 	camera.fov = MathUtils.radToDeg(Math.atan(newCameraHeight)) * 2;
-	// }
+    // if (camera.aspect > planeAspectRatio) {
+  	// 	// window too large
+  	// 	camera.fov = fov;
+  	// } else {
+  	// 	// window too narrow
+  	// 	const cameraHeight = Math.tan(MathUtils.degToRad(fov / 2));
+  	// 	const ratio = camera.aspect / planeAspectRatio;
+	  // 	const newCameraHeight = cameraHeight / ratio;
+  	// 	camera.fov = MathUtils.radToDeg(Math.atan(newCameraHeight)) * 2;
+  	// }
 
   
-  //renderer.setPixelRatio(Map.min(window.devicePixelRatio, 2));
+    //renderer.setPixelRatio(Map.min(window.devicePixelRatio, 2));
 
-  titleRect = seanTitle.getBoundingClientRect();
-  titleHeight = titleRect.height;
-  titleWidth = titleRect.width;
-  titleLeftPadding = parseFloat(window.getComputedStyle(navbar, null).getPropertyValue('padding-left'));
-  navbarRect = navbar.getBoundingClientRect();
-  navbarHeight = navbarRect.height;
+    titleRect = seanTitle.getBoundingClientRect();
+    titleHeight = titleRect.height;
+    titleWidth = titleRect.width;
+    titleLeftPadding = parseFloat(window.getComputedStyle(navbar, null).getPropertyValue('padding-left'));
+    navbarRect = navbar.getBoundingClientRect();
+    navbarHeight = navbarRect.height;
 
-  createTitleTL();
+    createTitleTL();
 
-  // ScrollTrigger.refresh();
+    // ScrollTrigger.refresh();
   }
   
 });
