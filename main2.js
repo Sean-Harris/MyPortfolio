@@ -1,4 +1,4 @@
-import './style.css?parameter=1'
+//import './style.css?parameter=1'
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { MathUtils } from 'three';
@@ -38,19 +38,19 @@ const titleContainer = document.querySelector('#titleContainer');
 
 const hamburger = document.querySelector('.hamburger');
 const mobileMenu = document.querySelector('.mobile-nav');
-hamburger.addEventListener('click', function(){
-  this.classList.toggle('is-active');
-  mobileMenu.classList.toggle('is-active');
-  titleContainer.classList.toggle('hidden');
-  if(seanTitle.classList.contains('hidden')){
-    seanTitle.classList.toggle('hidden');
-  }
-  else{
-    setTimeout(function(){
-    seanTitle.classList.toggle('hidden');
-  },360);
-  }
-})
+// hamburger.addEventListener('click', function(){
+//   this.classList.toggle('is-active');
+//   mobileMenu.classList.toggle('is-active');
+//   titleContainer.classList.toggle('hidden');
+//   if(seanTitle.classList.contains('hidden')){
+//     seanTitle.classList.toggle('hidden');
+//   }
+//   else{
+//     setTimeout(function(){
+//     seanTitle.classList.toggle('hidden');
+//   },360);
+//   }
+// })
 
 const navbar = document.querySelector('.navb');
 
@@ -901,56 +901,6 @@ function init(){
 }
 
 
-// seanCenter.addEventListener("click", titleToPage);
-// seanNav.addEventListener("click", titleToNav);
-
-function titleToNav() {
-  var rect = seanTitle.getBoundingClientRect();
-  // var classes = this.classList;
-  // seanNav.appendChild(seanTitle);
-  seanNav.insertBefore(seanTitle, seanNav.children[0]);
-  
-  // gsap.set(box, {x: 0, y: 0});
-  
-  // if(classes.contains('sean')){
-  //   gsap.to(seanTitle, 1, { backgroundColor: "red" });
-  // } else if(classes.contains('navb')){
-  //   gsap.to(seanTitle, 1, { backgroundColor: "blue" });
-  // }
-  
-  var newRect = seanTitle.getBoundingClientRect();
-
-  gsap.from(seanTitle, {
-    duration: 1,
-    x: rect.left - newRect.left,
-    y: rect.top - newRect.top,
-    ease: Power3.easeOut
-  });
-}
-
-function titleToPage() {
-  var rect = seanTitle.getBoundingClientRect();
-  // var classes = this.classList;
-  // seanCenter.appendChild(seanTitle);
-  seanCenter.insertBefore(seanTitle, seanCenter.children[0]);
-  
-  // gsap.set(box, {x: 0, y: 0});
-  
-  // if(classes.contains('sean')){
-  //   gsap.to(seanTitle, 1, { backgroundColor: "red" });
-  // } else if(classes.contains('navb')){
-  //   gsap.to(seanTitle, 1, { backgroundColor: "blue" });
-  // }
-  
-  var newRect = seanTitle.getBoundingClientRect();
-
-  gsap.from(seanTitle, {
-    duration: 1,
-    x: rect.left - newRect.left,
-    y: rect.top - newRect.top,
-    ease: Power3.easeOut
-  });
-}
 
 
 //var scrollVelocity = 0;
@@ -986,7 +936,7 @@ function rotateIdleKey(){
 
 function rotateDebug(){
   if(modelsLoaded){
-    //ProfilePicCircle.rotation.y += 0.0069;
+    ProfilePicCircle.rotation.y += 0.0069;
   }
 }
 
@@ -1091,7 +1041,6 @@ function openFist(){
 
 let bobTL = gsap.timeline({repeat: -1});
 let titleTL; /* gsap.timeline(); */
-let greetingTL;
 
 const small = window.matchMedia("(max-width: 767px)");
 const medium = window.matchMedia("(min-width: 768px) and (max-width: 1279px)");
@@ -1175,7 +1124,7 @@ function createTitleTL() {
       end: 'top 97%',
       // end: '3% top',
       // toggleActions: 'play none none reverse',
-      scrub: 1,
+      scrub: true,
       // markers: true,
     },
   });
@@ -1184,63 +1133,12 @@ function createTitleTL() {
     scaleY: 2,
     // fontSize: 90 + 'px',
     x: viewportSize.width / 2.0 - titleBoxOffsetX - parseFloat((window.getComputedStyle(navbar, null).getPropertyValue('padding-left'))),
-    y: viewportSize.height * 0.70 - titleBoxOffsetY,
+    y: viewportSize.height * 0.83 - titleBoxOffsetY,
   }, {
     scaleX: 1,
     scaleY: 1,
     // fontSize: 40 + 'px',
     x:0,y:0,
-    ease: Power3.easeIn,
-  });
-
-
-
-
-
-
-  greetingTL = gsap.timeline({
-    scrollTrigger: {
-      trigger: document.querySelector('main'),
-      // trigger: document.querySelector('#baby'),
-      endTrigger: document.querySelector('#baby'),
-      start: 'top top',
-      // start: '3% top',
-      end: 'top 97%',
-      // end: '3% top',
-      // toggleActions: 'play none none reverse',
-      scrub: true,
-      // markers: true,
-    },
-  });
-  greetingTL.fromTo('#greeting', {
-    opacity: 1,
-    scaleX: 1,
-    scaleY: 1,
-    // fontSize: 90 + 'px',
-    // x: viewportSize.width / 2.0 - titleBoxOffsetX - parseFloat((window.getComputedStyle(navbar, null).getPropertyValue('padding-left'))),
-    // y: viewportSize.height * 0.83 - titleBoxOffsetY,
-  }, {
-    opacity: 0,
-    scaleX: .1,
-    scaleY: .1,
-    // fontSize: 40 + 'px',
-    // x:0,y:0,
-    // ease: Power3.easeOut,
-  });
-  greetingTL.fromTo('#desc', {
-    opacity: 1,
-    scaleX: 1,
-    scaleY: 1,
-    // fontSize: 90 + 'px',
-    // x: viewportSize.width / 2.0 - titleBoxOffsetX - parseFloat((window.getComputedStyle(navbar, null).getPropertyValue('padding-left'))),
-    // y: viewportSize.height * 0.83 - titleBoxOffsetY,
-  }, {
-    opacity: 0,
-    scaleX: .1,
-    scaleY: .1,
-    scrub: 1,
-    // fontSize: 40 + 'px',
-    // x:0,y:0,
     // ease: Power3.easeOut,
   });
 }
@@ -1283,27 +1181,27 @@ function initDelay(){
   titleWidth = titleRect.width;
   titleLeftPadding = parseFloat(window.getComputedStyle(navbar, null).getPropertyValue('padding-left'));
 
-  // gsap.from('#title', {
-  //   // fontSize: 80 + 'px',
-  //   x: viewportSize.width / 2.0 - titleWidth / 2.0 - parseFloat((window.getComputedStyle(navbar, null).getPropertyValue('padding-left'))),
-  //   y: (viewportSize.height * 0.2) - (titleHeight / 2),
-  //   scrollTrigger: {
-  //     trigger: document.querySelector('#baby'),
-  //     start: 'bottom bottom',
-  //     end: 'top top',
-  //     scrub: true,
-  //   },
-  // });
-  // gsap.from('#title', {
-  //   fontSize: 80 + 'px',
-  //   xPercent:-50, yPercent:-50, left:"50%", top:"50%",
-  //   scrollTrigger: {
-  //     trigger: document.querySelector('#baby'),
-  //     start: 'bottom bottom',
-  //     end: 'top top',
-  //     scrub: true,
-  //   },
-  // });
+  gsap.from('#title', {
+    // fontSize: 80 + 'px',
+    x: viewportSize.width / 2.0 - titleWidth / 2.0 - parseFloat((window.getComputedStyle(navbar, null).getPropertyValue('padding-left'))),
+    y: (viewportSize.height * 0.2) - (titleHeight / 2),
+    scrollTrigger: {
+      trigger: document.querySelector('#baby'),
+      start: 'bottom bottom',
+      end: 'top top',
+      scrub: true,
+    },
+  });
+  gsap.from('#title', {
+    fontSize: 80 + 'px',
+    xPercent:-50, yPercent:-50, left:"50%", top:"50%",
+    scrollTrigger: {
+      trigger: document.querySelector('#baby'),
+      start: 'bottom bottom',
+      end: 'top top',
+      scrub: true,
+    },
+  });
 };
 
 function updateTitle(){
@@ -1311,7 +1209,7 @@ function updateTitle(){
   titleHeight = titleRect.height;
   titleWidth = titleRect.width;
   titleLeftPadding = parseFloat(window.getComputedStyle(navbar, null).getPropertyValue('padding-left'));
-  // ScrollTrigger.refresh();
+  ScrollTrigger.refresh();
 };
 
 
@@ -1334,7 +1232,7 @@ function tick(){
   rotateIdleKey();
   checkCamZ();
 
-  rotateDebug();
+  // rotateDebug();
 
 
   navToggleOnTitlePass();
