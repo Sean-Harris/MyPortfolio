@@ -1208,41 +1208,44 @@ function createTitleTL() {
       end: 'top 97%',
       // end: '3% top',
       // toggleActions: 'play none none reverse',
-      scrub: true,
+      scrub: 1.2,
       // markers: true,
     },
   });
-  greetingTL.fromTo('#greeting', {
+  greetingTL.fromTo('#introBlock', {
     opacity: 1,
     scaleX: 1,
     scaleY: 1,
     // fontSize: 90 + 'px',
+    // x: seanTitle.position.x,
+    // y: seanTitle.position.y,
+    // y: viewportSize.height / 2.0,
     // x: viewportSize.width / 2.0 - titleBoxOffsetX - parseFloat((window.getComputedStyle(navbar, null).getPropertyValue('padding-left'))),
     // y: viewportSize.height * 0.83 - titleBoxOffsetY,
   }, {
     opacity: 0,
-    scaleX: .1,
-    scaleY: .1,
+    scaleX: .2,
+    scaleY: .2,
     // fontSize: 40 + 'px',
     // x:0,y:0,
     // ease: Power3.easeOut,
   });
-  greetingTL.fromTo('#desc', {
-    opacity: 1,
-    scaleX: 1,
-    scaleY: 1,
-    // fontSize: 90 + 'px',
-    // x: viewportSize.width / 2.0 - titleBoxOffsetX - parseFloat((window.getComputedStyle(navbar, null).getPropertyValue('padding-left'))),
-    // y: viewportSize.height * 0.83 - titleBoxOffsetY,
-  }, {
-    opacity: 0,
-    scaleX: .1,
-    scaleY: .1,
-    scrub: 1,
-    // fontSize: 40 + 'px',
-    // x:0,y:0,
-    // ease: Power3.easeOut,
-  });
+  // greetingTL.fromTo('#desc', {
+  //   opacity: 1,
+  //   scaleX: 1,
+  //   scaleY: 1,
+  //   // fontSize: 90 + 'px',
+  //   // x: viewportSize.width / 2.0 - titleBoxOffsetX - parseFloat((window.getComputedStyle(navbar, null).getPropertyValue('padding-left'))),
+  //   // y: viewportSize.height * 0.83 - titleBoxOffsetY,
+  // }, {
+  //   opacity: 0,
+  //   scaleX: .1,
+  //   scaleY: .1,
+  //   scrub: 1,
+  //   // fontSize: 40 + 'px',
+  //   // x:0,y:0,
+  //   ease: Power3.easeInOut,
+  // });
 }
 
 // gsap.timeline({

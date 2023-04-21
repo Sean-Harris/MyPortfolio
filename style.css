@@ -434,7 +434,7 @@ blockquote {
   /* height: 100%; */
   /* color: #ff0000; */
   /* left: 33%; */
-  top: 60%;
+  top: 62%;
   z-index: 0;
   width: 69%;
   /* position: absolute; */
@@ -465,8 +465,54 @@ blockquote {
   width: 80%;
   /* position: absolute; */
   font-size: 24px;
-  
 }
+
+/* #introBlock {
+  position: fixed; 
+  text-align: center;
+  color: rgb(0, 0, 0);
+  margin-top: 0;
+  text-shadow:
+  3px 3px 0 rgb(255, 255, 255),
+  -1px -1px 0 rgb(219, 25, 25),
+   1px -1px 0 rgb(255, 255, 255),
+   -1px 1px 0 rgb(255, 255, 255),
+    1px 1px 0 rgb(255, 255, 255);
+  left: 50%;
+  transform: translate(-50%, 0);
+  top: 60%;
+  z-index: 0;
+  width: 80%;
+  font-size: 24px;
+} */
+
+#introBlock {
+  text-transform: none;
+  position: fixed; 
+  text-align: center;
+  color: rgb(0, 0, 0);
+  margin-top: 0;
+  text-shadow:
+  3px 3px 0 rgb(255, 255, 255),
+  -1px -1px 0 rgb(219, 25, 25),
+   1px -1px 0 rgb(255, 255, 255),
+   -1px 1px 0 rgb(255, 255, 255),
+    1px 1px 0 rgb(255, 255, 255);
+  left: 50%;
+  transform: translate(-50%, 0);
+  /* top: 60%; */
+  z-index: 0;
+  width: 80%;
+  font-size: 18px;
+}
+
+#hello {
+  margin-bottom: 80px;
+}
+
+/* #whatiam {
+  margin-top: 80px;
+} */
 
 /* #titleContainer.hidden #title{
   visibility: hidden;
@@ -486,6 +532,13 @@ blockquote {
   #greeting {
     font-size: 8px;
   }
+  #introBlock {
+    bottom: -55px;
+    font-size: 12px;
+  }
+  #hello {
+    margin-bottom: 50px;
+  }
 }
 
 @media (min-width: 360px){
@@ -497,7 +550,13 @@ blockquote {
   }
   #greeting {
     font-size: 12px;
-    /* max-width: fit-content; */
+  }
+  #introBlock {
+    bottom: -50px;
+    font-size: 14px;
+  }
+  #hello {
+    margin-bottom: 65px;
   }
 }
 
@@ -510,7 +569,13 @@ blockquote {
   }
   #greeting {
     font-size: 18px;
-    /* max-width: fit-content; */
+  }
+  #introBlock {
+    bottom: -60px;
+    font-size: 18px;
+  }
+  #hello {
+    margin-bottom: 80px;
   }
 }
 
@@ -524,6 +589,13 @@ blockquote {
   #greeting {
     font-size: 24px;
   }
+  #introBlock {
+    bottom: -55px;
+    font-size: 20px;
+  }
+  #hello {
+    margin-bottom: 70px;
+  }
 }
 
 @media (min-width: 1000px){
@@ -535,6 +607,13 @@ blockquote {
   }
   #greeting {
     font-size: 32px;
+  }
+  #introBlock {
+    bottom: -65px;
+    font-size: 26px;
+  }
+  #hello {
+    margin-bottom: 80px;
   }
 }
 
@@ -548,6 +627,13 @@ blockquote {
   #greeting {
     font-size: 40px;
   }
+  #introBlock {
+    bottom: -70px;
+    font-size: 30px;
+  }
+  #hello {
+    margin-bottom: 85px;
+  }
 }
 
 @media (min-width: 2000px){
@@ -559,6 +645,13 @@ blockquote {
   }
   #greeting {
     font-size: 42px;
+  }
+  #introBlock {
+    bottom: -70px;
+    font-size: 32px;
+  }
+  #hello {
+    margin-bottom: 90px;
   }
 }
 
@@ -573,6 +666,89 @@ blockquote {
   }
 } */
 
+/* @media (min-height: 360px){
+  #introBlock {
+    top: 40%;
+  }
+}
+
+@media (min-height: 500px){
+  #introBlock {
+    top: 42%;
+  }
+}
+
+@media (min-height: 600px){
+  #introBlock {
+    top: 46%;
+  }
+}
+
+@media (min-height: 650px){
+  #introBlock {
+    top: 47%;
+  }
+}
+
+@media (min-height: 700px){
+  #introBlock {
+    top: 49%;
+  }
+}
+
+@media (min-height: 750px){
+  #introBlock {
+    top: 50%;
+  }
+}
+
+@media (min-height: 800px){
+  #introBlock {
+    top: 52%;
+  }
+}
+
+@media (min-height: 850px){
+  #introBlock {
+    top: 53%;
+  }
+}
+
+@media (min-height: 900px){
+  #introBlock {
+    top: 54%;
+  }
+}
+
+@media (min-height: 1000px){
+  #introBlock {
+    top: 55%;
+  }
+}
+
+@media (min-height: 1050px){
+  #introBlock {
+    top: 56%;
+  }
+}
+
+@media (min-height: 1100px){
+  #introBlock {
+    top: 57%;
+  }
+}
+
+@media (min-height: 1200px){
+  #introBlock {
+    top: 58%;
+  }
+}
+
+@media (min-height: 1250px){
+  #introBlock {
+    top: 59%;
+  }
+} */
 
 
 #sean {
