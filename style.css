@@ -522,7 +522,7 @@ blockquote {
   visibility: hidden;
 }
 
-@media (min-width: 2px){
+@media screen and (min-width: 2px){
   #title{
     font-size: 12px;
   }
@@ -541,7 +541,7 @@ blockquote {
   }
 }
 
-@media (min-width: 360px){
+@media screen and (min-width: 360px){
   #title{
     font-size: 18px;
   }
@@ -560,7 +560,7 @@ blockquote {
   }
 }
 
-@media (min-width: 570px){
+@media screen and (min-width: 570px){
   #title{
     font-size: 26px;
   }
@@ -579,7 +579,7 @@ blockquote {
   }
 }
 
-@media (min-width: 768px){
+@media screen and (min-width: 768px){
   #title{
     font-size: 28px;
   }
@@ -598,7 +598,7 @@ blockquote {
   }
 }
 
-@media (min-width: 1000px){
+@media screen and (min-width: 1000px){
   #title{
     font-size: 42px;
   }
@@ -617,7 +617,7 @@ blockquote {
   }
 }
 
-@media (min-width: 1600px){
+@media screen and (min-width: 1600px){
   #title{
     font-size: 48px;
   }
@@ -636,7 +636,7 @@ blockquote {
   }
 }
 
-@media (min-width: 2000px){
+@media screen and (min-width: 2000px){
   #title{
     font-size: 54px;
   }
