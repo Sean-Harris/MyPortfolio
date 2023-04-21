@@ -970,12 +970,16 @@ i.hidden {
 }
 
 html {
-  height: 100%;
+  /* overflow: hidden; */
+  /* height: 100%; */
 }
 body {
   overflow: scroll;
   /* width: 100%; */
-  height: 100%;
+  height: 100%; /* height: 100%; */
+  /* position: fixed;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; */
   /* margin-top: 20%;
   margin-left: 10%;
   margin-right: 10%; */
