@@ -218,9 +218,9 @@ main {
   /* padding: 100px 0px; */
   
   /* background-color: black; */
-  -webkit-overflow-scrolling: touch;
+  /* -webkit-overflow-scrolling: touch;
   overflow-x: auto;
-  overflow-y: scroll;
+  overflow-y: scroll; */
 }
 /* #main {
   margin-left: 10%;
@@ -237,11 +237,11 @@ main {
   position: absolute;
   top: 0; left: 0;
   z-index: -2;
-  /* @supports (-webkit-appearance:none) {
+  @supports (-webkit-appearance:none) {
     .os-android & {
-      min-height: calc(100vh - 56px);
+      min-height: calc(100% - 56px);
     }
-  } */
+  }
 }
 
 /* header {
@@ -1307,6 +1307,11 @@ span {
 
 html, body {
   height: 100%;
+  @supports (-webkit-appearance:none) {
+    .os-android & {
+      min-height: calc(100% - 56px);
+    }
+  }
 }
 
 body {
