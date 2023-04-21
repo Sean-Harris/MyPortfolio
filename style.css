@@ -218,6 +218,9 @@ main {
   /* padding: 100px 0px; */
   
   /* background-color: black; */
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+  overflow-y: scroll;
 }
 /* #main {
   margin-left: 10%;

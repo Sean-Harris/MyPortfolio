@@ -123,6 +123,24 @@ loadingManager.onError = function(url){
   console.error('mathafakin fatal error')
 }
 
+
+
+
+
+hideAddressBar();
+function hideAddressBar() {
+  if(!window.location.hash) {
+    if(document.height < window.outerHeight)
+      document.body.style.height = (window.outerHeight + 50) + 'px';
+    setTimeout( function(){ 
+        window.scrollTo(0, 1); 
+        document.body.style.height = 'auto'; 
+      }, 50 );
+  }
+}
+
+
+
 //debug controls!
 // const gui = new GUI();
 
@@ -703,7 +721,7 @@ gsap.to(camera.position, {
 
   scrollTrigger:
   {
-    scroller: document.body,
+    // scroller: document.body,
 
     //trigger: renderer.domElement,
     trigger: document.getElementById("baby"),
@@ -759,7 +777,7 @@ function init(){
   keyTL.to(keyMesh.position, {
     scrollTrigger:
     {
-      scroller: document.body,
+      // scroller: document.body,
       // immediateRender: false,
       trigger: document.getElementById("main"),
       start: 'top top',
@@ -776,7 +794,7 @@ function init(){
   .to(keyMesh.position, {
     scrollTrigger:
     {
-      scroller: document.body,
+      // scroller: document.body,
       immediateRender: false,
       //trigger: renderer.domElement,
       trigger: document.getElementById("baby"),
@@ -838,7 +856,7 @@ function init(){
   gsap.to(TVgroup.position, {
     scrollTrigger:
     {
-      scroller: document.body,
+      // scroller: document.body,
       trigger: document.querySelector('main'),
       // trigger: document.querySelector('#baby'),
       endTrigger: document.querySelector('#baby'),
@@ -883,7 +901,7 @@ function init(){
 
   var staticOpacityTo = gsap.fromTo(whiteNoiseMaterial, {opacity: 1}, {opacity: 0.052,duration: 4,})
   ScrollTrigger.create({
-    scroller: document.body,
+    // scroller: document.body,
     trigger: document.getElementById("main"),
     start: 'top top',
     end: 'bottom top',
@@ -1172,7 +1190,7 @@ function createTitleTL() {
   
   titleTL = gsap.timeline({
     scrollTrigger: {
-      scroller: document.body,
+      // scroller: document.body,
       trigger: document.querySelector('main'),
       // trigger: document.querySelector('#baby'),
       endTrigger: document.querySelector('#baby'),
@@ -1206,7 +1224,7 @@ function createTitleTL() {
 
   greetingTL = gsap.timeline({
     scrollTrigger: {
-      scroller: document.body,
+      // scroller: document.body,
       trigger: document.querySelector('main'),
       // trigger: document.querySelector('#baby'),
       endTrigger: document.querySelector('#baby'),
