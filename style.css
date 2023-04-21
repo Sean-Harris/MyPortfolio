@@ -184,11 +184,11 @@
   top: 0;
   left: 0;
   z-index: -1;
-  @supports (-webkit-appearance:none) {
+  /* @supports (-webkit-appearance:none) {
     .os-android & {
       min-height: calc(100vh - 56px);
     }
-  }
+  } */
 }
 
 /* html {
@@ -210,7 +210,7 @@ main {
   
 
   /* width: 100vw; */
-  /* position: absolute; */
+  position: static;
   /* width: 100%;
   /* margin: 0px; */
   z-index: -9;
