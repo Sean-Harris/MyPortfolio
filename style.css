@@ -231,9 +231,14 @@ main {
 #css {
   /* width: 100%;
   height: 100%; */
-  position: relative;
+  position: absolute;
   top: 0; left: 0;
   z-index: -2;
+  @supports (-webkit-appearance:none) {
+    .os-android & {
+      min-height: calc(100vh - 56px);
+    }
+  }
 }
 
 /* header {
